@@ -4,32 +4,44 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
+import {LinkContainer} from "react-router-bootstrap";
 
 function Header() {
     return <Navbar
-        activeKey="/"
         bg="dark"
         variant="dark"
     >
-        <Navbar.Brand href='/'>Debt</Navbar.Brand>
+        <LinkContainer to='/'>
+            <Navbar.Brand>Debt</Navbar.Brand>
+        </LinkContainer>
         <Nav>
-            <Nav.Link href='/friends'>
-                Friends
-                <sup><Badge pill variant='success'>10</Badge></sup>
-            </Nav.Link>
-            <Nav.Link href='/groups'>Groups</Nav.Link>
-            <Nav.Link href='/debt'>
-                Debts
-                <sup><Badge pill variant='success'>10</Badge></sup>
-            </Nav.Link>
+            <LinkContainer to='/friends'>
+                <Nav.Link>
+                    Friends
+                    <sup><Badge pill variant='success'>10</Badge></sup>
+                </Nav.Link>
+            </LinkContainer>
+            <LinkContainer to='/groups'>
+                <Nav.Link>Groups</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to='/debts'>
+                <Nav.Link>
+                    Debts
+                    <sup><Badge pill variant='success'>10</Badge></sup>
+                </Nav.Link>
+            </LinkContainer>
         </Nav>
         <Nav className='ml-auto'>
-            <Nav.Link href='/signup'>
-                <Button variant="outline-light">Sign Up</Button>
-            </Nav.Link>
-            <Nav.Link href='/signin'>
-                <Button variant="outline-light">Sign In</Button>
-            </Nav.Link>
+            <LinkContainer to='/signup'>
+                <Nav.Item>
+                    <Button variant="light">Sign Up</Button>
+                </Nav.Item>
+            </LinkContainer>
+            <LinkContainer to='/signin'>
+                <Nav.Item>
+                    <Button variant="outline-light" className='ml-2'>Sign In</Button>
+                </Nav.Item>
+            </LinkContainer>
         </Nav>
     </Navbar>
 }

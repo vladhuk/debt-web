@@ -32,14 +32,12 @@ function Header() {
             </LinkContainer>
         </Nav>
         <Nav className='ml-auto'>
-            <LinkContainer to='/signup'>
-                <Nav.Item>
-                    <Button variant="light">Sign Up</Button>
-                </Nav.Item>
-            </LinkContainer>
             <LinkContainer to='/signin'>
-                <Nav.Item>
-                    <Button variant="outline-light" className='ml-2'>Sign In</Button>
+                <Nav.Link>Sign In</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to='/signup'>
+                <Nav.Item className='ml-2'>
+                    <Button variant="light">Sign Up</Button>
                 </Nav.Item>
             </LinkContainer>
         </Nav>

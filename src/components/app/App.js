@@ -1,12 +1,12 @@
 import React from 'react';
 import Header from "../header/Header";
-import Navigation from "../navigation/Navigation";
+import PageNavigation from "../navigation/PageNavigation";
 import {BrowserRouter} from "react-router-dom";
 
 function App() {
     return <BrowserRouter>
         <Header/>
-        <Navigation/>
+        <PageNavigation/>
     </BrowserRouter>;
 }
 

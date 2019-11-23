@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
+import Row from "react-bootstrap/Row";
 
 function AddFriendForm(props) {
     const [validated, setValidated] = useState(false);
@@ -35,7 +36,16 @@ function AddFriendForm(props) {
             </InputGroup>
         </Form.Group>
 
-        <Button type='submit' variant='success'>Add</Button>
+        <Form.Group controlId="username">
+            <Form.Control
+                type="text"
+                placeholder="Enter comment (optional)"
+            />
+        </Form.Group>
+
+        <Row className='justify-content-center'>
+        <Button type='submit' variant='success'>Send request</Button>
+        </Row>
     </Form>
 }
 

@@ -7,8 +7,8 @@ function DebtsSidebarNavigation() {
         <Route exact path="/debts/all" component={null}/>
         <Route exact path="/debts/requests/sent" component={null}/>
         <Route exact path="/debts/requests/received" component={null}/>
-        <Route exact path="/debts/requests/sent" component={null}/>
-        <Route exact path="/debts/requests/received" component={null}/>
+        <Route exact path="/repayments/requests/sent" component={null}/>
+        <Route exact path="/repayments/requests/received" component={null}/>
         <Redirect from='/debts' to='/debts/all'/>
     </Switch>
 }

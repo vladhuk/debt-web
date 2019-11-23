@@ -15,16 +15,16 @@ function Header() {
             <Navbar.Brand>Debt</Navbar.Brand>
         </LinkContainer>
         <Nav>
-            <LinkContainer to='/friends'>
+            <LinkContainer to='/friends/all'>
                 <Nav.Link>
                     Friends
                     <sup><Badge pill variant='success'>10</Badge></sup>
                 </Nav.Link>
             </LinkContainer>
-            <LinkContainer to='/groups'>
+            <LinkContainer to='/groups/all'>
                 <Nav.Link>Groups</Nav.Link>
             </LinkContainer>
-            <LinkContainer to='/debts'>
+            <LinkContainer to='/debts/all'>
                 <Nav.Link>
                     Debts
                     <sup><Badge pill variant='success'>10</Badge></sup>

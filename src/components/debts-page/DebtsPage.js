@@ -6,7 +6,6 @@ import DebtsPageSidebar from "./sidebar/DebtsPageSidebar";
 function DebtsPage() {
     return <BrowserRouter>
         <DebtsPageSidebar/>
-        <DebtsPageSidebar/>
     </BrowserRouter>
 }
 

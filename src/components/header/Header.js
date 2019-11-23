@@ -2,9 +2,9 @@ import React from "react";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import {LinkContainer} from "react-router-bootstrap";
+import NotificationsCounter from "../notifications-counter/NotificationsCounter";
 
 function Header() {
     return <Navbar
@@ -17,8 +17,7 @@ function Header() {
         <Nav>
             <LinkContainer to='/friends/all'>
                 <Nav.Link>
-                    Friends
-                    <sup><Badge pill variant='success'>10</Badge></sup>
+                    Friends <NotificationsCounter>10</NotificationsCounter>
                 </Nav.Link>
             </LinkContainer>
             <LinkContainer to='/groups/all'>
@@ -26,8 +25,7 @@ function Header() {
             </LinkContainer>
             <LinkContainer to='/debts/all'>
                 <Nav.Link>
-                    Debts
-                    <sup><Badge pill variant='success'>10</Badge></sup>
+                    Debts <NotificationsCounter>10</NotificationsCounter>
                 </Nav.Link>
             </LinkContainer>
         </Nav>

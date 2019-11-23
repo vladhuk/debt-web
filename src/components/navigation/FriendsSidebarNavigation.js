@@ -7,6 +7,7 @@ function FriendsSidebarNavigation() {
         <Route exact path="/friends/all" component={null}/>
         <Route exact path="/friends/requests/sent" component={null}/>
         <Route exact path="/friends/requests/received" component={null}/>
+        <Route exact path="/friends/blacklist" component={null}/>
         <Redirect from='/friends' to='/friends/all'/>
     </Switch>
 }

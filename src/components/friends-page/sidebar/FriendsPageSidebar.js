@@ -11,8 +11,11 @@ function FriendsPageSidebar() {
             <LinkContainer to='/friends/requests/sent'>
                 <Nav.Link>Sent requests</Nav.Link>
             </LinkContainer>
-            <LinkContainer to='/friends/requests/received'>
+            <LinkContainer to='/friends/requests/received' className='border-bottom'>
                 <Nav.Link>Received requests</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to='/friends/requests/received'>
+                <Nav.Link>Blacklist</Nav.Link>
             </LinkContainer>
     </Sidebar>
 }

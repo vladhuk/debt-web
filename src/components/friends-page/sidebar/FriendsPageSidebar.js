@@ -17,7 +17,7 @@ function FriendsPageSidebar() {
                     Received requests <NotificationsCounter>10</NotificationsCounter>
                 </Nav.Link>
             </LinkContainer>
-            <LinkContainer to='/friends/requests/received'>
+            <LinkContainer to='/friends/blacklist'>
                 <Nav.Link>Blacklist</Nav.Link>
             </LinkContainer>
     </Sidebar>

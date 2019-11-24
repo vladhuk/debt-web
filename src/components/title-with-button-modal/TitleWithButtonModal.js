@@ -10,7 +10,7 @@ function TitleWithButtonModal(props) {
         <ButtonToolbar className='ml-auto'>
             <Button
                 variant="primary"
-                onClick={() => props.setModalShow(true)}
+                onClick={props.onButtonClick}
             >
                 {props.buttonTitle}
             </Button>

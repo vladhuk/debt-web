@@ -4,26 +4,58 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import AddFriendModal from "./add-friend-modal/AddFriendModal";
 import Row from "react-bootstrap/Row";
+import ConfirmDeleteFriendModal from "./confirm-delete-friend-modal/ConfirmDeleteFriendModal";
+import UserCard from "../../user-card/UserCard";
 
 
 function AllFriendsTab() {
-    const [modalShow, setModalShow] = React.useState(false);
+    const [addFriendModalShow, setAddFriendModalShow] = React.useState(false);
+    const [deleteFriendModalShow, setDeleteFriendModalShow] = React.useState(false);
+    const [userIdForDelete, setUserIdForDelete] = React.useState();
+
+    const testFriends = [{id: 1, name: 'Bill', username: 'bill'}, {id: 2, name: 'John', username: 'john'}];
+
+    const deleteUser = id => {
+        // logic
+
+        setDeleteFriendModalShow(false);
+    };
 
     return <Container className='px-0 py-5'>
         <Row className='border-bottom pb-2'>
             <h1>Friends</h1>
 
             <ButtonToolbar className='ml-auto'>
-                <Button variant="primary" onClick={() => setModalShow(true)}>
+                <Button
+                    variant="primary"
+                    onClick={() => setAddFriendModalShow(true)}
+                >
                     Add friend
                 </Button>
 
                 <AddFriendModal
-                    show={modalShow}
-                    onHide={() => setModalShow(false)}
+                    show={addFriendModalShow}
+                    onHide={() => setAddFriendModalShow(false)}
                 />
             </ButtonToolbar>
         </Row>
+
+        {
+            testFriends.map(user =>
+                <UserCard
+                    user={user}
+                    onClose={() => {
+                        setDeleteFriendModalShow(true);
+                        setUserIdForDelete(user.id);
+                    }}
+                />
+            )
+        }
+        <ConfirmDeleteFriendModal
+            show={deleteFriendModalShow}
+            onHide={() => setDeleteFriendModalShow(false)}
+            onDelete={() => deleteUser(userIdForDelete)}
+        />
     </Container>
 }
 

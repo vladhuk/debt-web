@@ -1,11 +1,9 @@
 import React from "react";
-import ButtonToolbar from "react-bootstrap/ButtonToolbar";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import AddFriendModal from "./add-friend-modal/AddFriendModal";
-import Row from "react-bootstrap/Row";
 import UserCard from "../../user-card/UserCard";
 import ModalConfirmDelete from "../../modal-confirm-delete/ModalConfirmDelete";
+import TitleWithButtonModal from "../../title-with-button-modal/TitleWithButtonModal";
 
 
 function AllFriendsTab() {
@@ -22,23 +20,15 @@ function AllFriendsTab() {
     };
 
     return <Container className='px-0 py-5'>
-        <Row className='border-bottom pb-2'>
-            <h1>Friends</h1>
-
-            <ButtonToolbar className='ml-auto'>
-                <Button
-                    variant="primary"
-                    onClick={() => setAddFriendModalShow(true)}
-                >
-                    Add friend
-                </Button>
-
-                <AddFriendModal
-                    show={addFriendModalShow}
-                    onHide={() => setAddFriendModalShow(false)}
-                />
-            </ButtonToolbar>
-        </Row>
+        <TitleWithButtonModal title='Friends'
+                              buttonTitle='Add friend'
+                              onButtonClick={() => setAddFriendModalShow(true)}
+        >
+            <AddFriendModal
+                show={addFriendModalShow}
+                onHide={() => setAddFriendModalShow(false)}
+            />
+        </TitleWithButtonModal>
 
         {
             testFriends.map(user =>

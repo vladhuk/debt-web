@@ -4,8 +4,8 @@ import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import AddFriendModal from "./add-friend-modal/AddFriendModal";
 import Row from "react-bootstrap/Row";
-import ConfirmDeleteFriendModal from "./confirm-delete-friend-modal/ConfirmDeleteFriendModal";
 import UserCard from "../../user-card/UserCard";
+import ModalConfirmDelete from "../../modal-confirm-delete/ModalConfirmDelete";
 
 
 function AllFriendsTab() {
@@ -51,11 +51,14 @@ function AllFriendsTab() {
                 />
             )
         }
-        <ConfirmDeleteFriendModal
+
+        <ModalConfirmDelete
             show={deleteFriendModalShow}
             onHide={() => setDeleteFriendModalShow(false)}
             onDelete={() => deleteUser(userIdForDelete)}
-        />
+        >
+            Do you want to delete friend?
+        </ModalConfirmDelete>
     </Container>
 }
 

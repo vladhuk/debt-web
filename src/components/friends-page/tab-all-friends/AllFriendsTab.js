@@ -19,7 +19,7 @@ function AllFriendsTab() {
         setDeleteFriendModalShow(false);
     };
 
-    return <Container className='px-0 py-5'>
+    return <Container className='col-md-9 py-5'>
         <TitleWithButtonModal title='Friends'
                               buttonTitle='Add friend'
                               onButtonClick={() => setAddFriendModalShow(true)}

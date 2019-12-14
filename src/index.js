@@ -5,5 +5,20 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './components/App';
+import {applyMiddleware, compose, createStore} from "redux";
+import allReducers from "./reducers/all-reducers";
+import {Provider} from "react-redux";
+import thunk from 'redux-thunk';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+const allStoreEnchanters = compose(
+    applyMiddleware(thunk),
+    window.devToolsExtension && window.devToolsExtension()
+);
+
+const store = createStore(allReducers, allStoreEnchanters);
+
+ReactDOM.render(
+    <Provider store={store}><App /></Provider>,
+    document.getElementById('root')
+);

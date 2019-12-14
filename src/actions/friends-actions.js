@@ -1,6 +1,6 @@
-import {get} from "../api";
+import {getData} from "../api";
 
-export const GET_ALL_FRIENDS = 'friends:get';
+export const GET_ALL_FRIENDS = 'friends:getData';
 
 export function getAllFriends(friends) {
     return {
@@ -12,7 +12,7 @@ export function getAllFriends(friends) {
 }
 
 export function getAllFriendsRequest() {
-    return dispatch => get({
+    return dispatch => getData({
         resourcePath: '/friends',
         onSuccess: friends => dispatch(getAllFriends(friends))
     });

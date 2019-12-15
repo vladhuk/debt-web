@@ -3,6 +3,8 @@ import {postData} from "../api";
 export const SIGN_IN = 'auth:signIn';
 export const SIGN_UP = 'auth:signUp';
 
+const URL = '/auth';
+
 export function signIn({accessToken, tokenType}) {
     return {
         type: SIGN_IN,
@@ -23,7 +25,7 @@ export function signUp({accessToken, tokenType}) {
 
 export function signInRequest(data) {
     return dispatch => postData({
-        resourcePath: '/auth/signin',
+        resourcePath: URL + '/signin',
         data: data,
         onSuccess: payload => dispatch(signIn(payload))
     });
@@ -31,7 +33,7 @@ export function signInRequest(data) {
 
 export function signUpRequest(data) {
     return dispatch => postData({
-        resourcePath: '/auth/signup',
+        resourcePath: URL + '/signup',
         data: data,
         onSuccess: payload => dispatch(signUp(payload))
     });

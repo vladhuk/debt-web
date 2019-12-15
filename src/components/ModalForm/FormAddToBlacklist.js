@@ -4,7 +4,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 
-function FormAddFriend(props) {
+function FormAddToBlacklist(props) {
     const [validated, setValidated] = useState(false);
 
     const handleSubmit = event => {
@@ -36,17 +36,10 @@ function FormAddFriend(props) {
             </InputGroup>
         </Form.Group>
 
-        <Form.Group controlId="comment">
-            <Form.Control
-                type="text"
-                placeholder="Enter comment (optional)"
-            />
-        </Form.Group>
-
         <Row className='justify-content-center'>
-        <Button type='submit' variant='success'>Send request</Button>
+            <Button type='submit' variant='success'>Add</Button>
         </Row>
     </Form>
 }
 
-export {FormAddFriend};
+export {FormAddToBlacklist};

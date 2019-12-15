@@ -5,7 +5,7 @@ import {ModalAddToBlackList, ModalConfirmDelete} from "../../../Modal";
 import UserCard from "../../../UserCard";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getFullBlacklistRequest} from "../../../../actions/blacklist-actions";
+import {deleteFromBlaklistRequest, getFullBlacklistRequest} from "../../../../actions/blacklist-actions";
 
 function TabBlacklist(props) {
     const [addToBlacklistModalShow, setAddToBlacklistModalShow] = React.useState(false);
@@ -13,7 +13,7 @@ function TabBlacklist(props) {
     const [userIdForDelete, setUserIdForDelete] = React.useState();
 
     const deleteUser = id => {
-        // logic
+        props.deleteFromBlacklist(id);
         setDeleteFromBlacklistModalShow(false);
     };
 
@@ -60,7 +60,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getFullBlacklist: getFullBlacklistRequest
+    getFullBlacklist: getFullBlacklistRequest,
+    deleteFromBlacklist: deleteFromBlaklistRequest
 }, dispatch);
 
 const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(TabBlacklist);

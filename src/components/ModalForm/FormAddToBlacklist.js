@@ -3,16 +3,22 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
+import {addToBlaklistRequest} from "../../actions/blacklist-actions";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
 
 function FormAddToBlacklist(props) {
     const [validated, setValidated] = useState(false);
+    const [username, setUsername] = useState('');
 
     const handleSubmit = event => {
+        event.preventDefault();
+        event.stopPropagation();
+
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        } else {
+
+        if (form.checkValidity() === true) {
+            props.addToBlacklist({username});
             props.onSubmit();
         }
 
@@ -29,6 +35,7 @@ function FormAddToBlacklist(props) {
                     type="text"
                     placeholder="Username"
                     required
+                    onChange={event => setUsername(event.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                     User not founded
@@ -42,4 +49,10 @@ function FormAddToBlacklist(props) {
     </Form>
 }
 
-export {FormAddToBlacklist};
+const mapDispatchToProps = dispatch => bindActionCreators({
+    addToBlacklist: addToBlaklistRequest
+}, dispatch);
+
+const connectedComponent = connect(null, mapDispatchToProps)(FormAddToBlacklist);
+
+export {connectedComponent as FormAddToBlacklist};

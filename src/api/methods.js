@@ -18,7 +18,7 @@ function withDefaultThen({customFetch, onSuccess, onError}) {
             }
             onSuccess && onSuccess(response)
         })
-        .then(error => {
+        .catch(error => {
             onError && onError(error);
         })
 }
@@ -34,24 +34,30 @@ export function getData({resourcePath, onSuccess, onError}) {
 }
 
 export function postData({resourcePath, data, onSuccess, onError}) {
+    const headers = getBaseHeaders();
+    headers.append(...jsonHeader);
+
     return withDefaultThen({
         onSuccess,
         onError,
         customFetch: fetch(API_BASE_URL + resourcePath, {
             method: 'POST',
-            headers: getBaseHeaders().append(...jsonHeader),
+            headers: headers,
             body: JSON.stringify(data)
         }),
     });
 }
 
 export function updateData({resourcePath, data, onSuccess, onError}) {
+    const headers = getBaseHeaders();
+    headers.append(...jsonHeader);
+
     return withDefaultThen({
         onSuccess,
         onError,
         customFetch: fetch(API_BASE_URL + resourcePath, {
             method: 'UPDATE',
-            headers: getBaseHeaders().append(...jsonHeader),
+            headers: headers,
             body: JSON.stringify(data)
         }),
     });

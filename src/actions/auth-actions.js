@@ -33,6 +33,6 @@ export function signUpRequest(data) {
     return dispatch => postData({
         resourcePath: '/auth/signup',
         data: data,
-        onSuccess: payload => dispatch(signIn(payload))
+        onSuccess: payload => dispatch(signUp(payload))
     });
 }

@@ -1,16 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import {bindActionCreators} from "redux";
+import {signInRequest} from "../../../actions/auth-actions";
+import {connect} from "react-redux";
+import {setToken} from "../../../util";
 
-function PageSignIn() {
+
+function PageSignIn(props) {
     const [validated, setValidated] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (props.accessToken.length !== 0) {
+            setToken(props.accessToken);
+            props.history.push('/friends/all');
+        }
+    });
 
     const handleSubmit = event => {
+        event.preventDefault();
+        event.stopPropagation();
+
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+
+        if (form.checkValidity() === true) {
+            props.signIn({username, password});
         }
 
         setValidated(true);
@@ -26,6 +43,7 @@ function PageSignIn() {
                     name="username"
                     placeholder="Username"
                     required
+                    onChange={event => setUsername(event.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                     Please choose a username.
@@ -39,6 +57,7 @@ function PageSignIn() {
                     name="password"
                     placeholder="Password"
                     required
+                    onChange={event => setPassword(event.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                     Please enter a password.
@@ -50,5 +69,14 @@ function PageSignIn() {
     </Container>
 }
 
-export {PageSignIn};
+const mapStateToProps = state => ({
+    accessToken: state.accessToken,
+});
 
+const mapDispatchToProps = dispatch => bindActionCreators({
+    signIn: signInRequest
+}, dispatch);
+
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(PageSignIn);
+
+export {connectedComponent as PageSignIn};

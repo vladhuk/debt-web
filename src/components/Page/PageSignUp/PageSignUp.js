@@ -1,17 +1,34 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import {signUpRequest} from "../../../actions/auth-actions";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {setToken} from "../../../util";
 
 
-function PageSignUp() {
+function PageSignUp(props) {
     const [validated, setValidated] = useState(false);
+    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    useEffect(() => {
+        if (props.accessToken.length !== 0) {
+            setToken(props.accessToken);
+            props.history.push('/friends/all');
+        }
+    });
 
     const handleSubmit = event => {
+        event.preventDefault();
+        event.stopPropagation();
+
         const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+
+        if (form.checkValidity() === true) {
+            props.signUp({name, username, password});
         }
 
         setValidated(true);
@@ -27,6 +44,7 @@ function PageSignUp() {
                     name="name"
                     placeholder="Name"
                     required
+                    onChange={event => setName(event.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                     Please choose a name.
@@ -40,6 +58,7 @@ function PageSignUp() {
                     name="username"
                     placeholder="Username"
                     required
+                    onChange={event => setUsername(event.target.value)}
                 />
                 <Form.Control.Feedback type="invalid">
                     Please choose a username.
@@ -54,6 +73,7 @@ function PageSignUp() {
                         name="password"
                         placeholder="Password"
                         required
+                        onChange={event => setPassword(event.target.value)}
                     />
                     <Form.Control.Feedback type="invalid">
                         Please enter a password.
@@ -64,7 +84,6 @@ function PageSignUp() {
                     <Form.Control
                         type="password"
                         placeholder="Confirm password"
-                        required
                     />
                     <Form.Control.Feedback type="invalid">
                         Passwords do not match
@@ -77,5 +96,15 @@ function PageSignUp() {
     </Container>
 }
 
-export {PageSignUp};
+const mapStateToProps = state => ({
+    accessToken: state.accessToken,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    signUp: signUpRequest
+}, dispatch);
+
+const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(PageSignUp);
+
+export {connectedComponent as PageSignUp};
 

@@ -5,7 +5,7 @@ import {ModalAddFriend, ModalConfirmDelete} from "../../../Modal";
 import UserCard from "../../../UserCard";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {getAllFriendsRequest} from "../../../../actions/friends-actions";
+import {deleteFriendRequest, getAllFriendsRequest} from "../../../../actions/friends-actions";
 
 function TabAllFriends(props) {
     const [addFriendModalShow, setAddFriendModalShow] = React.useState(false);
@@ -13,7 +13,7 @@ function TabAllFriends(props) {
     const [userIdForDelete, setUserIdForDelete] = React.useState();
 
     const deleteUser = id => {
-        // logic
+        props.deleteFriend(id);
         setDeleteFriendModalShow(false);
     };
 
@@ -60,7 +60,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    getAllFriends: getAllFriendsRequest
+    getAllFriends: getAllFriendsRequest,
+    deleteFriend: deleteFriendRequest
 }, dispatch);
 
 const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(TabAllFriends);

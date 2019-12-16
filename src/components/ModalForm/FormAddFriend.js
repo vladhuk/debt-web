@@ -4,7 +4,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import {bindActionCreators} from "redux";
-import {sendFriendRequestRequest} from "../../actions/friends-requests-actions";
+import {sendFriendRequestRequest} from "../../actions/friend-requests-actions";
 import {connect} from "react-redux";
 
 function FormAddFriend(props) {

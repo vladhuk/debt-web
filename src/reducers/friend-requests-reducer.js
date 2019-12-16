@@ -2,7 +2,7 @@ import {
     COUNT_NEW_RECEIVED_FRIEND_REQUESTS,
     GET_RECEIVED_FRIEND_REQUESTS,
     GET_SENT_FRIEND_REQUESTS
-} from "../actions/friends-requests-actions";
+} from "../actions/friend-requests-actions";
 
 export function friendRequestsReducer(state = [], {type, payload}) {
     switch (type) {

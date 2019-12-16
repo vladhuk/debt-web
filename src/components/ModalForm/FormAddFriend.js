@@ -40,6 +40,7 @@ function FormAddFriend(props) {
                     placeholder="Username"
                     required
                     onChange={event => setUsername(event.target.value)}
+                    autoComplete='off'
                 />
                 <Form.Control.Feedback type="invalid">
                     User not founded
@@ -52,6 +53,7 @@ function FormAddFriend(props) {
                 type="text"
                 placeholder="Enter comment (optional)"
                 onChange={event => setComment(event.target.value)}
+                autoComplete='off'
             />
         </Form.Group>
 

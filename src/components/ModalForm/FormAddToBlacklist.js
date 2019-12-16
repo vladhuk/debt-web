@@ -36,6 +36,7 @@ function FormAddToBlacklist(props) {
                     placeholder="Username"
                     required
                     onChange={event => setUsername(event.target.value)}
+                    autoComplete='off'
                 />
                 <Form.Control.Feedback type="invalid">
                     User not founded

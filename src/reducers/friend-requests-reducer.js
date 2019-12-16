@@ -7,11 +7,17 @@ import {
 export function friendRequestsReducer(state = [], {type, payload}) {
     switch (type) {
         case GET_SENT_FRIEND_REQUESTS:
-            return payload.friendRequests;
+            return {
+                sent: payload.friendRequests
+            };
         case GET_RECEIVED_FRIEND_REQUESTS:
-            return payload.friendRequests;
+            return {
+                received: payload.friendRequests
+            };
         case COUNT_NEW_RECEIVED_FRIEND_REQUESTS:
-            return payload.numberOfNewReceivedFriendRequests;
+            return {
+                number: payload.numberOfNewReceivedFriendRequests
+            };
     }
 
     return state;

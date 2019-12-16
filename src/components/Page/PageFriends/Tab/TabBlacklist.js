@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
-import Container from "react-bootstrap/Container";
 import {TitleWithButton} from "../../../Title";
 import {ModalAddToBlackList, ModalConfirmDelete} from "../../../Modal";
 import UserCard from "../../../UserCard";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteFromBlaklistRequest, getFullBlacklistRequest} from "../../../../actions/blacklist-actions";
+import {PageContainer} from "../../../Container";
 
 function TabBlacklist(props) {
     const [addToBlacklistModalShow, setAddToBlacklistModalShow] = React.useState(false);
@@ -21,7 +21,7 @@ function TabBlacklist(props) {
         props.getFullBlacklist();
     }, []);
 
-    return <Container className='col-md-9 py-5'>
+    return <PageContainer>
         <TitleWithButton title='Blacklist'
                          buttonTitle='Add to blacklist'
                          onButtonClick={() => setAddToBlacklistModalShow(true)}
@@ -52,7 +52,7 @@ function TabBlacklist(props) {
         >
             Do you want to delete user from blacklist?
         </ModalConfirmDelete>
-    </Container>
+    </PageContainer>
 }
 
 const mapStateToProps = state => ({

@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
-import Container from "react-bootstrap/Container";
 import {TitleWithButton} from "../../../Title";
 import {ModalAddFriend, ModalConfirmDelete} from "../../../Modal";
 import UserCard from "../../../UserCard";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteFriendRequest, getAllFriendsRequest} from "../../../../actions/friends-actions";
+import {PageContainer} from "../../../Container";
 
 function TabAllFriends(props) {
     const [addFriendModalShow, setAddFriendModalShow] = React.useState(false);
@@ -21,7 +21,7 @@ function TabAllFriends(props) {
         props.getAllFriends();
     }, []);
 
-    return <Container className='col-md-9 py-5'>
+    return <PageContainer>
         <TitleWithButton title='Friends'
                          buttonTitle='Add friend'
                          onButtonClick={() => setAddFriendModalShow(true)}
@@ -52,7 +52,7 @@ function TabAllFriends(props) {
         >
             Do you want to delete friend?
         </ModalConfirmDelete>
-    </Container>
+    </PageContainer>
 }
 
 const mapStateToProps = state => ({

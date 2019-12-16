@@ -19,7 +19,10 @@ function FormAddFriend(props) {
         const form = event.currentTarget;
 
         if (form.checkValidity() === true) {
-            props.sendFriendRequest({username, comment});
+            props.sendFriendRequest({
+                receiver: { username },
+                comment: comment,
+            });
             props.onSubmit();
         }
 

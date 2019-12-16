@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {TitleWithButton} from "../../../Title";
 import {ModalAddFriend, ModalConfirmDelete} from "../../../Modal";
-import UserCard from "../../../UserCard";
+import {UserCard} from "../../../Card";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteFriendRequest, getAllFriendsRequest} from "../../../../actions/friends-actions";

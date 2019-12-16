@@ -1,8 +1,8 @@
 import React from 'react';
 import Toast from "react-bootstrap/Toast";
-import './UserCard.css';
+import './index.css';
 
-function UserCard(props) {
+export function UserCard(props) {
     return <Toast className='user-card my-3' onClose={props.onClose}>
         <Toast.Header>
             <h4 className='text-dark mr-auto'>{props.user.name}</h4>
@@ -12,5 +12,3 @@ function UserCard(props) {
         </Toast.Body>
     </Toast>;
 }
-
-export default UserCard;

@@ -4,7 +4,13 @@ import {
     GET_SENT_REPAYMENT_REQUESTS
 } from "../actions/repayment-requests-actions";
 
-export function repaymentRequestsReducer(state = [], {type, payload}) {
+const initialState = {
+    sent: [],
+    received: [],
+    number: [],
+};
+
+export function repaymentRequestsReducer(state = initialState, {type, payload}) {
     switch (type) {
         case GET_SENT_REPAYMENT_REQUESTS:
             return {

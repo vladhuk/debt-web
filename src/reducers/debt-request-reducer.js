@@ -4,7 +4,13 @@ import {
     GET_SENT_DEBT_REQUESTS
 } from "../actions/debt-requests-actions";
 
-export function debtRequestsReducer(state = [], {type, payload}) {
+const initialState = {
+    sent: [],
+    received: [],
+    number: [],
+};
+
+export function debtRequestsReducer(state = initialState, {type, payload}) {
     switch (type) {
         case GET_SENT_DEBT_REQUESTS:
             return {

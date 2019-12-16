@@ -4,7 +4,13 @@ import {
     GET_SENT_FRIEND_REQUESTS
 } from "../actions/friend-requests-actions";
 
-export function friendRequestsReducer(state = [], {type, payload}) {
+const initialState = {
+    sent: [],
+    received: [],
+    number: [],
+};
+
+export function friendRequestsReducer(state = initialState, {type, payload}) {
     switch (type) {
         case GET_SENT_FRIEND_REQUESTS:
             return {

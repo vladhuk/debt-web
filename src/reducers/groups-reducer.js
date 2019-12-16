@@ -1,5 +1,11 @@
 import {GET_GROUP, GET_GROUP_MEMBERS, GET_GROUPS} from "../actions/groups-actions";
 
+const initialState = {
+    groups: [],
+    group: {},
+    members: [],
+};
+
 export function groupsReducer(state = [], {type, payload}) {
     switch (type) {
         case GET_GROUPS:

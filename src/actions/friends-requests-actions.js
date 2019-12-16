@@ -47,6 +47,13 @@ export function getReceivedFriendRequestsRequest() {
     });
 }
 
+export function sendFriendRequestRequest(data) {
+    return dispatch => postData({
+        resourcePath: URL,
+        data: data,
+    });
+}
+
 export function acceptFriendRequestRequest(data) {
     return dispatch => postData({
         resourcePath: URL + '/accept',

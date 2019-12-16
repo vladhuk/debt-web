@@ -47,6 +47,13 @@ export function getReceivedRepaymentRequestsRequest() {
     });
 }
 
+export function sendRepaymentRequestRequest(data) {
+    return dispatch => postData({
+        resourcePath: URL,
+        data: data,
+    });
+}
+
 export function acceptRepaymentRequestRequest(data) {
     return dispatch => postData({
         resourcePath: URL + '/accept',

@@ -47,6 +47,13 @@ export function getReceivedDebtRequestsRequest() {
     });
 }
 
+export function sendDebtRequestRequest(data) {
+    return dispatch => postData({
+        resourcePath: URL,
+        data: data,
+    });
+}
+
 export function acceptDebtRequestRequest(data) {
     return dispatch => postData({
         resourcePath: URL + '/accept',

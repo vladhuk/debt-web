@@ -1,13 +1,24 @@
 import React, {useEffect} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {getSentFriendRequestsRequest} from "../../../../actions/friend-requests-actions";
+import {
+    deleteSentFriendRequestRequest,
+    getSentFriendRequestsRequest
+} from "../../../../actions/friend-requests-actions";
 import {Title} from "../../../Title";
-import {RequestCard} from "../../../Card";
+import {CardSentFriendRequest} from "../../../Card";
 import {PageContainer} from "../../../Container";
+import {ModalConfirmDelete} from "../../../Modal";
+
 
 function TabSentFriendRequests(props) {
+    const [deleteRequestModalShow, setDeleteRequestModalShow] = React.useState(false);
+    const [requestIdForDelete, setRequestIdForDelete] = React.useState();
 
+    const deleteRequest = id => {
+        props.deleteSentRequest(id);
+        setDeleteRequestModalShow(false);
+    };
 
     useEffect(() => {
         props.getSentFriendRequests();
@@ -19,24 +30,26 @@ function TabSentFriendRequests(props) {
 
         {
             props.sentFriendRequests.map(request =>
-                <RequestCard
+                <CardSentFriendRequest
                     key={request.id}
                     user={request.receiver}
-                    onClose={() => {
-                        // setDeleteFromBlacklistModalShow(true);
-                        // setUserIdForDelete(user.id);
+                    comment={request.comment}
+                    status={request.status.name}
+                    onDelete={() => {
+                        setDeleteRequestModalShow(true);
+                        setRequestIdForDelete(request.id);
                     }}
                 />
             )
         }
 
-        {/*<ModalConfirmDelete*/}
-        {/*    show={deleteFromBlacklistModalShow}*/}
-        {/*    onHide={() => setDeleteFromBlacklistModalShow(false)}*/}
-        {/*    onDelete={() => deleteUser(userIdForDelete)}*/}
-        {/*>*/}
-        {/*    Do you want to delete user from blacklist?*/}
-        {/*</ModalConfirmDelete>*/}
+        <ModalConfirmDelete
+            show={deleteRequestModalShow}
+            onHide={() => setDeleteRequestModalShow(false)}
+            onDelete={() => deleteRequest(requestIdForDelete)}
+        >
+            Do you want to delete friend request?
+        </ModalConfirmDelete>
     </PageContainer>);
 }
 
@@ -46,6 +59,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     getSentFriendRequests: getSentFriendRequestsRequest,
+    deleteSentRequest: deleteSentFriendRequestRequest
 }, dispatch);
 
 const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(TabSentFriendRequests);

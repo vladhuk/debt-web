@@ -1,2 +1,2 @@
-export * from './UserCard';
-export * from './RequestCard';
+export * from './CardUser';
+export * from './CardSentFriendRequest';

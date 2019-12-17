@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {TitleWithButton} from "../../../Title";
 import {ModalAddFriend, ModalConfirmDelete} from "../../../Modal";
-import {UserCard} from "../../../Card";
+import {CardUser} from "../../../Card";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteFriendRequest, getAllFriendsRequest} from "../../../../actions/friends-actions";
@@ -34,7 +34,7 @@ function TabAllFriends(props) {
 
         {
             props.friends.map(user =>
-                <UserCard
+                <CardUser
                     key={user.id}
                     user={user}
                     onClose={() => {

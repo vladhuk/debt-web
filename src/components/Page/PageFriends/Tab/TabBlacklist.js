@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {TitleWithButton} from "../../../Title";
 import {ModalAddToBlackList, ModalConfirmDelete} from "../../../Modal";
-import {UserCard} from "../../../Card";
+import {CardUser} from "../../../Card";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {deleteFromBlaklistRequest, getFullBlacklistRequest} from "../../../../actions/blacklist-actions";
@@ -34,7 +34,7 @@ function TabBlacklist(props) {
 
         {
             props.blacklist.map(user =>
-                <UserCard
+                <CardUser
                     key={user.id}
                     user={user}
                     onClose={() => {

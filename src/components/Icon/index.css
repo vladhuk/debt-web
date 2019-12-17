@@ -4,15 +4,10 @@
     height: 16px;
 }
 
-.viewed {
-    background: url("../../assets/icons/viewed.svg");
-    opacity: 0.3;
+.opacity-50 {
+    opacity: 0.5;
 }
 
-.accepted {
-    background: url("../../assets/icons/accepted.svg");
-}
-
-.rejected {
-    background: url("../../assets/icons/rejected.svg");
+.opacity-0 {
+    opacity: 0;
 }

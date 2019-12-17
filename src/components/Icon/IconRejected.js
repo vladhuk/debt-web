@@ -1,7 +1,7 @@
 import React from 'react';
 import {Icon} from "./Icon";
-import rejectedImage from './../../assets/icons/rejected.svg';
+import image from './../../assets/icons/rejected.svg';
 
 export function IconRejected() {
-    return <Icon src={rejectedImage} alt='rejected' />;
+    return <Icon className='opacity-50' src={image} alt='rejected' />;
 }

@@ -35,6 +35,7 @@ function TabSentFriendRequests(props) {
                     user={request.receiver}
                     comment={request.comment}
                     status={request.status.name}
+                    date={request.createdAt}
                     onDelete={() => {
                         setDeleteRequestModalShow(true);
                         setRequestIdForDelete(request.id);

@@ -54,17 +54,15 @@ export function sendRepaymentRequestRequest(data) {
     });
 }
 
-export function acceptRepaymentRequestRequest(data) {
+export function acceptRepaymentRequestRequest(id) {
     return dispatch => postData({
-        resourcePath: URL + '/accept',
-        data: data,
+        resourcePath: URL + `/${id}/accept`,
     });
 }
 
-export function rejectRepaymentRequestRequest(data) {
+export function rejectRepaymentRequestRequest(id) {
     return dispatch => postData({
-        resourcePath: URL + '/reject',
-        data: data,
+        resourcePath: URL + `/${id}/reject`,
     });
 }
 

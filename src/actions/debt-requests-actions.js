@@ -54,17 +54,15 @@ export function sendDebtRequestRequest(data) {
     });
 }
 
-export function acceptDebtRequestRequest(data) {
+export function acceptDebtRequestRequest(id) {
     return dispatch => postData({
-        resourcePath: URL + '/accept',
-        data: data,
+        resourcePath: URL + `/${id}/accept`,
     });
 }
 
-export function rejectDebtRequestRequest(data) {
+export function rejectDebtRequestRequest(id) {
     return dispatch => postData({
-        resourcePath: URL + '/reject',
-        data: data,
+        resourcePath: URL + `/${id}/reject`,
     });
 }
 

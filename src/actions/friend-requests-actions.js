@@ -54,17 +54,15 @@ export function sendFriendRequestRequest(data) {
     });
 }
 
-export function acceptFriendRequestRequest(data) {
+export function acceptFriendRequestRequest(id) {
     return dispatch => postData({
-        resourcePath: URL + '/accept',
-        data: data,
+        resourcePath: URL + `/${id}/accept`,
     });
 }
 
-export function rejectFriendRequestRequest(data) {
+export function rejectFriendRequestRequest(id) {
     return dispatch => postData({
-        resourcePath: URL + '/reject',
-        data: data,
+        resourcePath: URL + `/${id}/reject`,
     });
 }
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import Toast from "react-bootstrap/Toast";
 import './index.css';
-import {CardSentRequestHeader} from "./CardRequestHeader";
+import {CardReceivedRequestHeader} from "./CardRequestHeader";
 
 
-export function CardSentFriendRequest(props) {
+export function CardReceivedFriendRequest(props) {
     return <Toast className='card-request my-3'>
-        <CardSentRequestHeader {...props} />
+        <CardReceivedRequestHeader {...props} />
         <Toast.Body className='py-2'>
             <i className='text-secondary mr-auto'>
                 {props.comment || <>-- No comment --</>}

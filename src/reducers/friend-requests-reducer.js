@@ -14,14 +14,17 @@ export function friendRequestsReducer(state = initialState, {type, payload}) {
     switch (type) {
         case GET_SENT_FRIEND_REQUESTS:
             return {
+                ...state,
                 sent: payload.friendRequests
             };
         case GET_RECEIVED_FRIEND_REQUESTS:
             return {
+                ...state,
                 received: payload.friendRequests
             };
         case COUNT_NEW_RECEIVED_FRIEND_REQUESTS:
             return {
+                ...state,
                 number: payload.numberOfNewReceivedFriendRequests
             };
     }

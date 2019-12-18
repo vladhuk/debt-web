@@ -10,14 +10,17 @@ export function groupsReducer(state = [], {type, payload}) {
     switch (type) {
         case GET_GROUPS:
             return {
+                ...state,
                 groups: payload.groups
             };
         case GET_GROUP:
             return {
+                ...state,
                 group: payload.group
             };
         case GET_GROUP_MEMBERS:
             return {
+                ...state,
                 members: payload.groupMembers
             };
     }

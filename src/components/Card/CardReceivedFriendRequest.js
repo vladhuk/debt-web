@@ -1,7 +1,7 @@
 import React from 'react';
 import Toast from "react-bootstrap/Toast";
 import './index.css';
-import {CardReceivedRequestHeader} from "./CardRequestHeader";
+import {CardReceivedRequestHeader} from "./CardHeader";
 
 
 export function CardReceivedFriendRequest(props) {

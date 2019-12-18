@@ -9,7 +9,7 @@ export function CardReceivedRequestHeader(props) {
         <h4 className='text-dark ml-2 mr-1'>{props.user.name}</h4>
         <div className='text-secondary mr-auto'>(@{props.user.username})</div>
         {
-            props.status !== 'CONFIRMED' && props.status !== 'REJECTED'
+            props.status !== 'ACCEPTED' && props.status !== 'REJECTED'
                 ? <>
                     <Button variant='primary' className='mr-1' onClick={props.onAccept}>Accept</Button>
                     <Button variant='danger' onClick={props.onReject}>Reject</Button>

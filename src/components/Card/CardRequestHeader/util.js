@@ -1,13 +1,14 @@
 import {Icon, IconAccepted, IconRejected, IconViewed} from "../../Icon";
 import React from "react";
+import {STATUS} from "../../../constants";
 
 export function getStatusIcon(status) {
     switch (status) {
-        case 'VIEWED':
+        case STATUS.VIEWED:
             return <IconViewed/>;
-        case 'ACCEPTED':
+        case STATUS.ACCEPTED:
             return <IconAccepted/>;
-        case 'REJECTED':
+        case STATUS.REJECTED:
             return <IconRejected/>;
         default:
             return <Icon className='opacity-0'/>;

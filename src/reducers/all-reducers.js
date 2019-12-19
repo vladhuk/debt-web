@@ -7,6 +7,7 @@ import {groupsReducer} from "./groups-reducer";
 import {debtsReducer} from "./debts-reducer";
 import {debtRequestsReducer} from "./debt-request-reducer";
 import {repaymentRequestsReducer} from "./repayment-requests-reducer";
+import {usersReducer} from "./users-reducer";
 
 const allReducers = combineReducers({
     friends: friendsReducer,
@@ -16,7 +17,8 @@ const allReducers = combineReducers({
     groups: groupsReducer,
     debts: debtsReducer,
     debtRequests: debtRequestsReducer,
-    repaymentRequests: repaymentRequestsReducer
+    repaymentRequests: repaymentRequestsReducer,
+    users: usersReducer,
 });
 
 export default allReducers;

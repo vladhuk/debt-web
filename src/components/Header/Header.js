@@ -1,12 +1,19 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import {LinkContainer} from "react-router-bootstrap";
 import NotificationsCounter from "../NotificationsCounter";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {getCurrentUserRequest} from "../../actions/users-actions";
 
-function Header() {
+function Header(props) {
+    useEffect(() => {
+        props.getCurrentUser();
+    }, []);
+
     return <Navbar
         bg="dark"
         variant="dark"
@@ -30,16 +37,37 @@ function Header() {
             </LinkContainer>
         </Nav>
         <Nav className='ml-auto'>
-            <LinkContainer to='/signin'>
-                <Nav.Link>Sign In</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to='/signup'>
-                <Nav.Item className='ml-2'>
-                    <Button variant="light">Sign Up</Button>
-                </Nav.Item>
-            </LinkContainer>
+            {
+                props.currentUser.name
+                    ? <>
+                        <Navbar.Text disabled>Signed in as: {props.currentUser.name}</Navbar.Text>
+                        <LinkContainer to='/logout'>
+                            <Nav.Item className='ml-3'>
+                                <Button variant="dark">Logout</Button>
+                            </Nav.Item>
+                        </LinkContainer>
+                    </>
+                    : <>
+                        <LinkContainer to='/signin'>
+                            <Nav.Link>Sign In</Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer to='/signup'>
+                            <Nav.Item className='ml-2'>
+                                <Button variant="light">Sign Up</Button>
+                            </Nav.Item>
+                        </LinkContainer>
+                    </>
+            }
         </Nav>
     </Navbar>
 }
 
-export default Header;
+const mapStateToProps = state => ({
+    currentUser: state.users.currentUser,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    getCurrentUser: getCurrentUserRequest,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

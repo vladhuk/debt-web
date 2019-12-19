@@ -1,6 +1,7 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
 import {DebtsPage, FriendsPage, PageGroups, PageSignIn, PageSignUp} from "../Page";
+import {PageLogout} from "../Page/PageLogout";
 
 
 function NavigationPage() {
@@ -11,6 +12,7 @@ function NavigationPage() {
         <Route path="/debts" component={DebtsPage}/>
         <Route exact path="/signin" component={PageSignIn}/>
         <Route exact path="/signup" component={PageSignUp}/>
+        <Route exact path="/logout" component={PageLogout}/>
     </Switch>
 }
 

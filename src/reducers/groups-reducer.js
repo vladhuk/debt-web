@@ -6,7 +6,7 @@ const initialState = {
     members: [],
 };
 
-export function groupsReducer(state = [], {type, payload}) {
+export function groupsReducer(state = initialState, {type, payload}) {
     switch (type) {
         case GET_GROUPS:
             return {

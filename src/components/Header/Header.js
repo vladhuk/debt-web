@@ -8,10 +8,16 @@ import NotificationsCounter from "../NotificationsCounter";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getCurrentUserRequest} from "../../actions/users-actions";
+import {countNewReceivedFriendRequestsRequest} from "../../actions/friend-requests-actions";
+import {countNewReceivedDebtRequestsRequest} from "../../actions/debt-requests-actions";
+import {countNewReceivedRepaymentRequestsRequest} from "../../actions/repayment-requests-actions";
 
 function Header(props) {
     useEffect(() => {
         props.getCurrentUser();
+        props.countFriendRequestsNotifications();
+        props.countDebtRequestsNotifications();
+        props.countRepaymentRequestsNotifications();
     }, []);
 
     return <Navbar
@@ -24,7 +30,7 @@ function Header(props) {
         <Nav>
             <LinkContainer to='/friends/all'>
                 <Nav.Link>
-                    Friends <NotificationsCounter>10</NotificationsCounter>
+                    Friends <NotificationsCounter>{props.friendsNotificationsNumber}</NotificationsCounter>
                 </Nav.Link>
             </LinkContainer>
             <LinkContainer to='/groups/all'>
@@ -32,7 +38,7 @@ function Header(props) {
             </LinkContainer>
             <LinkContainer to='/debts/all'>
                 <Nav.Link>
-                    Debts <NotificationsCounter>10</NotificationsCounter>
+                    Debts <NotificationsCounter>{props.debtsNotificationsNumber}</NotificationsCounter>
                 </Nav.Link>
             </LinkContainer>
         </Nav>
@@ -64,10 +70,15 @@ function Header(props) {
 
 const mapStateToProps = state => ({
     currentUser: state.users.currentUser,
+    friendsNotificationsNumber: state.friendRequests.number,
+    debtsNotificationsNumber: state.debtRequests.number + state.repaymentRequests.number,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     getCurrentUser: getCurrentUserRequest,
+    countFriendRequestsNotifications: countNewReceivedFriendRequestsRequest,
+    countDebtRequestsNotifications: countNewReceivedDebtRequestsRequest,
+    countRepaymentRequestsNotifications: countNewReceivedRepaymentRequestsRequest,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

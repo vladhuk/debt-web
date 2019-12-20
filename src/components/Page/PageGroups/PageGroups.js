@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {PageContainer} from "../../Container";
@@ -10,21 +10,34 @@ import {
     updateGroupRequest
 } from "../../../actions/groups-actions";
 import {CardGroup} from "../../Card";
+import {ModalEditGroup} from "../../Modal";
 
 
 function PageGroups(props) {
+    const [editGroupModalShow, setEditGroupModalShow] = useState(false);
+    const [createGroupModalShow, setCreateGroupModalShow] = useState(false);
+    const [groupForEditing, setGroupForEditing] = useState();
 
     useEffect(() => {
         props.getGroups();
     }, []);
 
+    const editGroup = group => {
+        setGroupForEditing(group);
+        setEditGroupModalShow(true)
+    };
+
     return <PageContainer>
         <TitleWithButton
             title='Groups'
             buttonTitle='Create group'
-            onButtonClick={null}
+            onButtonClick={() => setCreateGroupModalShow(true)}
         >
-            {/*Modal create*/}
+            <ModalEditGroup
+                show={createGroupModalShow}
+                onHide={() => setCreateGroupModalShow(false)}
+                onSubmit={props.createGroup}
+            />
         </TitleWithButton>
 
         {
@@ -32,11 +45,18 @@ function PageGroups(props) {
                 <CardGroup
                     key={group.id}
                     title={group.title}
-                    onTitleClick={null}
+                    onTitleClick={() => editGroup(group)}
                     onClose={() => props.deleteGroup(group.id)}
                 />
             )
         }
+
+        <ModalEditGroup
+            show={editGroupModalShow}
+            onHide={() => setEditGroupModalShow(false)}
+            onSubmit={props.createGroup}
+            group={groupForEditing}
+        />
     </PageContainer>;
 }
 

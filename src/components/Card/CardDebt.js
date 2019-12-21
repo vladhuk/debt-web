@@ -11,11 +11,11 @@ export function CardDebt(props) {
             username={props.debt.partner.username}
             closeButton={false}
         />
-        <Toast.Body className='py-1'>
+        <Toast.Body className='py-2'>
             {
                 props.debt.balance > 0
-                ? <h5 className='text-success'>You lent {props.debt.balance}</h5>
-                : <h5 className='text-danger'>You owe {Math.abs(props.debt.balance)}</h5>
+                ? <h5 className='text-success m-0'>You lent {props.debt.balance}</h5>
+                : <h5 className='text-danger m-0'>You owe {Math.abs(props.debt.balance)}</h5>
             }
         </Toast.Body>
     </Toast>

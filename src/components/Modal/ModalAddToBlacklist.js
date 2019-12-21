@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import {FormAddToBlacklist} from "../ModalForm";
+import {FormAddToBlacklist} from "../Form";
 
 function ModalAddToBlackList(props) {
     return <Modal

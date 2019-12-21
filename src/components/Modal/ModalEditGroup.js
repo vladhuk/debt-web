@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import {FormEditGroup} from "../ModalForm";
+import {FormEditGroup} from "../Form";
 
 function ModalEditGroup(props) {
     return <Modal

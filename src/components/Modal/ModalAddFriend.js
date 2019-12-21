@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import {FormAddFriend} from "../ModalForm";
+import {FormAddFriend} from "../Form";
 
 function ModalAddFriend(props) {
     return <Modal

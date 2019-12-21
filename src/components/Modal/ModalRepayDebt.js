@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
-import {FormRepayDebt} from "../ModalForm";
+import {FormRepayDebt} from "../Form";
 
 function ModalRepayDebt(props) {
     return <Modal

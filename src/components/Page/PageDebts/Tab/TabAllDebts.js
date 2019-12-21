@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {TitleWithButtons} from "../../../Title";
-import {ModalRepayDebt} from "../../../Modal";
+import {ModalCreateDebt, ModalRepayDebt} from "../../../Modal";
 import {CardDebt} from "../../../Card";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -27,6 +27,10 @@ function TabAllDebts(props) {
                 show={repayDebtModalShow}
                 onHide={() => setRepayDebtModalShowModalShow(false)}
                 debts={props.debts}
+            />
+            <ModalCreateDebt
+                show={createDebtModalShow}
+                onHide={() => setCreateDebtModalShowModalShow(false)}
             />
         </TitleWithButtons>
 

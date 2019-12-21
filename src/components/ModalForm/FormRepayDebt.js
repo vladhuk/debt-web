@@ -36,7 +36,7 @@ function FormRepayDebt(props) {
 
     const onSelectDebt = debt => {
         setSelectedDebt(debt);
-        setAmount(debt.balance);
+        setAmount(Math.abs(debt.balance));
     };
 
     return <Form noValidate validated={validated} onSubmit={handleSubmit}>

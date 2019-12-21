@@ -6,29 +6,29 @@ export const COUNT_NEW_RECEIVED_REPAYMENT_REQUESTS = 'repayment-requests:countNe
 
 const URL = '/repayment-requests';
 
-export function getSentRepaymentRequests(friendRequests) {
+export function getSentRepaymentRequests(repaymentRequests) {
     return {
         type: GET_SENT_REPAYMENT_REQUESTS,
         payload: {
-            friendRequests: friendRequests
+            repaymentRequests: repaymentRequests
         }
     }
 }
 
-export function getReceivedRepaymentRequests(friendRequests) {
+export function getReceivedRepaymentRequests(repaymentRequests) {
     return {
         type: GET_RECEIVED_REPAYMENT_REQUESTS,
         payload: {
-            friendRequests: friendRequests
+            repaymentRequests: repaymentRequests
         }
     }
 }
 
-export function countNewReceivedRepaymentRequests(numberOfNewReceivedFriendRequests) {
+export function countNewReceivedRepaymentRequests(numberOfNewReceivedRepaymentRequests) {
     return {
         type: COUNT_NEW_RECEIVED_REPAYMENT_REQUESTS,
         payload: {
-            numberOfNewReceivedFriendRequests: numberOfNewReceivedFriendRequests
+            numberOfNewReceivedRepaymentRequests: numberOfNewReceivedRepaymentRequests
         }
     }
 }

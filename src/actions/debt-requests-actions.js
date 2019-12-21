@@ -6,29 +6,29 @@ export const COUNT_NEW_RECEIVED_DEBT_REQUESTS = 'debt-requests:countNewReceived'
 
 const URL = '/debt-requests';
 
-export function getSentDebtRequests(friendRequests) {
+export function getSentDebtRequests(debtRequests) {
     return {
         type: GET_SENT_DEBT_REQUESTS,
         payload: {
-            friendRequests: friendRequests
+            debtRequests: debtRequests
         }
     }
 }
 
-export function getReceivedDebtRequests(friendRequests) {
+export function getReceivedDebtRequests(debtRequests) {
     return {
         type: GET_RECEIVED_DEBT_REQUESTS,
         payload: {
-            friendRequests: friendRequests
+            debtRequests: debtRequests
         }
     }
 }
 
-export function countNewReceivedDebtRequests(numberOfNewReceivedFriendRequests) {
+export function countNewReceivedDebtRequests(numberOfNewReceivedDebtRequests) {
     return {
         type: COUNT_NEW_RECEIVED_DEBT_REQUESTS,
         payload: {
-            numberOfNewReceivedFriendRequests: numberOfNewReceivedFriendRequests
+            numberOfNewReceivedDebtRequests: numberOfNewReceivedDebtRequests
         }
     }
 }

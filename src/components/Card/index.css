@@ -10,3 +10,7 @@
     cursor: pointer;
     text-decoration: underline;
 }
+
+.orders-body:hover {
+    border-bottom: 1px solid rgba(0,0,0,.05) !important;
+}

@@ -1,12 +1,17 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
-import {TabAllDebts, TabReceivedRepaymentRequests, TabSentRepaymentRequests} from "../Page/PageDebts/Tab";
+import {
+    TabAllDebts,
+    TabReceivedRepaymentRequests,
+    TabSentDebtRequests,
+    TabSentRepaymentRequests
+} from "../Page/PageDebts/Tab";
 
 
 function NavigationDebtsSidebar() {
     return <Switch>
         <Route exact path="/debts/all" component={TabAllDebts}/>
-        <Route exact path="/debts/requests/sent" component={null}/>
+        <Route exact path="/debts/requests/sent" component={TabSentDebtRequests}/>
         <Route exact path="/debts/requests/received" component={null}/>
         <Route exact path="/repayments/requests/sent" component={TabSentRepaymentRequests}/>
         <Route exact path="/repayments/requests/received" component={TabReceivedRepaymentRequests}/>

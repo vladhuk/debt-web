@@ -7,8 +7,8 @@ import {STATUS} from "../../../constants";
 export function CardReceivedRequestHeader(props) {
     return <Toast.Header closeButton={false}>
         {getStatusIcon(props.status)}
-        <h4 className='text-dark ml-2 mr-1'>{props.user.name}</h4>
-        <div className='text-secondary mr-auto'>(@{props.user.username})</div>
+        <h4 className='text-dark ml-2 mr-1'>{props.user && props.user.name}</h4>
+        <div className='text-secondary mr-auto'>{props.user && ('@' + props.user.username)}</div>
         {
             props.status !== STATUS.ACCEPTED && props.status !== STATUS.REJECTED
                 ? <>

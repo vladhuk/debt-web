@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {countNewReceivedDebtRequestsRequest} from "../../../actions/debt-requests-actions";
 import {countNewReceivedRepaymentRequestsRequest} from "../../../actions/repayment-requests-actions";
+import Navbar from "react-bootstrap/Navbar";
 
 function DebtsPageSidebar(props) {
     useEffect(() => {
@@ -18,6 +19,9 @@ function DebtsPageSidebar(props) {
         <LinkContainer to='/debts/all' className='border-bottom'>
             <Nav.Link>All</Nav.Link>
         </LinkContainer>
+        <Navbar.Text className='p-2'>
+            <strong>Debt requests</strong>
+        </Navbar.Text>
         <LinkContainer to='/debts/requests/sent'>
             <Nav.Link>Sent requests</Nav.Link>
         </LinkContainer>
@@ -26,6 +30,9 @@ function DebtsPageSidebar(props) {
                 Received requests <NotificationsCounter>{props.debtRequestsNotificationsNumber}</NotificationsCounter>
             </Nav.Link>
         </LinkContainer>
+        <Navbar.Text className='p-2'>
+            <strong>Repayment requests</strong>
+        </Navbar.Text>
         <LinkContainer to='/repayments/requests/sent'>
             <Nav.Link>Sent requests</Nav.Link>
         </LinkContainer>

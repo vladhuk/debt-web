@@ -3,22 +3,32 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import {bindActionCreators} from "redux";
-import {signInRequest} from "../../../actions/auth-actions";
+import {cleanError, signInRequest} from "../../../actions/auth-actions";
 import {connect} from "react-redux";
 import {setToken} from "../../../util";
+import {getCurrentUserRequest} from "../../../actions/users-actions";
 
 
 function PageSignIn(props) {
-    const [validated, setValidated] = useState(false);
+    const [validatedUsername, setValidatedUsername] = useState(true);
+    const [validatedPassword, setValidatedPassword] = useState(true);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        if (props.accessToken.length !== 0) {
+        if (props.accessToken) {
             setToken(props.accessToken);
+            props.getCurrentUser();
             props.history.push('/friends/all');
         }
-    });
+    }, [props.accessToken]);
+
+    useEffect(() => {
+        if (props.error) {
+            alert('Incorrect username or password');
+            props.cleanError();
+        }
+    }, [props.error]);
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -26,24 +36,33 @@ function PageSignIn(props) {
 
         const form = event.currentTarget;
 
-        if (form.checkValidity() === true) {
+        checkFields();
+
+        if (form.checkValidity()) {
             props.signIn({username, password});
         }
+    };
 
-        setValidated(true);
+    const checkFields = () => {
+        setValidatedUsername(username.length);
+        setValidatedPassword(password.length);
     };
 
     return <Container>
         <h1 className='text-center p-2'>Sign In</h1>
-        <Form className='mx-auto col-md-4' noValidate validated={validated} onSubmit={handleSubmit}>
+        <Form className='mx-auto col-md-4' noValidate onSubmit={handleSubmit}>
             <Form.Group controlId="username" className='mb-0'>
                 <Form.Label column={true}>Username</Form.Label>
                 <Form.Control
                     type="text"
                     name="username"
                     placeholder="Username"
-                    required
-                    onChange={event => setUsername(event.target.value)}
+                    autoFocus
+                    isInvalid={!validatedUsername}
+                    onChange={event => {
+                        setUsername(event.target.value);
+                        setValidatedUsername(true);
+                    }}
                 />
                 <Form.Control.Feedback type="invalid">
                     Please choose a username.
@@ -57,7 +76,11 @@ function PageSignIn(props) {
                     name="password"
                     placeholder="Password"
                     required
-                    onChange={event => setPassword(event.target.value)}
+                    isInvalid={!validatedPassword}
+                    onChange={event => {
+                        setPassword(event.target.value);
+                        setValidatedPassword(true);
+                    }}
                 />
                 <Form.Control.Feedback type="invalid">
                     Please enter a password.
@@ -70,11 +93,14 @@ function PageSignIn(props) {
 }
 
 const mapStateToProps = state => ({
-    accessToken: state.accessToken,
+    accessToken: state.auth.accessToken,
+    error: state.auth.error,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    signIn: signInRequest
+    signIn: signInRequest,
+    getCurrentUser: getCurrentUserRequest,
+    cleanError: cleanError,
 }, dispatch);
 
 const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(PageSignIn);

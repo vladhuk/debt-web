@@ -13,12 +13,18 @@ import {countNewReceivedDebtRequestsRequest} from "../../actions/debt-requests-a
 import {countNewReceivedRepaymentRequestsRequest} from "../../actions/repayment-requests-actions";
 
 function Header(props) {
+
     useEffect(() => {
         props.getCurrentUser();
-        props.countFriendRequestsNotifications();
-        props.countDebtRequestsNotifications();
-        props.countRepaymentRequestsNotifications();
     }, []);
+
+    useEffect(() => {
+        if (Object.entries(props.currentUser).length) {
+            props.countFriendRequestsNotifications();
+            props.countDebtRequestsNotifications();
+            props.countRepaymentRequestsNotifications();
+        }
+    }, [props.currentUser]);
 
     return <Navbar
         bg="dark"
@@ -44,7 +50,7 @@ function Header(props) {
         </Nav>
         <Nav className='ml-auto'>
             {
-                props.currentUser.name
+                Object.entries(props.currentUser).length
                     ? <>
                         <Navbar.Text disabled>Signed in as: {props.currentUser.name}</Navbar.Text>
                         <LinkContainer to='/logout'>

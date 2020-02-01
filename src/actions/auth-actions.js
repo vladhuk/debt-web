@@ -6,6 +6,7 @@ export const SIGN_IN_ERROR = 'auth:signInError';
 export const SIGN_UP_SUCCESS = 'auth:signUpSuccess';
 export const SIGN_UP_ERROR = 'auth:signUpError';
 export const CLEAN_ERROR = 'auth:cleanError';
+export const LOGOUT = 'auth:logout';
 
 const URL = '/auth';
 
@@ -48,6 +49,12 @@ export function signUpError(error) {
 export function cleanError() {
     return {
         type: CLEAN_ERROR,
+    }
+}
+
+export function logout() {
+    return {
+        type: LOGOUT,
     }
 }
 

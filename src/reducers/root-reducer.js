@@ -8,8 +8,9 @@ import {debtsReducer} from "./debts-reducer";
 import {debtRequestsReducer} from "./debt-request-reducer";
 import {repaymentRequestsReducer} from "./repayment-requests-reducer";
 import {usersReducer} from "./users-reducer";
+import {LOGOUT} from "../actions/auth-actions";
 
-const allReducers = combineReducers({
+const appReducer = combineReducers({
     friends: friendsReducer,
     auth: authReducer,
     blacklist: blacklistReducer,
@@ -21,4 +22,11 @@ const allReducers = combineReducers({
     users: usersReducer,
 });
 
-export default allReducers;
+const rootReducer = (state, action) => {
+    if (action.type === LOGOUT) {
+        state = {};
+    }
+    return appReducer(state, action);
+};
+
+export default rootReducer;

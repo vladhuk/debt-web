@@ -2,7 +2,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import React, {useEffect, useState} from "react";
 import {cleanError, signInRequest} from "../../actions/auth-actions";
-import {getCurrentUserRequest} from "../../actions/users-actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -92,7 +91,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     signIn: signInRequest,
-    getCurrentUser: getCurrentUserRequest,
     cleanError: cleanError,
 }, dispatch);
 

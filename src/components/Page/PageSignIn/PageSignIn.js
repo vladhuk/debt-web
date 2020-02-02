@@ -31,15 +31,10 @@ function PageSignIn(props) {
     </Container>
 }
 
-const mapStateToProps = state => ({
-    accessToken: state.auth.accessToken,
-    error: state.auth.error,
-});
-
 const mapDispatchToProps = dispatch => bindActionCreators({
     getCurrentUser: getCurrentUserRequest,
 }, dispatch);
 
-const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(PageSignIn);
+const connectedComponent = connect(null, mapDispatchToProps)(PageSignIn);
 
 export {connectedComponent as PageSignIn};

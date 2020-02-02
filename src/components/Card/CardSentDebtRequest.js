@@ -20,7 +20,6 @@ export function CardSentDebtRequest(props) {
                     <Toast.Header
                         key={order.id}
                         closeButton={false}
-                        className='orders-body border-0'
                     >
                         {getStatusIcon(order.status.name)}
                         <h6 className='text-secondary ml-2 mr-1 mb-0'>{order.receiver.name}</h6>

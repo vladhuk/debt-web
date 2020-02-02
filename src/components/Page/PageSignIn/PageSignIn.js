@@ -7,6 +7,7 @@ import {cleanError, signInRequest} from "../../../actions/auth-actions";
 import {connect} from "react-redux";
 import {setToken} from "../../../util";
 import {getCurrentUserRequest} from "../../../actions/users-actions";
+import Alert from "react-bootstrap/Alert";
 
 
 function PageSignIn(props) {
@@ -14,6 +15,7 @@ function PageSignIn(props) {
     const [validatedPassword, setValidatedPassword] = useState(true);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
 
     useEffect(() => {
         if (props.accessToken) {
@@ -25,7 +27,7 @@ function PageSignIn(props) {
 
     useEffect(() => {
         if (props.error) {
-            alert('Incorrect username or password');
+            setIsAlertVisible(true);
             props.cleanError();
         }
     }, [props.error]);
@@ -36,6 +38,7 @@ function PageSignIn(props) {
 
         const form = event.currentTarget;
 
+        setIsAlertVisible(false);
         checkFields();
 
         if (form.checkValidity()) {
@@ -49,6 +52,9 @@ function PageSignIn(props) {
     };
 
     return <Container>
+        <Alert className='w-50 mx-auto text-center mt-4' variant='danger' show={isAlertVisible}>
+            Incorrect username or password
+        </Alert>
         <h1 className='text-center p-2'>Sign In</h1>
         <Form className='mx-auto col-md-4' noValidate onSubmit={handleSubmit}>
             <Form.Group controlId="username" className='mb-0'>

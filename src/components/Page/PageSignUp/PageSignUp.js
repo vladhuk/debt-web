@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {setToken} from "../../../util";
 import {getCurrentUserRequest} from "../../../actions/users-actions";
+import Alert from "react-bootstrap/Alert";
 
 
 function PageSignUp(props) {
@@ -19,6 +20,7 @@ function PageSignUp(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
 
     useEffect(() => {
         if (props.accessToken) {
@@ -30,7 +32,7 @@ function PageSignUp(props) {
 
     useEffect(() => {
         if (props.error) {
-            alert('Username already exist');
+            setIsAlertVisible(true);
             props.cleanError();
         }
     }, [props.error]);
@@ -48,6 +50,7 @@ function PageSignUp(props) {
 
         const form = event.currentTarget;
 
+        setIsAlertVisible(false);
         checkFields();
 
         setValidatedForm(form.checkValidity());
@@ -64,6 +67,9 @@ function PageSignUp(props) {
     };
 
     return <Container>
+        <Alert className='w-50 mx-auto text-center mt-4' variant='danger' show={isAlertVisible}>
+            Username already exist
+        </Alert>
         <h1 className='text-center p-2'>Sign Up</h1>
         <Form className='mx-auto col-md-4' noValidate onSubmit={handleSubmit}>
             <Form.Group controlId="name" className='mb-0'>

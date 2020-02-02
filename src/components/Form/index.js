@@ -4,3 +4,4 @@ export * from './FormEditGroup';
 export * from './FormRepayDebt';
 export * from './FormCreateDebt';
 export * from './FormSignIn';
+export * from './FormSignUp';

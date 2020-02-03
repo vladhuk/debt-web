@@ -6,6 +6,7 @@ import {CardReceivedDebtRequest} from "../../../Card";
 import {PageContainer} from "../../../Container";
 import {
     acceptDebtRequestRequest,
+    countNewReceivedDebtRequestsRequest,
     getReceivedDebtRequestsRequest,
     rejectDebtRequestRequest
 } from "../../../../actions/debt-requests-actions";
@@ -16,6 +17,12 @@ function TabReceivedDebtRequests(props) {
     useEffect(() => {
         props.getReceivedDebtRequests();
     }, []);
+
+    useEffect(() => {
+        if (props.receivedDebtRequests.length) {
+            props.countDebtRequestsNotifications();
+        }
+    }, [props.receivedDebtRequests]);
 
     return (<PageContainer>
         <Title title='Received debt requests' />
@@ -38,6 +45,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+    countDebtRequestsNotifications: countNewReceivedDebtRequestsRequest,
     getReceivedDebtRequests: getReceivedDebtRequestsRequest,
     acceptDebtRequest: acceptDebtRequestRequest,
     rejectDebtRequest: rejectDebtRequestRequest

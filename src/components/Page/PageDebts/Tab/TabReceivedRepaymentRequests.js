@@ -6,6 +6,7 @@ import {CardReceivedRepaymentRequest} from "../../../Card";
 import {PageContainer} from "../../../Container";
 import {
     acceptRepaymentRequestRequest,
+    countNewReceivedRepaymentRequestsRequest,
     getReceivedRepaymentRequestsRequest,
     rejectRepaymentRequestRequest
 } from "../../../../actions/repayment-requests-actions";
@@ -16,6 +17,12 @@ function TabReceivedRepaymentRequests(props) {
     useEffect(() => {
         props.getReceivedRepaymentRequests();
     }, []);
+
+    useEffect(() => {
+        if (props.receivedRepaymentRequests.length) {
+            props.countRepaymentRequestsNotifications();
+        }
+    }, [props.receivedRepaymentRequests]);
 
     return (<PageContainer>
         <Title title='Received repayment requests' />
@@ -38,6 +45,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+    countRepaymentRequestsNotifications: countNewReceivedRepaymentRequestsRequest,
     getReceivedRepaymentRequests: getReceivedRepaymentRequestsRequest,
     acceptRepaymentRequest: acceptRepaymentRequestRequest,
     rejectRepaymentRequest: rejectRepaymentRequestRequest

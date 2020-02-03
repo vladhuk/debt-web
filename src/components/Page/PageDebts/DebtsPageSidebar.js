@@ -1,20 +1,12 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Nav from "react-bootstrap/Nav";
 import {LinkContainer} from "react-router-bootstrap";
 import Sidebar from "../../Sidebar";
 import NotificationsCounter from "../../NotificationsCounter";
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {countNewReceivedDebtRequestsRequest} from "../../../actions/debt-requests-actions";
-import {countNewReceivedRepaymentRequestsRequest} from "../../../actions/repayment-requests-actions";
 import Navbar from "react-bootstrap/Navbar";
 
 function DebtsPageSidebar(props) {
-    useEffect(() => {
-        props.countDebtRequestsNotifications();
-        props.countRepaymentRequestsNotifications();
-    }, []);
-
     return <Sidebar>
         <LinkContainer to='/debts/all' className='border-bottom'>
             <Nav.Link>All</Nav.Link>
@@ -50,9 +42,4 @@ const mapStateToProps = state => ({
     repaymentRequestsNotificationNumber: state.repaymentRequests.number,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-    countDebtRequestsNotifications: countNewReceivedDebtRequestsRequest,
-    countRepaymentRequestsNotifications: countNewReceivedRepaymentRequestsRequest,
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(DebtsPageSidebar)
+export default connect(mapStateToProps, null)(DebtsPageSidebar)

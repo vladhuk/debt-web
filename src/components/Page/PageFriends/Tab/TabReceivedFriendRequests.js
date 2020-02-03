@@ -3,6 +3,7 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import {
     acceptFriendRequestRequest,
+    countNewReceivedFriendRequestsRequest,
     getReceivedFriendRequestsRequest,
     rejectFriendRequestRequest
 } from "../../../../actions/friend-requests-actions";
@@ -16,6 +17,12 @@ function TabReceivedFriendRequests(props) {
     useEffect(() => {
         props.getReceivedFriendRequests();
     }, []);
+
+    useEffect(() => {
+        if (props.receivedFriendRequests.length) {
+            props.countFriendRequestsNotifications();
+        }
+    }, [props.receivedFriendRequests]);
 
     return (<PageContainer>
         <Title title='Received requests' />
@@ -41,6 +48,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+    countFriendRequestsNotifications: countNewReceivedFriendRequestsRequest,
     getReceivedFriendRequests: getReceivedFriendRequestsRequest,
     acceptFriendRequest: acceptFriendRequestRequest,
     rejectFriendRequest: rejectFriendRequestRequest

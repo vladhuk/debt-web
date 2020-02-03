@@ -10,7 +10,7 @@ export function CardSentRequestHeader(props) {
         <h4 className='text-dark ml-2 mr-1'>{props.user && props.user.name}</h4>
         <div className='text-secondary mr-auto'>{props.user && (`(@${props.user.username})`)}</div>
         {
-            props.status === STATUS.SENT
+            !props.forcedDisabledButton && (props.status === STATUS.SENT || props.status === STATUS.VIEWED)
                 ? <Button variant='danger' onClick={props.onDelete}>Delete</Button>
                 : <Button variant='secondary' disabled='disabled'>Delete</Button>
         }

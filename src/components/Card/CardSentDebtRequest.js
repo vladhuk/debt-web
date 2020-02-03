@@ -3,14 +3,19 @@ import Toast from "react-bootstrap/Toast";
 import './index.css';
 import {CardSentRequestHeader} from "./CardHeader";
 import {getStatusIcon} from "./CardHeader/util";
+import {STATUS} from "../../constants";
 
 
 export function CardSentDebtRequest(props) {
     const totalLent = props.request.orders.map(order => order.amount).reduce((a, val) => (a + val));
+    const existsAcceptedOrRejectedOrders = props.request.orders
+        .map(order => order.status.name)
+        .find(statusName => statusName === STATUS.ACCEPTED || statusName === STATUS.REJECTED);
 
     return <Toast className='card-request my-3'>
         <CardSentRequestHeader
             status={props.request.status.name}
+            forcedDisabledButton={existsAcceptedOrRejectedOrders}
             onDelete={props.onDelete}
         />
         <Toast.Body className='py-2'>

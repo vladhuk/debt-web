@@ -11,6 +11,7 @@ export function CardReceivedDebtRequest(props) {
     return <Toast className='card-request my-3'>
         <CardReceivedRequestHeader
             status={props.request.status.name}
+            user={props.request.sender}
             onAccept={props.onAccept}
             onReject={props.onReject}
         />

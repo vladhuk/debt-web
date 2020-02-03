@@ -8,9 +8,9 @@ export function getToken() {
 }
 
 export function setToken(token) {
-    cookies.set(ACCESS_TOKEN_COOKIE_NAME, token);
+    cookies.set(ACCESS_TOKEN_COOKIE_NAME, token, { path: '/' });
 }
 
 export function deleteToken() {
-    cookies.remove(ACCESS_TOKEN_COOKIE_NAME);
+    cookies.remove(ACCESS_TOKEN_COOKIE_NAME, { path: '/' });
 }

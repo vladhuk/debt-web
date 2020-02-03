@@ -27,7 +27,7 @@ export function debtRequestsReducer(state = initialState, {type, payload}) {
                 ...state,
                 number: payload.numberOfNewReceivedDebtRequests
             };
+        default:
+            return state;
     }
-
-    return state;
 }

@@ -124,7 +124,7 @@ function FormCreateDebt(props) {
             </Dropdown>
         </Form.Group>
 
-        <Form.Group controlId="friends">
+        <Form.Group>
             <Form.Label>Friends</Form.Label>
             <div className='w-100 vh-15 border p-1'>
                 {

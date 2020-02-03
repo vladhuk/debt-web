@@ -4,7 +4,7 @@ export function friendsReducer(state = [], {type, payload}) {
     switch (type) {
         case GET_ALL_FRIENDS:
             return payload.friends;
+        default:
+            return state;
     }
-
-    return state;
 }

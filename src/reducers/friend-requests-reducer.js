@@ -27,7 +27,7 @@ export function friendRequestsReducer(state = initialState, {type, payload}) {
                 ...state,
                 number: payload.numberOfNewReceivedFriendRequests
             };
+        default:
+            return state;
     }
-
-    return state;
 }

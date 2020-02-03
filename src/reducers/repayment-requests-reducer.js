@@ -27,7 +27,7 @@ export function repaymentRequestsReducer(state = initialState, {type, payload}) 
                 ...state,
                 number: payload.numberOfNewReceivedRepaymentRequests
             };
+        default:
+            return state;
     }
-
-    return state;
 }

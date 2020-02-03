@@ -22,7 +22,7 @@ export function usersReducer(state = initialState, {type, payload}) {
                 ...state,
                 user: payload.user
             };
+        default:
+            return state;
     }
-
-    return state;
 }

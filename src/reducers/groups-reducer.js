@@ -23,7 +23,7 @@ export function groupsReducer(state = initialState, {type, payload}) {
                 ...state,
                 members: payload.groupMembers
             };
+        default:
+            return state;
     }
-
-    return state;
 }

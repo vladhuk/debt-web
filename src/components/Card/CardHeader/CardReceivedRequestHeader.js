@@ -15,7 +15,7 @@ export function CardReceivedRequestHeader(props) {
         <h4 className='text-dark ml-2 mr-1'>{props.user && props.user.name || '\u00a0'}</h4>
         <div className='text-secondary mr-auto'>{props.user && (`(@${props.user.username})`)}</div>
         {
-            props.status !== STATUS.ACCEPTED && props.status !== STATUS.REJECTED && headerButtons
+            ![STATUS.ACCEPTED, STATUS.REJECTED].includes(props.status) && headerButtons
         }
     </Toast.Header>
 }

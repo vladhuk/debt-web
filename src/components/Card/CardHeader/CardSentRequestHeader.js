@@ -13,7 +13,7 @@ export function CardSentRequestHeader(props) {
         <div className='text-secondary mr-auto'>{props.user && (`(@${props.user.username})`)}</div>
         {
             !props.forcedDisabledButton
-                && (props.status === STATUS.SENT || props.status === STATUS.VIEWED)
+                && [STATUS.SENT, STATUS.VIEWED].includes(props.status)
                 && deleteButton
         }
     </Toast.Header>

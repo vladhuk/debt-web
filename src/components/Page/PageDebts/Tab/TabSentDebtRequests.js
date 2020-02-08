@@ -21,6 +21,12 @@ function TabSentDebtRequests(props) {
         props.getSentDebtRequests();
     }, []);
 
+    useEffect(() => {
+        if (props.isNeededToUpdateList) {
+            props.getSentDebtRequests();
+        }
+    }, [props.isNeededToUpdateList]);
+
     return (<PageContainer>
         <Title title='Sent debt requests' />
 
@@ -49,6 +55,7 @@ function TabSentDebtRequests(props) {
 
 const mapStateToProps = state => ({
     sentDebtRequests: state.debtRequests.sent,
+    isNeededToUpdateList: state.debtRequests.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

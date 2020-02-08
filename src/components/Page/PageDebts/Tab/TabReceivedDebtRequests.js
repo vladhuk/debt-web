@@ -19,6 +19,12 @@ function TabReceivedDebtRequests(props) {
     }, []);
 
     useEffect(() => {
+        if (props.isNeededToUpdateList) {
+            props.getReceivedDebtRequests();
+        }
+    }, [props.isNeededToUpdateList]);
+
+    useEffect(() => {
         if (props.receivedDebtRequests.length) {
             props.countDebtRequestsNotifications();
         }
@@ -42,6 +48,7 @@ function TabReceivedDebtRequests(props) {
 
 const mapStateToProps = state => ({
     receivedDebtRequests: state.debtRequests.received,
+    isNeededToUpdateList: state.debtRequests.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

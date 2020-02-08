@@ -5,9 +5,8 @@ import {CardLinkHeader} from './CardHeader'
 
 
 export function CardGroup(props) {
-    return <Toast className='user-card my-3'>
+    return <Toast className='user-card my-3' onClose={props.onClose}>
         <CardLinkHeader
-            onClose={props.onClose}
             onTitleClick={props.onTitleClick}
             name={props.title}
         />

@@ -55,7 +55,7 @@ export function updateData({resourcePath, data, ...args}) {
 
     return withDefaultThen({
         customFetch: fetch(API_BASE_URL + resourcePath, {
-            method: 'UPDATE',
+            method: 'PUT',
             headers: headers,
             body: JSON.stringify(data)
         }),

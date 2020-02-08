@@ -3,6 +3,8 @@ import {deleteData, getData, postData} from "../api";
 export const GET_SENT_DEBT_REQUESTS = 'debt-requests:getAllSent';
 export const GET_RECEIVED_DEBT_REQUESTS = 'debt-requests:getAllReceived';
 export const COUNT_NEW_RECEIVED_DEBT_REQUESTS = 'debt-requests:countNewReceived';
+export const ANSWER_ON_DEBT_REQUEST = 'debt-requests:answer';
+export const DELETE_DEBT_REQUEST = 'debt-requests:delete';
 
 const URL = '/debt-requests';
 
@@ -33,6 +35,18 @@ export function countNewReceivedDebtRequests(numberOfNewReceivedDebtRequests) {
     }
 }
 
+export function answerOnDebtRequest() {
+    return {
+        type: ANSWER_ON_DEBT_REQUEST,
+    }
+}
+
+export function deleteDebtRequest() {
+    return {
+        type: DELETE_DEBT_REQUEST,
+    }
+}
+
 export function getSentDebtRequestsRequest() {
     return dispatch => getData({
         resourcePath: URL + '/sent',
@@ -57,18 +71,21 @@ export function sendDebtRequestRequest(data) {
 export function acceptDebtRequestRequest(id) {
     return dispatch => postData({
         resourcePath: URL + `/${id}/accept`,
+        onSuccess: () => dispatch(answerOnDebtRequest()),
     });
 }
 
 export function rejectDebtRequestRequest(id) {
     return dispatch => postData({
         resourcePath: URL + `/${id}/reject`,
+        onSuccess: () => dispatch(answerOnDebtRequest()),
     });
 }
 
 export function deleteSentDebtRequestRequest(id) {
     return dispatch => deleteData({
         resourcePath: URL + `/sent/${id}`,
+        onSuccess: () => dispatch(deleteDebtRequest()),
     });
 }
 

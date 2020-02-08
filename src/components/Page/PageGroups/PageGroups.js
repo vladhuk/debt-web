@@ -22,6 +22,12 @@ function PageGroups(props) {
         props.getGroups();
     }, []);
 
+    useEffect(() => {
+        if (props.isNeededToUpdateList) {
+            props.getGroups();
+        }
+    }, [props.isNeededToUpdateList]);
+
     const editGroup = group => {
         setGroupForEditing(group);
         setEditGroupModalShow(true)
@@ -54,7 +60,7 @@ function PageGroups(props) {
         <ModalEditGroup
             show={editGroupModalShow}
             onHide={() => setEditGroupModalShow(false)}
-            onSubmit={props.createGroup}
+            onSubmit={props.updateGroup}
             group={groupForEditing}
         />
     </PageContainer>;
@@ -62,6 +68,7 @@ function PageGroups(props) {
 
 const mapStateToProps = state => ({
     groups: state.groups.groups,
+    isNeededToUpdateList: state.groups.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

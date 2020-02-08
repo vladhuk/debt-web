@@ -14,7 +14,9 @@ function FormEditGroup(props) {
     const [members, setMembers] = useState((props.group && props.group.members) || []);
 
     useEffect(() => {
-        props.getFriends();
+        if (!props.friends.length) {
+            props.getFriends();
+        }
     }, []);
 
     useEffect(() => {

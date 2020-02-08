@@ -22,8 +22,12 @@ function FormCreateDebt(props) {
     const [selectedPersons, setSelectedPersons] = useState([]);
 
     useEffect(() => {
-        props.getFriends();
-        props.getGroups();
+        if (!props.friends.length) {
+            props.getFriends();
+        }
+        if (!props.groups.length) {
+            props.getGroups();
+        }
     }, []);
 
     useEffect(() => {

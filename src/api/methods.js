@@ -9,9 +9,12 @@ function getBaseHeaders() {
     });
 }
 
-function withDefaultThen({customFetch, onSuccess, onError}) {
+function withDefaultThen({customFetch, onRequest, onSuccess, onError}) {
+    onRequest && onRequest();
+
     return customFetch
-        .then(response => response.json())
+        .then(response => response.text())
+        .then(text => text ? JSON.parse(text) : '{}')
         .then(response => {
             if(response.error) {
                 throw(response.error);
@@ -23,53 +26,49 @@ function withDefaultThen({customFetch, onSuccess, onError}) {
         })
 }
 
-export function getData({resourcePath, onSuccess, onError}) {
+export function getData({resourcePath, ...args}) {
     return withDefaultThen({
-        onSuccess,
-        onError,
         customFetch: fetch(API_BASE_URL + resourcePath, {
             headers: getBaseHeaders()
         }),
+        ...args,
     });
 }
 
-export function postData({resourcePath, data, onSuccess, onError}) {
+export function postData({resourcePath, data, ...args}) {
     const headers = getBaseHeaders();
     headers.append(...jsonHeader);
 
     return withDefaultThen({
-        onSuccess,
-        onError,
         customFetch: fetch(API_BASE_URL + resourcePath, {
             method: 'POST',
             headers: headers,
             body: JSON.stringify(data)
         }),
+        ...args,
     });
 }
 
-export function updateData({resourcePath, data, onSuccess, onError}) {
+export function updateData({resourcePath, data, ...args}) {
     const headers = getBaseHeaders();
     headers.append(...jsonHeader);
 
     return withDefaultThen({
-        onSuccess,
-        onError,
         customFetch: fetch(API_BASE_URL + resourcePath, {
             method: 'UPDATE',
             headers: headers,
             body: JSON.stringify(data)
         }),
+        ...args,
     });
 }
 
-export function deleteData({resourcePath, onSuccess, onError}) {
+export function deleteData({resourcePath, ...args}) {
     return withDefaultThen({
-        onSuccess,
-        onError,
         customFetch: fetch(API_BASE_URL + resourcePath, {
             method: 'DELETE',
             headers: getBaseHeaders()
         }),
+        ...args,
     });
 }

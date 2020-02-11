@@ -1,6 +1,7 @@
 import {deleteData, getData} from "../api";
 
 export const GET_ALL_FRIENDS = 'friends:getAll';
+export const DELETE_FRIEND = 'friends:delete';
 
 const URL = '/friends';
 
@@ -10,6 +11,12 @@ export function getAllFriends(friends) {
         payload: {
             friends: friends
         }
+    }
+}
+
+export function deleteFriend() {
+    return {
+        type: DELETE_FRIEND,
     }
 }
 
@@ -23,5 +30,6 @@ export function getAllFriendsRequest() {
 export function deleteFriendRequest(id) {
     return dispatch => deleteData({
         resourcePath: URL+ `/${id}`,
+        onSuccess: () => dispatch(deleteFriend()),
     });
 }

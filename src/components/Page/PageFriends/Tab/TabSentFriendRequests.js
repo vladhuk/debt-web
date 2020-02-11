@@ -15,14 +15,20 @@ function TabSentFriendRequests(props) {
     const [deleteRequestModalShow, setDeleteRequestModalShow] = React.useState(false);
     const [requestIdForDelete, setRequestIdForDelete] = React.useState();
 
+    useEffect(() => {
+        props.getSentFriendRequests();
+    }, []);
+
+    useEffect(() => {
+        if (props.isNeededToUpdateList) {
+            props.getSentFriendRequests();
+        }
+    }, [props.isNeededToUpdateList]);
+
     const deleteRequest = id => {
         props.deleteSentRequest(id);
         setDeleteRequestModalShow(false);
     };
-
-    useEffect(() => {
-        props.getSentFriendRequests();
-    }, []);
 
     return (<PageContainer>
         <Title title='Sent requests' />
@@ -56,6 +62,7 @@ function TabSentFriendRequests(props) {
 
 const mapStateToProps = state => ({
     sentFriendRequests: state.friendRequests.sent,
+    isNeededToUpdateList: state.friendRequests.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

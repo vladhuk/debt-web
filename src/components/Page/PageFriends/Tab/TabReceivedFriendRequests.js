@@ -19,6 +19,12 @@ function TabReceivedFriendRequests(props) {
     }, []);
 
     useEffect(() => {
+        if (props.isNeededToUpdateList) {
+            props.getReceivedFriendRequests();
+        }
+    }, [props.isNeededToUpdateList]);
+
+    useEffect(() => {
         if (props.receivedFriendRequests.length) {
             props.countFriendRequestsNotifications();
         }
@@ -45,6 +51,7 @@ function TabReceivedFriendRequests(props) {
 
 const mapStateToProps = state => ({
     receivedFriendRequests: state.friendRequests.received,
+    isNeededToUpdateList: state.friendRequests.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

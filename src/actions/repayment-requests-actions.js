@@ -3,6 +3,8 @@ import {deleteData, getData, postData} from "../api";
 export const GET_SENT_REPAYMENT_REQUESTS = 'repayment-requests:getAllSent';
 export const GET_RECEIVED_REPAYMENT_REQUESTS = 'repayment-requests:getAllReceived';
 export const COUNT_NEW_RECEIVED_REPAYMENT_REQUESTS = 'repayment-requests:countNewReceived';
+export const ANSWER_ON_REPAYMENT_REQUEST = 'repayment-request:answer';
+export const DELETE_REPAYMENT_REQUEST = 'repayment-requests:delete';
 
 const URL = '/repayment-requests';
 
@@ -33,6 +35,18 @@ export function countNewReceivedRepaymentRequests(numberOfNewReceivedRepaymentRe
     }
 }
 
+export function answerOnRepaymentRequest() {
+    return {
+        type: ANSWER_ON_REPAYMENT_REQUEST,
+    }
+}
+
+export function deleteRepaymentRequest() {
+    return {
+        type: DELETE_REPAYMENT_REQUEST,
+    }
+}
+
 export function getSentRepaymentRequestsRequest() {
     return dispatch => getData({
         resourcePath: URL + '/sent',
@@ -57,18 +71,21 @@ export function sendRepaymentRequestRequest(data) {
 export function acceptRepaymentRequestRequest(id) {
     return dispatch => postData({
         resourcePath: URL + `/${id}/accept`,
+        onSuccess: () => dispatch(answerOnRepaymentRequest()),
     });
 }
 
 export function rejectRepaymentRequestRequest(id) {
     return dispatch => postData({
         resourcePath: URL + `/${id}/reject`,
+        onSuccess: () => dispatch(answerOnRepaymentRequest()),
     });
 }
 
 export function deleteSentRepaymentRequestRequest(id) {
     return dispatch => deleteData({
         resourcePath: URL + `/sent/${id}`,
+        onSuccess: () => dispatch(deleteRepaymentRequest()),
     });
 }
 

@@ -15,14 +15,20 @@ function TabSentRepaymentRequests(props) {
     const [deleteRequestModalShow, setDeleteRequestModalShow] = React.useState(false);
     const [requestIdForDelete, setRequestIdForDelete] = React.useState();
 
+    useEffect(() => {
+        props.getSentRepaymentRequests();
+    }, []);
+
+    useEffect(() => {
+        if (props.isNeededToUpdateList) {
+            props.getSentRepaymentRequests();
+        }
+    }, [props.isNeededToUpdateList]);
+
     const deleteRequest = id => {
         props.deleteSentRepaymentRequest(id);
         setDeleteRequestModalShow(false);
     };
-
-    useEffect(() => {
-        props.getSentRepaymentRequests();
-    }, []);
 
     return (<PageContainer>
         <Title title='Sent repayment requests' />
@@ -53,6 +59,7 @@ function TabSentRepaymentRequests(props) {
 
 const mapStateToProps = state => ({
     sentRepaymentRequests: state.repaymentRequests.sent,
+    isNeededToUpdateList: state.repaymentRequests.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

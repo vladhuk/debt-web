@@ -99,7 +99,7 @@ function FormEditGroup(props) {
 }
 
 const mapStateToProps = state => ({
-    friends: state.friends,
+    friends: state.friends.list,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

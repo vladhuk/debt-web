@@ -162,7 +162,7 @@ function FormCreateDebt(props) {
 
 const mapStateToProps = state => ({
     groups: state.groups.groups,
-    friends: state.friends,
+    friends: state.friends.list,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

@@ -12,14 +12,20 @@ function TabAllFriends(props) {
     const [deleteFriendModalShow, setDeleteFriendModalShow] = React.useState(false);
     const [userIdForDelete, setUserIdForDelete] = React.useState();
 
+    useEffect(() => {
+        props.getAllFriends();
+    }, []);
+
+    useEffect(() => {
+        if (props.isNeededToUpdateList) {
+            props.getAllFriends();
+        }
+    }, [props.isNeededToUpdateList]);
+
     const deleteUser = id => {
         props.deleteFriend(id);
         setDeleteFriendModalShow(false);
     };
-
-    useEffect(() => {
-        props.getAllFriends();
-    }, []);
 
     return <PageContainer>
         <TitleWithButton title='Friends'
@@ -56,7 +62,8 @@ function TabAllFriends(props) {
 }
 
 const mapStateToProps = state => ({
-    friends: state.friends,
+    friends: state.friends.list,
+    isNeededToUpdateList: state.friends.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({

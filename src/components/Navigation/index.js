@@ -1,3 +1,2 @@
-export * from './NavigationPage';
-export * from './NavigationDebtsSidebar';
-export * from './NavigationFriendsSidebar';
+export * from './Page';
+export * from './Sidebar';

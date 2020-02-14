@@ -1,6 +1,11 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
-import {TabAllFriends, TabBlacklist, TabReceivedFriendRequests, TabSentFriendRequests} from "../Page/PageFriends/Tab";
+import {
+    TabAllFriends,
+    TabBlacklist,
+    TabReceivedFriendRequests,
+    TabSentFriendRequests
+} from "../../Page/PageFriends/Tab";
 
 
 function NavigationFriendsSidebar() {

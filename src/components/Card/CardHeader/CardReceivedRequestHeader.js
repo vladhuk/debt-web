@@ -12,7 +12,7 @@ export function CardReceivedRequestHeader(props) {
 
     return <Toast.Header closeButton={false}>
         {getStatusIcon(props.status)}
-        <h4 className='text-dark ml-2 mr-1'>{props.user && props.user.name || '\u00a0'}</h4>
+        <h4 className='text-dark ml-2 mr-1'>{(props.user && props.user.name) || '\u00a0'}</h4>
         <div className='text-secondary mr-auto'>{props.user && (`(@${props.user.username})`)}</div>
         {
             ![STATUS.ACCEPTED, STATUS.REJECTED].includes(props.status) && headerButtons

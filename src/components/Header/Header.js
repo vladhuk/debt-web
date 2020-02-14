@@ -13,13 +13,14 @@ import {countNewReceivedDebtRequestsRequest} from "../../actions/debt-requests-a
 import {countNewReceivedRepaymentRequestsRequest} from "../../actions/repayment-requests-actions";
 
 function Header(props) {
+    const isAuthenticated = !!Object.entries(props.currentUser).length;
 
     useEffect(() => {
         props.getCurrentUser();
     }, []);
 
     useEffect(() => {
-        if (Object.entries(props.currentUser).length) {
+        if (isAuthenticated) {
             props.countFriendRequestsNotifications();
             props.countDebtRequestsNotifications();
             props.countRepaymentRequestsNotifications();
@@ -33,24 +34,27 @@ function Header(props) {
         <LinkContainer to='/'>
             <Navbar.Brand>Debt</Navbar.Brand>
         </LinkContainer>
-        <Nav>
-            <LinkContainer to='/friends/all'>
-                <Nav.Link>
-                    Friends <NotificationsCounter>{props.friendsNotificationsNumber}</NotificationsCounter>
-                </Nav.Link>
-            </LinkContainer>
-            <LinkContainer to='/groups/all'>
-                <Nav.Link>Groups</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to='/debts/all'>
-                <Nav.Link>
-                    Debts <NotificationsCounter>{props.debtsNotificationsNumber}</NotificationsCounter>
-                </Nav.Link>
-            </LinkContainer>
-        </Nav>
+        {
+            isAuthenticated &&
+            <Nav>
+                <LinkContainer to='/friends/all'>
+                    <Nav.Link>
+                        Friends <NotificationsCounter>{props.friendsNotificationsNumber}</NotificationsCounter>
+                    </Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/groups/all'>
+                    <Nav.Link>Groups</Nav.Link>
+                </LinkContainer>
+                <LinkContainer to='/debts/all'>
+                    <Nav.Link>
+                        Debts <NotificationsCounter>{props.debtsNotificationsNumber}</NotificationsCounter>
+                    </Nav.Link>
+                </LinkContainer>
+            </Nav>
+        }
         <Nav className='ml-auto'>
             {
-                Object.entries(props.currentUser).length
+                isAuthenticated
                     ? <>
                         <Navbar.Text disabled>Signed in as: {props.currentUser.name}</Navbar.Text>
                         <LinkContainer to='/logout'>

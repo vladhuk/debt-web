@@ -1,12 +1,12 @@
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
-import DebtsPageSidebar from "./DebtsPageSidebar";
+import {SidebarDebtsPage} from "../../Sidebar";
 import {NavigationDebtsSidebar} from "../../Navigation";
 
 
 function DebtsPage() {
     return <BrowserRouter>
-        <DebtsPageSidebar/>
+        <SidebarDebtsPage/>
         <NavigationDebtsSidebar/>
     </BrowserRouter>
 }

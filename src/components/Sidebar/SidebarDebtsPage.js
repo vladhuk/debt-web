@@ -1,12 +1,13 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
 import {LinkContainer} from "react-router-bootstrap";
-import Sidebar from "../../Sidebar";
-import NotificationsCounter from "../../NotificationsCounter";
+import {Sidebar} from "./Sidebar";
+import NotificationsCounter from "../NotificationsCounter";
 import {connect} from "react-redux";
 import Navbar from "react-bootstrap/Navbar";
 
-function DebtsPageSidebar(props) {
+
+function SidebarDebtsPage(props) {
     return <Sidebar>
         <LinkContainer to='/debts/all' className='border-bottom'>
             <Nav.Link>All</Nav.Link>
@@ -36,10 +37,11 @@ function DebtsPageSidebar(props) {
     </Sidebar>
 }
 
-
 const mapStateToProps = state => ({
     debtRequestsNotificationsNumber: state.debtRequests.number,
     repaymentRequestsNotificationNumber: state.repaymentRequests.number,
 });
 
-export default connect(mapStateToProps, null)(DebtsPageSidebar)
+const connectedComponent = connect(mapStateToProps, null)(SidebarDebtsPage);
+
+export {connectedComponent as SidebarDebtsPage};

@@ -1,12 +1,12 @@
 import React from "react";
 import Nav from "react-bootstrap/Nav";
 import {LinkContainer} from "react-router-bootstrap";
-import Sidebar from "../../Sidebar";
-import NotificationsCounter from "../../NotificationsCounter";
+import {Sidebar} from "./Sidebar";
+import NotificationsCounter from "../NotificationsCounter";
 import {connect} from "react-redux";
 
 
-function FriendsPageSidebar(props) {
+function SidebarFriendsPage(props) {
     return <Sidebar>
             <LinkContainer to='/friends/all' className='border-bottom'>
                 <Nav.Link>All</Nav.Link>
@@ -29,4 +29,6 @@ const mapStateToProps = state => ({
     friendsNotificationsNumber: state.friendRequests.number,
 });
 
-export default connect(mapStateToProps, null)(FriendsPageSidebar)
+const connectedComponent = connect(mapStateToProps, null)(SidebarFriendsPage);
+
+export {connectedComponent as SidebarFriendsPage};

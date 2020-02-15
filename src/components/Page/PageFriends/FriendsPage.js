@@ -1,12 +1,12 @@
 import {NavigationFriendsSidebar} from "../../Navigation";
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
-import FriendsPageSidebar from "./FriendsPageSidebar";
+import {SidebarFriendsPage} from "../../Sidebar";
 
 
 function FriendsPage() {
     return <BrowserRouter>
-        <FriendsPageSidebar/>
+        <SidebarFriendsPage/>
         <NavigationFriendsSidebar/>
     </BrowserRouter>
 }

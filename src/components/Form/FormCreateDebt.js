@@ -8,7 +8,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import {sendDebtRequestRequest} from "../../actions/debt-requests-actions";
 import {getGroupsRequest} from "../../actions/groups-actions";
 import {getAllFriendsRequest} from "../../actions/friends-actions";
-import '../index.css'
 import {FormControl} from "react-bootstrap";
 
 

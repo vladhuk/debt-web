@@ -2,10 +2,10 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import {FormEditGroup} from "../Form";
 
-function ModalEditGroup(props) {
+export function ModalEditGroup(props) {
     return <Modal
         {...props}
-        size="md"
+        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
     >
@@ -23,5 +23,3 @@ function ModalEditGroup(props) {
         </Modal.Body>
     </Modal>
 }
-
-export {ModalEditGroup};

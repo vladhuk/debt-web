@@ -1,15 +1,15 @@
 import React, {useEffect} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {Title} from "../../../Title";
-import {CardReceivedRepaymentRequest} from "../../../Card";
-import {PageContainer} from "../../../Container";
+import {Title} from "../Title";
+import {CardReceivedRepaymentRequest} from "../Card";
+import {PageContainer} from "../Container";
 import {
     acceptRepaymentRequestRequest,
     countNewReceivedRepaymentRequestsRequest,
     getReceivedRepaymentRequestsRequest,
     rejectRepaymentRequestRequest
-} from "../../../../actions/repayment-requests-actions";
+} from "../../actions/repayment-requests-actions";
 
 
 function TabReceivedRepaymentRequests(props) {

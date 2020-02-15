@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {Title} from "../../../Title";
-import {PageContainer} from "../../../Container";
-import {ModalConfirmDelete} from "../../../Modal";
-import {CardSentDebtRequest} from "../../../Card";
-import {deleteSentDebtRequestRequest, getSentDebtRequestsRequest} from "../../../../actions/debt-requests-actions";
+import {Title} from "../Title";
+import {PageContainer} from "../Container";
+import {ModalConfirmDelete} from "../Modal";
+import {CardSentDebtRequest} from "../Card";
+import {deleteSentDebtRequestRequest, getSentDebtRequestsRequest} from "../../actions/debt-requests-actions";
 
 
 function TabSentDebtRequests(props) {

@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
-import {TitleWithButton} from "../../../Title";
-import {ModalAddFriend, ModalConfirmDelete} from "../../../Modal";
-import {CardUser} from "../../../Card";
+import {TitleWithButton} from "../Title";
+import {ModalAddFriend, ModalConfirmDelete} from "../Modal";
+import {CardUser} from "../Card";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {deleteFriendRequest, getAllFriendsRequest} from "../../../../actions/friends-actions";
-import {PageContainer} from "../../../Container";
+import {deleteFriendRequest, getAllFriendsRequest} from "../../actions/friends-actions";
+import {PageContainer} from "../Container";
 
 function TabAllFriends(props) {
     const [addFriendModalShow, setAddFriendModalShow] = React.useState(false);

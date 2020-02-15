@@ -3,3 +3,7 @@ export * from './TabSentRepaymentRequests';
 export * from './TabReceivedRepaymentRequests';
 export * from './TabSentDebtRequests';
 export * from './TabReceivedDebtRequests';
+export * from './TabAllFriends';
+export * from './TabBlacklist';
+export * from './TabSentFriendRequests';
+export * from './TabReceivedFriendRequests';

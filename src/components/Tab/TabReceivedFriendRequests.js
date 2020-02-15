@@ -6,10 +6,10 @@ import {
     countNewReceivedFriendRequestsRequest,
     getReceivedFriendRequestsRequest,
     rejectFriendRequestRequest
-} from "../../../../actions/friend-requests-actions";
-import {Title} from "../../../Title";
-import {CardReceivedFriendRequest} from "../../../Card";
-import {PageContainer} from "../../../Container";
+} from "../../actions/friend-requests-actions";
+import {Title} from "../Title";
+import {CardReceivedFriendRequest} from "../Card";
+import {PageContainer} from "../Container";
 
 
 function TabReceivedFriendRequests(props) {

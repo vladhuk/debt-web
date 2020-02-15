@@ -1,14 +1,11 @@
 import React, {useEffect} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {
-    deleteSentFriendRequestRequest,
-    getSentFriendRequestsRequest
-} from "../../../../actions/friend-requests-actions";
-import {Title} from "../../../Title";
-import {CardSentFriendRequest} from "../../../Card";
-import {PageContainer} from "../../../Container";
-import {ModalConfirmDelete} from "../../../Modal";
+import {deleteSentFriendRequestRequest, getSentFriendRequestsRequest} from "../../actions/friend-requests-actions";
+import {Title} from "../Title";
+import {CardSentFriendRequest} from "../Card";
+import {PageContainer} from "../Container";
+import {ModalConfirmDelete} from "../Modal";
 
 
 function TabSentFriendRequests(props) {

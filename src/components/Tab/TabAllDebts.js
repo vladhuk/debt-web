@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
-import {TitleWithButtons} from "../../../Title";
-import {ModalCreateDebt, ModalRepayDebt} from "../../../Modal";
-import {CardDebt} from "../../../Card";
+import {TitleWithButtons} from "../Title";
+import {ModalCreateDebt, ModalRepayDebt} from "../Modal";
+import {CardDebt} from "../Card";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {PageContainer} from "../../../Container";
-import {getDebtsRequest} from "../../../../actions/debts-actions";
+import {PageContainer} from "../Container";
+import {getDebtsRequest} from "../../actions/debts-actions";
 
 function TabAllDebts(props) {
     const [createDebtModalShow, setCreateDebtModalShowModalShow] = React.useState(false);

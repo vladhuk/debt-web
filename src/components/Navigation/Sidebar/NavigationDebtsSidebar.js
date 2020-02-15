@@ -6,7 +6,7 @@ import {
     TabReceivedRepaymentRequests,
     TabSentDebtRequests,
     TabSentRepaymentRequests
-} from "../../Page/PageDebts/Tab";
+} from "../../Tab";
 
 
 function NavigationDebtsSidebar() {

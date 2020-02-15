@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
 function FormAddToBlacklist(props) {
-    const [validated, setValidated] = useState(false);
+    const [validatedUsername, setValidatedUsername] = useState(true);
     const [username, setUsername] = useState('');
 
     const handleSubmit = event => {
@@ -17,15 +17,19 @@ function FormAddToBlacklist(props) {
 
         const form = event.currentTarget;
 
-        if (form.checkValidity() === true) {
+        validateFields();
+
+        if (form.checkValidity()) {
             props.addToBlacklist({username});
             props.onSubmit();
         }
-
-        setValidated(true);
     };
 
-    return <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    const validateFields = () => {
+        setValidatedUsername(!!username.length);
+    };
+
+    return <Form noValidate onSubmit={handleSubmit}>
         <Form.Group controlId="username">
             <InputGroup>
                 <InputGroup.Prepend>
@@ -34,12 +38,17 @@ function FormAddToBlacklist(props) {
                 <Form.Control
                     type="text"
                     placeholder="Username"
-                    required
-                    onChange={event => setUsername(event.target.value)}
                     autoComplete='off'
+                    autofocus
+                    required
+                    isInvalid={!validatedUsername}
+                    onChange={event => {
+                        setUsername(event.target.value);
+                        setValidatedUsername(true);
+                    }}
                 />
                 <Form.Control.Feedback type="invalid">
-                    User not founded
+                    Please enter a username
                 </Form.Control.Feedback>
             </InputGroup>
         </Form.Group>

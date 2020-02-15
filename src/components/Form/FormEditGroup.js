@@ -5,10 +5,12 @@ import Row from "react-bootstrap/Row";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {getAllFriendsRequest} from "../../actions/friends-actions";
+import Col from "react-bootstrap/Col";
+import {IconExchange} from "../Icon";
 
 
 function FormEditGroup(props) {
-    const [validated, setValidated] = useState(false);
+    const [validatedTitle, setValidatedTitle] = useState(true);
     const [title, setTitle] = useState((props.group && props.group.title) || '');
     const [friends, setFriends] = useState([]);
     const [members, setMembers] = useState((props.group && props.group.members) || []);
@@ -32,7 +34,9 @@ function FormEditGroup(props) {
 
         const form = event.currentTarget;
 
-        if (form.checkValidity() === true) {
+        validateFields();
+
+        if (form.checkValidity()) {
             props.onSubmit({
                 title,
                 members: members.map(m => ({id: m.id})),
@@ -40,8 +44,10 @@ function FormEditGroup(props) {
             });
             props.onHide();
         }
+    };
 
-        setValidated(true);
+    const validateFields = () => {
+        setValidatedTitle(!!title.length);
     };
 
     const moveToFriendList = member => {
@@ -54,43 +60,59 @@ function FormEditGroup(props) {
         setMembers([...members, friend]);
     };
 
-    return <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Form.Group controlId="title">
+    return <Form noValidate onSubmit={handleSubmit}>
+        <Form.Group controlId='title'>
+            <Form.Label column={false}>Title</Form.Label>
             <Form.Control
                 type="text"
                 placeholder="Enter group title"
-                required
-                onChange={event => setTitle(event.target.value)}
                 autoComplete='off'
+                required
+                isInvalid={!validatedTitle}
                 value={title}
+                onChange={event => {
+                    setTitle(event.target.value);
+                    setValidatedTitle(true);
+                }}
             />
+            <Form.Control.Feedback type="invalid">
+                Please enter a title
+            </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="members">
-            <Form.Label>Members</Form.Label>
-            <Form.Control as="select" multiple>
-                {
-                    members.map(member =>
-                        <option key={member.id} onClick={() => moveToFriendList(member)}>
-                            {member.username}
-                        </option>
-                    )
-                }
-            </Form.Control>
-        </Form.Group>
-
-        <Form.Group controlId="friends">
-            <Form.Label>Friends</Form.Label>
-            <Form.Control as="select" multiple>
-                {
-                    friends.map(friend =>
-                        <option key={friend.id} onClick={() => moveToMemberList(friend)}>
-                            {friend.username}
-                        </option>
-                    )
-                }
-            </Form.Control>
-        </Form.Group>
+        <Row>
+            <Col>
+                <Form.Group controlId='members'>
+                    <Form.Label column={false}>Members</Form.Label>
+                    <Form.Control className='vh-25' as="select" multiple>
+                        {
+                            members.map(member =>
+                                <option key={member.id} onClick={() => moveToFriendList(member)}>
+                                    {member.username}
+                                </option>
+                            )
+                        }
+                    </Form.Control>
+                </Form.Group>
+            </Col>
+            <div className='d-flex align-items-center'>
+                <IconExchange/>
+            </div>
+            <Col>
+                <Form.Group controlId='friends'>
+                    <Form.Label column={false}>Friends</Form.Label>
+                    <Form.Control className='vh-25' as="select" multiple>
+                        {
+                            friends.map(friend =>
+                                <option key={friend.id} onClick={() => moveToMemberList(friend)}>
+                                    {friend.username}
+                                </option>
+                            )
+                        }
+                    </Form.Control>
+                </Form.Group>
+            </Col>
+        </Row>
 
         <Row className='justify-content-center'>
             <Button type='submit' variant='success'>Confirm</Button>

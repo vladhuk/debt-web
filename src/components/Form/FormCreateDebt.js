@@ -8,11 +8,14 @@ import Dropdown from "react-bootstrap/Dropdown";
 import {sendDebtRequestRequest} from "../../actions/debt-requests-actions";
 import {getGroupsRequest} from "../../actions/groups-actions";
 import {getAllFriendsRequest} from "../../actions/friends-actions";
-import './index.css'
+import '../index.css'
+import {FormControl} from "react-bootstrap";
 
 
 function FormCreateDebt(props) {
-    const [validated, setValidated] = useState(false);
+    const [validatedForm, setValidatedForm] = useState(false);
+    const [validatedAmount, setValidatedAmount] = useState(true);
+    const [validatedFriends, setValidatedFriends] = useState(true);
     const [amount, setAmount] = useState(0);
     const [amountPerPerson, setAmountPerPerson] = useState((0).toFixed(2));
     const [selectedGroup, setSelectedGroup] = useState();
@@ -38,24 +41,38 @@ function FormCreateDebt(props) {
         setCheckboxes(personsForSelect.map(person => ({person, checked: false})));
     }, [personsForSelect]);
 
+    useEffect(() => {
+        if (validatedForm && validatedFriends) {
+            sendRequest();
+        }
+        setValidatedForm(false);
+    }, [validatedForm, validatedFriends]);
+
+    const sendRequest = () => {
+        props.sendDebtRequest({
+            orders: selectedPersons.map(person => ({
+                receiver: {id: person.id},
+                amount: amountPerPerson,
+            })),
+            comment: comment,
+        });
+        props.onSubmit();
+    };
+
     const handleSubmit = event => {
         event.preventDefault();
         event.stopPropagation();
 
         const form = event.currentTarget;
 
-        if (form.checkValidity() === true) {
-            props.sendDebtRequest({
-                orders: selectedPersons.map(person => ({
-                    receiver: {id: person.id},
-                    amount: amountPerPerson,
-                })),
-                comment: comment,
-            });
-            props.onSubmit();
-        }
+        validateFields();
 
-        setValidated(true);
+        setValidatedForm(form.checkValidity());
+    };
+
+    const validateFields = () => {
+        setValidatedAmount(!!amount);
+        setValidatedFriends(!!selectedPersons.length);
     };
 
     const onSelectGroup = group => {
@@ -87,17 +104,25 @@ function FormCreateDebt(props) {
         }));
         setSelectedPersons(checkboxes.filter(c => c.checked).map(c => c.person));
         onChangeAmount(amount);
+        setValidatedFriends(true);
     };
 
-    return <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    return <Form noValidate onSubmit={handleSubmit}>
         <Form.Group controlId="amount">
             <Form.Label>Amount</Form.Label>
             <Form.Control
                 type="number"
                 required
-                onChange={event => onChangeAmount(event.target.value)}
+                isInvalid={!validatedAmount}
                 value={amount}
+                onChange={event => {
+                    onChangeAmount(event.target.value);
+                    setValidatedAmount(true);
+                }}
             />
+            <Form.Control.Feedback type="invalid">
+                Please enter an amount
+            </Form.Control.Feedback>
             <Form.Text className="text-muted">{amountPerPerson} per person</Form.Text>
         </Form.Group>
 
@@ -129,7 +154,7 @@ function FormCreateDebt(props) {
         </Form.Group>
 
         <Form.Group>
-            <Form.Label>Friends</Form.Label>
+            <Form.Label>Members of debt</Form.Label>
             <div className='w-100 vh-15 border p-1'>
                 {
                     checkboxes.map(checkbox =>
@@ -143,6 +168,13 @@ function FormCreateDebt(props) {
                     )
                 }
             </div>
+            <FormControl
+                className='d-none'
+                isInvalid={!validatedFriends}
+            />
+            <Form.Control.Feedback type="invalid">
+                Please choose one or more friends
+            </Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group controlId="comment">

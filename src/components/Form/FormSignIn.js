@@ -31,16 +31,16 @@ function FormSignIn(props) {
         const form = event.currentTarget;
 
         props.onSubmit();
-        checkFields();
+        validateFields();
 
         if (form.checkValidity()) {
             props.signIn({username, password});
         }
     };
 
-    const checkFields = () => {
-        setValidatedUsername(username.length);
-        setValidatedPassword(password.length);
+    const validateFields = () => {
+        setValidatedUsername(!!username.length);
+        setValidatedPassword(!!password.length);
     };
 
     return <Form className={props.className} noValidate onSubmit={handleSubmit}>

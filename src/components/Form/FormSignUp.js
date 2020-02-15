@@ -43,15 +43,15 @@ function FormSignUp(props) {
         const form = event.currentTarget;
 
         props.onSubmit();
-        checkFields();
+        validateFields();
 
         setValidatedForm(form.checkValidity());
     };
 
-    const checkFields = () => {
-        setValidatedName(name.length);
-        setValidatedUsername(username.length);
-        setValidatedPassword(password.length);
+    const validateFields = () => {
+        setValidatedName(!!name.length);
+        setValidatedUsername(!!username.length);
+        setValidatedPassword(!!password.length);
 
         if (password.length) {
             setValidatedConfirmPassword(password === confirmPassword);

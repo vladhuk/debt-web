@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -6,13 +6,34 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {sendRepaymentRequestRequest} from "../../actions/repayment-requests-actions";
 import Dropdown from "react-bootstrap/Dropdown";
+import {FormControl} from "react-bootstrap";
 
 
 function FormRepayDebt(props) {
-    const [validated, setValidated] = useState(false);
+    const [validatedForm, setValidatedForm] = useState(false);
+    const [validatedAmount, setValidatedAmount] = useState(true);
+    const [validatedDebt, setValidatedDebt] = useState(true);
     const [amount, setAmount] = useState(0);
-    const [selectedDebt, setSelectedDebt] = useState();
+    const [selectedDebt, setSelectedDebt] = useState(null);
     const [comment, setComment] = useState('');
+
+    useEffect(() => {
+        if (validatedForm && validatedDebt) {
+            sendRequest();
+        }
+        setValidatedForm(false);
+    }, [validatedForm, validatedDebt]);
+
+    const sendRequest = () => {
+        props.sendRepaymentRequest({
+            order: {
+                receiver: {id: selectedDebt.partner.id},
+                amount: amount,
+            },
+            comment: comment,
+        });
+        props.onSubmit();
+    };
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -20,45 +41,42 @@ function FormRepayDebt(props) {
 
         const form = event.currentTarget;
 
-        if (form.checkValidity() === true) {
-            props.sendRepaymentRequest({
-                order: {
-                    receiver: {id: selectedDebt.partner.id},
-                    amount: amount,
-                },
-                comment: comment,
-            });
-            props.onSubmit();
-        }
+        validateFields();
 
-        setValidated(true);
+        setValidatedForm(form.checkValidity());
+    };
+
+    const validateFields = () => {
+        setValidatedAmount(!!amount);
+        setValidatedDebt(!!selectedDebt);
     };
 
     const onSelectDebt = debt => {
         setSelectedDebt(debt);
         setAmount(Math.abs(debt.balance));
+        setValidatedDebt(true);
     };
 
-    return <Form noValidate validated={validated} onSubmit={handleSubmit}>
+    return <Form noValidate onSubmit={handleSubmit}>
         <Form.Group>
             <Form.Label>Debts</Form.Label><br/>
             <Dropdown className='w-100'>
                 <Dropdown.Toggle
                     className='w-100'
                     variant='light'
-                    id='debt-select'
                 >
                     {selectedDebt ? selectedDebt.partner.username : 'None'}
                 </Dropdown.Toggle>
                 <Dropdown.Menu
-                    id='debt-select'
                     variant="light"
+                    required
                     className='w-100'
                 >
                     {
                         props.debts.map(debt =>
-                            <Dropdown.Item key={debt.partner.id}
-                                           onClick={() => onSelectDebt(debt)}
+                            <Dropdown.Item
+                                key={debt.partner.id}
+                                onClick={() => onSelectDebt(debt)}
                             >
                                 {debt.partner.username}
                             </Dropdown.Item>
@@ -66,19 +84,33 @@ function FormRepayDebt(props) {
                     }
                 </Dropdown.Menu>
             </Dropdown>
+            <FormControl
+                className='d-none'
+                isInvalid={!validatedDebt}
+            />
+            <Form.Control.Feedback type="invalid">
+                Please choose one of your active debts
+            </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="amount">
+        <Form.Group>
             <Form.Label>Amount</Form.Label>
             <Form.Control
                 type="number"
                 required
-                onChange={event => setAmount(event.target.value)}
+                isInvalid={!validatedAmount}
                 value={amount}
+                onChange={event => {
+                    setAmount(event.target.value);
+                    setValidatedAmount(true);
+                }}
             />
+            <Form.Control.Feedback type="invalid">
+                Please enter an amount
+            </Form.Control.Feedback>
         </Form.Group>
 
-        <Form.Group controlId="comment">
+        <Form.Group>
             <Form.Control
                 type="text"
                 placeholder="Enter comment (optional)"

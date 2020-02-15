@@ -1,14 +1,12 @@
-import {NavigationFriendsSidebar} from "../../Navigation";
+import {NavigationFriendsSidebar} from "../Navigation";
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
-import {SidebarFriendsPage} from "../../Sidebar";
+import {SidebarFriendsPage} from "../Sidebar";
 
 
-function FriendsPage() {
+export function PageFriends() {
     return <BrowserRouter>
         <SidebarFriendsPage/>
         <NavigationFriendsSidebar/>
     </BrowserRouter>
 }
-
-export {FriendsPage};

@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import Container from "react-bootstrap/Container";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import {setToken} from "../../../util";
-import {getCurrentUserRequest} from "../../../actions/users-actions";
+import {setToken} from "../../util";
+import {getCurrentUserRequest} from "../../actions/users-actions";
 import Alert from "react-bootstrap/Alert";
-import {FormSignUp} from "../../Form";
+import {FormSignUp} from "../Form";
 
 
 function PageSignUp(props) {

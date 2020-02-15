@@ -1,6 +1,6 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
-import {DebtsPage, FriendsPage, PageGroups} from "../../Page";
+import {PageDebts, PageFriends, PageGroups} from "../../Page";
 import {connect} from "react-redux";
 
 
@@ -8,9 +8,9 @@ function ProtectedNavigationPage(props) {
     const isAuthenticated = !!Object.entries(props.currentUser).length;
 
     return isAuthenticated && <Switch>
-        <Route path="/friends" component={FriendsPage}/>
+        <Route path="/friends" component={PageFriends}/>
         <Route path="/groups" component={PageGroups}/>
-        <Route path="/debts" component={DebtsPage}/>
+        <Route path="/debts" component={PageDebts}/>
     </Switch>;
 }
 

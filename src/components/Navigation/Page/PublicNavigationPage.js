@@ -1,7 +1,6 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
-import {PageSignIn, PageSignUp} from "../../Page";
-import {PageLogout} from "../../Page/PageLogout";
+import {PageLogout, PageSignIn, PageSignUp} from "../../Page";
 
 
 export function PublicNavigationPage() {

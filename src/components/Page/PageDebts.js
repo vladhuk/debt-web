@@ -1,14 +1,12 @@
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
-import {SidebarDebtsPage} from "../../Sidebar";
-import {NavigationDebtsSidebar} from "../../Navigation";
+import {SidebarDebtsPage} from "../Sidebar";
+import {NavigationDebtsSidebar} from "../Navigation";
 
 
-function DebtsPage() {
+export function PageDebts() {
     return <BrowserRouter>
         <SidebarDebtsPage/>
         <NavigationDebtsSidebar/>
     </BrowserRouter>
 }
-
-export {DebtsPage};

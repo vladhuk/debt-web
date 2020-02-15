@@ -1,7 +1,7 @@
 import React from 'react';
 import {Redirect} from "react-router";
-import {deleteToken} from "../../../util";
-import {logout} from "../../../actions/auth-actions";
+import {deleteToken} from "../../util";
+import {logout} from "../../actions/auth-actions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 

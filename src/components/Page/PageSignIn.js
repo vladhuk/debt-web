@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import Container from "react-bootstrap/Container";
 import Alert from "react-bootstrap/Alert";
-import {FormSignIn} from "../../Form";
-import {setToken} from "../../../util";
+import {FormSignIn} from "../Form";
+import {setToken} from "../../util";
 import {connect} from "react-redux";
-import {getCurrentUserRequest} from "../../../actions/users-actions";
+import {getCurrentUserRequest} from "../../actions/users-actions";
 import {bindActionCreators} from "redux";
 
 

@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {PageContainer} from "../../Container";
-import {TitleWithButton} from "../../Title";
+import {PageContainer} from "../Container";
+import {TitleWithButton} from "../Title";
 import {
     createGroupRequest,
     deleteGroupRequest,
     getGroupsRequest,
     updateGroupRequest
-} from "../../../actions/groups-actions";
-import {CardGroup} from "../../Card";
-import {ModalEditGroup} from "../../Modal";
+} from "../../actions/groups-actions";
+import {CardGroup} from "../Card";
+import {ModalEditGroup} from "../Modal";
 
 
 function PageGroups(props) {

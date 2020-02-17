@@ -1,23 +1,29 @@
-import React from "react";
-import {Route, Switch} from "react-router-dom";
-import {PageDebts, PageFriends, PageGroups} from "../../Page";
-import {connect} from "react-redux";
-
+import React from 'react';
+import {Route, Switch} from 'react-router-dom';
+import {PageDebts, PageFriends, PageGroups} from '../../Page';
+import {connect} from 'react-redux';
 
 function ProtectedNavigationPage(props) {
-    const isAuthenticated = !!Object.entries(props.currentUser).length;
+  const isAuthenticated = !!Object.entries(props.currentUser).length;
 
-    return isAuthenticated && <Switch>
-        <Route path="/friends" component={PageFriends}/>
-        <Route path="/groups" component={PageGroups}/>
-        <Route path="/debts" component={PageDebts}/>
-    </Switch>;
+  return (
+    isAuthenticated && (
+      <Switch>
+        <Route path="/friends" component={PageFriends} />
+        <Route path="/groups" component={PageGroups} />
+        <Route path="/debts" component={PageDebts} />
+      </Switch>
+    )
+  );
 }
 
 const mapStateToProps = state => ({
-    currentUser: state.users.currentUser,
+  currentUser: state.users.currentUser,
 });
 
-const connectedComponent = connect(mapStateToProps, null)(ProtectedNavigationPage);
+const connectedComponent = connect(
+  mapStateToProps,
+  null
+)(ProtectedNavigationPage);
 
-export {connectedComponent as ProtectedNavigationPage};
+export { connectedComponent as ProtectedNavigationPage };

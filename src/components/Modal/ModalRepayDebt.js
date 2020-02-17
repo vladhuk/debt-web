@@ -1,26 +1,23 @@
-import React from "react";
-import Modal from "react-bootstrap/Modal";
-import {FormRepayDebt} from "../Form";
+import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+import {FormRepayDebt} from '../Form';
 
 function ModalRepayDebt(props) {
-    return <Modal
-        {...props}
-        size="md"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
+  return (
+    <Modal
+      {...props}
+      size="md"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
     >
-        <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-                Repay debt
-            </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <FormRepayDebt
-                onSubmit={props.onHide}
-                debts={props.debts}
-            />
-        </Modal.Body>
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">Repay debt</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <FormRepayDebt onSubmit={props.onHide} debts={props.debts} />
+      </Modal.Body>
     </Modal>
+  );
 }
 
-export {ModalRepayDebt};
+export { ModalRepayDebt };

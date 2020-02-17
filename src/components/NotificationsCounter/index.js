@@ -1,1 +1,1 @@
-export {default} from './NotificationsCounter';
+export { default } from './NotificationsCounter';

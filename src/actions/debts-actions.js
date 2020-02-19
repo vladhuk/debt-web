@@ -1,4 +1,4 @@
-import {getData} from '../api';
+import { getData } from '../api';
 
 export const GET_DEBTS = 'debts:getAll';
 

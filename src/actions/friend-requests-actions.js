@@ -1,4 +1,4 @@
-import {deleteData, getData, postData} from '../api';
+import { deleteData, getData, postData } from '../api';
 
 export const GET_SENT_FRIEND_REQUESTS = 'friend-requests:getAllSent';
 export const GET_RECEIVED_FRIEND_REQUESTS = 'friend-requests:getAllReceived';

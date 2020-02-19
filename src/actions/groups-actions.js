@@ -1,4 +1,4 @@
-import {deleteData, getData, postData, updateData} from '../api';
+import { deleteData, getData, postData, updateData } from '../api';
 
 export const GET_GROUPS = 'groups:getAll';
 export const GET_GROUP = 'groups:get';

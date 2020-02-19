@@ -1,4 +1,4 @@
-import {GET_FULL_BLACKLIST} from '../actions/blacklist-actions';
+import { GET_FULL_BLACKLIST } from '../actions/blacklist-actions';
 
 export function blacklistReducer(state = [], { type, payload }) {
   switch (type) {

@@ -1,5 +1,5 @@
-import {API_BASE_URL} from '../constants';
-import {getToken} from '../util';
+import { API_BASE_URL } from '../constants';
+import { getToken } from '../util';
 
 const jsonHeader = ['Content-Type', 'application/json'];
 

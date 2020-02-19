@@ -1,4 +1,4 @@
-import {GET_DEBTS} from '../actions/debts-actions';
+import { GET_DEBTS } from '../actions/debts-actions';
 
 export function debtsReducer(state = [], { type, payload }) {
   switch (type) {

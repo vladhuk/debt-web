@@ -1,4 +1,4 @@
-import {deleteData, getData, postData} from '../api';
+import { deleteData, getData, postData } from '../api';
 
 export const GET_FULL_BLACKLIST = 'blacklist:getAll';
 

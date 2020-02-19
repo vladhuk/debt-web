@@ -1,4 +1,10 @@
-import {CLEAN_ERROR, SIGN_IN_ERROR, SIGN_IN_SUCCESS, SIGN_UP_ERROR, SIGN_UP_SUCCESS,} from '../actions/auth-actions';
+import {
+  CLEAN_ERROR,
+  SIGN_IN_ERROR,
+  SIGN_IN_SUCCESS,
+  SIGN_UP_ERROR,
+  SIGN_UP_SUCCESS,
+} from '../actions/auth-actions';
 
 const initialState = {
   accessToken: null,

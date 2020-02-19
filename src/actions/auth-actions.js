@@ -1,4 +1,4 @@
-import {postData} from '../api';
+import { postData } from '../api';
 
 export const SIGN_IN_SUCCESS = 'auth:signInSuccess';
 export const SIGN_IN_ERROR = 'auth:signInError';

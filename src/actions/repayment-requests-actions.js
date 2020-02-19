@@ -1,4 +1,4 @@
-import {deleteData, getData, postData} from '../api';
+import { deleteData, getData, postData } from '../api';
 
 export const GET_SENT_REPAYMENT_REQUESTS = 'repayment-requests:getAllSent';
 export const GET_RECEIVED_REPAYMENT_REQUESTS =

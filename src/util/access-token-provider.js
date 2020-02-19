@@ -1,5 +1,5 @@
 import Cookies from 'universal-cookie';
-import {ACCESS_TOKEN_COOKIE_NAME} from '../constants';
+import { ACCESS_TOKEN_COOKIE_NAME } from '../constants';
 
 const cookies = new Cookies();
 

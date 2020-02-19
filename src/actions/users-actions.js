@@ -1,4 +1,4 @@
-import {getData} from '../api';
+import { getData } from '../api';
 
 export const GET_CURRENT_USER = 'users:getCurrent';
 export const GET_USER_BY_ID = 'users:getById';

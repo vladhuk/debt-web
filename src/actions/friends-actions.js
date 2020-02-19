@@ -1,4 +1,4 @@
-import {deleteData, getData} from '../api';
+import { deleteData, getData } from '../api';
 
 export const GET_ALL_FRIENDS = 'friends:getAll';
 export const DELETE_FRIEND = 'friends:delete';

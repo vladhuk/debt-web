@@ -1,4 +1,4 @@
-import {DELETE_FRIEND, GET_ALL_FRIENDS} from '../actions/friends-actions';
+import { DELETE_FRIEND, GET_ALL_FRIENDS } from '../actions/friends-actions';
 
 const initialState = {
   list: [],

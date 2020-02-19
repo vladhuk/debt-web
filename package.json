@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --single-quote --trailing-comma es5 --parser babel --write src/**/*.js"
+    "prettier": "prettier --config .prettierrc.js --write src/**/*.js"
   },
   "eslintConfig": {
     "extends": "react-app"

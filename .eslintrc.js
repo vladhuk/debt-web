@@ -1,4 +1,6 @@
 module.exports = {
+  parser: 'babel-eslint',
+
   extends: [
     'airbnb',
     'prettier',
@@ -6,9 +8,10 @@ module.exports = {
 
   plugins: [
     'prettier',
+    'flowtype',
   ],
 
   rules: {
-    "prettier/prettier": ["error"],
+    'prettier/prettier': ['error'],
   }
 };

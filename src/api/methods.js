@@ -1,74 +1,91 @@
-import { API_BASE_URL } from '../constants';
-import { getToken } from '../util';
+// @flow
 
-const jsonHeader = ['Content-Type', 'application/json'];
+import { API_BASE_URL, HTTP_METHOD } from '../constants';
+import type { ResponseError } from '../types';
+import { getBasicHeaders, getHeadersWithJsonBody } from './headers';
 
-function getBaseHeaders() {
-  return new Headers({
-    Authorization: getToken(),
-  });
-}
+type Callbacks = {|
+  onRequest(): void,
+  onSuccess(any): void,
+  onError(ResponseError): void,
+|};
 
-function withDefaultThen({ customFetch, onRequest, onSuccess, onError }) {
+type DefaultThenArgs = {|
+  customFetch: Promise<any>,
+  ...Callbacks,
+|};
+
+type RequestArgs = {|
+  resourcePath: string,
+  ...Callbacks,
+|};
+
+type PostRequestArgs = {|
+  data: any,
+  ...RequestArgs,
+|};
+
+type RequestReturnType = Promise<ResponseError | any>;
+
+const withDefaultThen = ({ customFetch, onRequest, onSuccess, onError }: DefaultThenArgs): RequestReturnType => {
   onRequest && onRequest();
 
   return customFetch
     .then(response => response.text())
-    .then(text => (text ? JSON.parse(text) : '{}'))
-    .then(response => {
+    .then((text: ?string) => (text ? JSON.parse(text) : '{}'))
+    .then((response: ResponseError | any) => {
       if (response.error) {
         throw response.error;
       }
       onSuccess && onSuccess(response);
     })
-    .catch(error => {
+    .catch((error: ResponseError) => {
       onError && onError(error);
     });
-}
+};
 
-export function getData({ resourcePath, ...args }) {
-  return withDefaultThen({
+export const getData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): RequestReturnType =>
+  withDefaultThen({
+    onRequest,
+    onSuccess,
+    onError,
     customFetch: fetch(API_BASE_URL + resourcePath, {
-      headers: getBaseHeaders(),
+      method: HTTP_METHOD.GET,
+      headers: getBasicHeaders(),
     }),
-    ...args,
   });
-}
 
-export function postData({ resourcePath, data, ...args }) {
-  const headers = getBaseHeaders();
-  headers.append(...jsonHeader);
-
-  return withDefaultThen({
+export const postData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): RequestReturnType =>
+  withDefaultThen({
+    onRequest,
+    onSuccess,
+    onError,
     customFetch: fetch(API_BASE_URL + resourcePath, {
-      method: 'POST',
-      headers: headers,
+      method: HTTP_METHOD.POST,
+      headers: getHeadersWithJsonBody(),
       body: JSON.stringify(data),
     }),
-    ...args,
   });
-}
 
-export function updateData({ resourcePath, data, ...args }) {
-  const headers = getBaseHeaders();
-  headers.append(...jsonHeader);
-
-  return withDefaultThen({
+export const updateData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): RequestReturnType =>
+  withDefaultThen({
+    onRequest,
+    onSuccess,
+    onError,
     customFetch: fetch(API_BASE_URL + resourcePath, {
-      method: 'PUT',
-      headers: headers,
+      method: HTTP_METHOD.PUT,
+      headers: getHeadersWithJsonBody(),
       body: JSON.stringify(data),
     }),
-    ...args,
   });
-}
 
-export function deleteData({ resourcePath, ...args }) {
-  return withDefaultThen({
+export const deleteData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): RequestReturnType =>
+  withDefaultThen({
+    onRequest,
+    onSuccess,
+    onError,
     customFetch: fetch(API_BASE_URL + resourcePath, {
-      method: 'DELETE',
-      headers: getBaseHeaders(),
+      method: HTTP_METHOD.DELETE,
+      headers: getBasicHeaders(),
     }),
-    ...args,
   });
-}

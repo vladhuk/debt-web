@@ -1,3 +1,5 @@
+// @flow
+
 import { combineReducers } from 'redux';
 import { friendsReducer } from './friends-reducer';
 import { authReducer } from './auth-reducer';
@@ -9,22 +11,26 @@ import { debtRequestsReducer } from './debt-request-reducer';
 import { repaymentRequestsReducer } from './repayment-requests-reducer';
 import { usersReducer } from './users-reducer';
 import { LOGOUT } from '../actions/auth-actions';
+import type { State } from '../types/redux/State';
+import type { Action } from '../types/redux';
 
-const appReducer = combineReducers({
-  friends: friendsReducer,
-  auth: authReducer,
-  blacklist: blacklistReducer,
-  friendRequests: friendRequestsReducer,
-  groups: groupsReducer,
-  debts: debtsReducer,
-  debtRequests: debtRequestsReducer,
-  repaymentRequests: repaymentRequestsReducer,
-  users: usersReducer,
-});
+const appReducer: (state: ?State, action: Action) => State = combineReducers(
+  ({
+    friends: friendsReducer,
+    auth: authReducer,
+    blacklist: blacklistReducer,
+    friendRequests: friendRequestsReducer,
+    groups: groupsReducer,
+    debts: debtsReducer,
+    debtRequests: debtRequestsReducer,
+    repaymentRequests: repaymentRequestsReducer,
+    users: usersReducer,
+  }: State)
+);
 
-const rootReducer = (state, action) => {
+const rootReducer = (state: State, action: Action): State => {
   if (action.type === LOGOUT) {
-    state = {};
+    return appReducer(undefined, action);
   }
   return appReducer(state, action);
 };

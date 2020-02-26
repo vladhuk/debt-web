@@ -1,6 +1,6 @@
 // @flow
 
-export type ResponseError = {|
+export type ApiResponseError = {|
   timestamp: string,
   status: number,
   error: string,

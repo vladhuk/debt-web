@@ -21,7 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prettier": "prettier --config .prettierrc.js --write src/**/*.js",
+    "prettier-fix": "prettier --config .prettierrc.js --write src/**/*.js",
+    "prettier-diff": "prettier --config .prettierrc.js --list-different src/**/*.js",
     "lint": "eslint src/",
     "flow": "flow"
   },

@@ -29,8 +29,12 @@ type PostRequestArgs = {|
   ...RequestArgs,
 |};
 
-// prettier-ignore
-const withDefaultThen = ({ customFetch, onRequest, onSuccess, onError }: DefaultThenArgs): Promise<ApiResponse> => {
+const withDefaultThen = ({
+  customFetch,
+  onRequest,
+  onSuccess,
+  onError,
+}: DefaultThenArgs): Promise<ApiResponse> => {
   onRequest && onRequest();
 
   return customFetch
@@ -47,8 +51,12 @@ const withDefaultThen = ({ customFetch, onRequest, onSuccess, onError }: Default
     });
 };
 
-// prettier-ignore
-export const getData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): Promise<ApiResponse> =>
+export const getData = ({
+  resourcePath,
+  onRequest,
+  onSuccess,
+  onError,
+}: RequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,
@@ -59,8 +67,13 @@ export const getData = ({ resourcePath, onRequest, onSuccess, onError }: Request
     }),
   });
 
-// prettier-ignore
-export const postData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): Promise<ApiResponse> =>
+export const postData = ({
+  resourcePath,
+  data,
+  onRequest,
+  onSuccess,
+  onError,
+}: PostRequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,
@@ -72,8 +85,13 @@ export const postData = ({ resourcePath, data, onRequest, onSuccess, onError }: 
     }),
   });
 
-// prettier-ignore
-export const updateData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): Promise<ApiResponse> =>
+export const updateData = ({
+  resourcePath,
+  data,
+  onRequest,
+  onSuccess,
+  onError,
+}: PostRequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,
@@ -85,8 +103,12 @@ export const updateData = ({ resourcePath, data, onRequest, onSuccess, onError }
     }),
   });
 
-// prettier-ignore
-export const deleteData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): Promise<ApiResponse> =>
+export const deleteData = ({
+  resourcePath,
+  onRequest,
+  onSuccess,
+  onError,
+}: RequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,

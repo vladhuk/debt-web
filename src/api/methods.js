@@ -1,13 +1,17 @@
 // @flow
 
 import { API_BASE_URL, HTTP_METHOD } from '../constants';
-import type { ResponseError } from '../types';
+import type {
+  ApiResponse,
+  ApiResponseError,
+  ApiResponseSuccess,
+} from '../types/api';
 import { getBasicHeaders, getHeadersWithJsonBody } from './headers';
 
 type Callbacks = {|
-  onRequest(): void,
-  onSuccess(any): void,
-  onError(ResponseError): void,
+  onRequest?: () => void,
+  onSuccess?: ApiResponseSuccess => void,
+  onError?: ApiResponseError => void,
 |};
 
 type DefaultThenArgs = {|
@@ -25,26 +29,26 @@ type PostRequestArgs = {|
   ...RequestArgs,
 |};
 
-type RequestReturnType = Promise<ResponseError | any>;
-
-const withDefaultThen = ({ customFetch, onRequest, onSuccess, onError }: DefaultThenArgs): RequestReturnType => {
+// prettier-ignore
+const withDefaultThen = ({ customFetch, onRequest, onSuccess, onError }: DefaultThenArgs): Promise<ApiResponse> => {
   onRequest && onRequest();
 
   return customFetch
     .then(response => response.text())
-    .then((text: ?string) => (text ? JSON.parse(text) : '{}'))
-    .then((response: ResponseError | any) => {
+    .then((text: ?string) => JSON.parse(text || '{}'))
+    .then((response: ApiResponse) => {
       if (response.error) {
         throw response.error;
       }
       onSuccess && onSuccess(response);
     })
-    .catch((error: ResponseError) => {
+    .catch((error: ApiResponseError) => {
       onError && onError(error);
     });
 };
 
-export const getData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): RequestReturnType =>
+// prettier-ignore
+export const getData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,
@@ -55,7 +59,8 @@ export const getData = ({ resourcePath, onRequest, onSuccess, onError }: Request
     }),
   });
 
-export const postData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): RequestReturnType =>
+// prettier-ignore
+export const postData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,
@@ -67,7 +72,8 @@ export const postData = ({ resourcePath, data, onRequest, onSuccess, onError }: 
     }),
   });
 
-export const updateData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): RequestReturnType =>
+// prettier-ignore
+export const updateData = ({ resourcePath, data, onRequest, onSuccess, onError }: PostRequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,
@@ -79,7 +85,8 @@ export const updateData = ({ resourcePath, data, onRequest, onSuccess, onError }
     }),
   });
 
-export const deleteData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): RequestReturnType =>
+// prettier-ignore
+export const deleteData = ({ resourcePath, onRequest, onSuccess, onError }: RequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,

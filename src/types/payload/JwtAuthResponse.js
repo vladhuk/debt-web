@@ -1,6 +1,6 @@
 // @flow
 
 export type JwtAuthResponse = {|
-  accessToken: string,
-  tokenType: string,
+  +accessToken: string,
+  +tokenType: string,
 |};

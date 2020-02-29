@@ -1,3 +1,5 @@
+// @flow
+
 import {
   CLEAN_ERROR,
   SIGN_IN_ERROR,
@@ -5,13 +7,17 @@ import {
   SIGN_UP_ERROR,
   SIGN_UP_SUCCESS,
 } from '../actions/auth-actions';
+import type { Action, AuthState } from '../types/redux';
 
-const initialState = {
+const initialState: AuthState = {
   accessToken: null,
   error: null,
 };
 
-export function authReducer(state = initialState, { type, payload }) {
+export function authReducer(
+  state: AuthState = initialState,
+  { type, payload = {} }: Action
+): AuthState {
   switch (type) {
     case SIGN_IN_SUCCESS:
       return {

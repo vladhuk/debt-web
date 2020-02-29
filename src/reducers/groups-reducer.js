@@ -1,3 +1,5 @@
+// @flow
+
 import {
   CREATE_GROUP,
   DELETE_GROUP,
@@ -6,15 +8,19 @@ import {
   GET_GROUPS,
   UPDATE_GROUP,
 } from '../actions/groups-actions';
+import type { Action, GroupState } from '../types/redux';
 
-const initialState = {
+const initialState: GroupState = {
   groups: [],
-  group: {},
+  group: null,
   members: [],
   isNeededToUpdateList: false,
 };
 
-export function groupsReducer(state = initialState, { type, payload }) {
+export function groupsReducer(
+  state: GroupState = initialState,
+  { type, payload = {} }: Action
+): GroupState {
   switch (type) {
     case GET_GROUPS:
       return {

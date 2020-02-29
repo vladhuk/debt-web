@@ -1,11 +1,17 @@
-import { DELETE_FRIEND, GET_ALL_FRIENDS } from '../actions/friends-actions';
+// @flow
 
-const initialState = {
+import { DELETE_FRIEND, GET_ALL_FRIENDS } from '../actions/friends-actions';
+import type { Action, FriendsState } from '../types/redux';
+
+const initialState: FriendsState = {
   list: [],
   isNeededToUpdateList: false,
 };
 
-export function friendsReducer(state = initialState, { type, payload }) {
+export function friendsReducer(
+  state: FriendsState = initialState,
+  { type, payload = {} }: Action
+): FriendsState {
   switch (type) {
     case GET_ALL_FRIENDS:
       return {

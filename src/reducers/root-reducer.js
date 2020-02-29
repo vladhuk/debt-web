@@ -14,19 +14,17 @@ import { LOGOUT } from '../actions/auth-actions';
 import type { State } from '../types/redux/State';
 import type { Action } from '../types/redux';
 
-const appReducer: (state: ?State, action: Action) => State = combineReducers(
-  ({
-    friends: friendsReducer,
-    auth: authReducer,
-    blacklist: blacklistReducer,
-    friendRequests: friendRequestsReducer,
-    groups: groupsReducer,
-    debts: debtsReducer,
-    debtRequests: debtRequestsReducer,
-    repaymentRequests: repaymentRequestsReducer,
-    users: usersReducer,
-  }: State)
-);
+const appReducer: (state: ?State, action: Action) => State = combineReducers({
+  friends: friendsReducer,
+  auth: authReducer,
+  blacklist: blacklistReducer,
+  friendRequests: friendRequestsReducer,
+  groups: groupsReducer,
+  debts: debtsReducer,
+  debtRequests: debtRequestsReducer,
+  repaymentRequests: repaymentRequestsReducer,
+  users: usersReducer,
+});
 
 const rootReducer = (state: State, action: Action): State => {
   if (action.type === LOGOUT) {

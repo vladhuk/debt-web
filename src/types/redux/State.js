@@ -18,24 +18,24 @@ export type AuthState = {|
 export type BlacklistState = User[];
 
 export type DebtRequestState = {|
-  +sent: ?DebtRequest,
-  +received: ?DebtRequest,
-  +number: ?number,
-  +isNeededToUpdateList: ?boolean,
+  +sent: DebtRequest[],
+  +received: DebtRequest[],
+  +number: number,
+  +isNeededToUpdateList: boolean,
 |};
 
 export type FriendRequestState = {|
-  +sent: ?FriendRequest,
-  +received: ?FriendRequest,
-  +number: ?number,
-  +isNeededToUpdateList: ?boolean,
+  +sent: FriendRequest[],
+  +received: FriendRequest[],
+  +number: number,
+  +isNeededToUpdateList: boolean,
 |};
 
 export type RepaymentRequestState = {|
-  +sent: ?RepaymentRequest,
-  +received: ?RepaymentRequest,
-  +number: ?number,
-  +isNeededToUpdateList: ?boolean,
+  +sent: RepaymentRequest[],
+  +received: RepaymentRequest[],
+  +number: number,
+  +isNeededToUpdateList: boolean,
 |};
 
 export type DebtState = Debt[];
@@ -44,12 +44,12 @@ export type GroupState = {
   +groups: Group[],
   +group: ?Group,
   +members: User[],
-  +isNeededToUpdateList: ?boolean,
+  +isNeededToUpdateList: boolean,
 };
 
 export type FriendsState = {|
   +list: User[],
-  +isNeededToUpdateList: ?boolean,
+  +isNeededToUpdateList: boolean,
 |};
 
 export type UserState = {

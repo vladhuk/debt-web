@@ -21,12 +21,8 @@ type DefaultThenArgs = {|
 
 type RequestArgs = {|
   resourcePath: string,
+  data?: any,
   ...Callbacks,
-|};
-
-type PostRequestArgs = {|
-  data: any,
-  ...RequestArgs,
 |};
 
 const withDefaultThen = ({
@@ -73,7 +69,7 @@ export const postData = ({
   onRequest,
   onSuccess,
   onError,
-}: PostRequestArgs): Promise<ApiResponse> =>
+}: RequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,
@@ -91,7 +87,7 @@ export const updateData = ({
   onRequest,
   onSuccess,
   onError,
-}: PostRequestArgs): Promise<ApiResponse> =>
+}: RequestArgs): Promise<ApiResponse> =>
   withDefaultThen({
     onRequest,
     onSuccess,

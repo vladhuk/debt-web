@@ -4,7 +4,7 @@ import {ModalAddToBlackList, ModalConfirmDelete} from '../Modal';
 import {CardUser} from '../Card';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {deleteFromBlaklistRequest, getFullBlacklistRequest,} from '../../actions/blacklist-actions';
+import {deleteFromBlacklistRequest, getFullBlacklistRequest,} from '../../actions/blacklist-actions';
 import {PageContainer} from '../Container';
 
 function TabBlacklist(props) {
@@ -69,7 +69,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       getFullBlacklist: getFullBlacklistRequest,
-      deleteFromBlacklist: deleteFromBlaklistRequest,
+      deleteFromBlacklist: deleteFromBlacklistRequest,
     },
     dispatch
   );

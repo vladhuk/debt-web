@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import {addToBlaklistRequest} from '../../actions/blacklist-actions';
+import {addToBlacklistRequest} from '../../actions/blacklist-actions';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
@@ -66,7 +66,7 @@ function FormAddToBlacklist(props) {
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      addToBlacklist: addToBlaklistRequest,
+      addToBlacklist: addToBlacklistRequest,
     },
     dispatch
   );

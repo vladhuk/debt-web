@@ -1,6 +1,6 @@
 // @flow
 
-import { deleteData, getData, postData, updateData } from '../api';
+import { deleteData, getData, postData, putData } from '../api';
 import type { Action, ThunkAction } from '../types/redux';
 import type { Group, User } from '../types/model';
 
@@ -93,7 +93,7 @@ export function createGroupRequest(group: Group): ThunkAction {
 
 export function updateGroupRequest(group: Group): ThunkAction {
   return dispatch =>
-    updateData({
+    putData({
       resourcePath: URL,
       data: group,
       onSuccess: () => dispatch(updateGroup()),

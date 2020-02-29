@@ -81,7 +81,7 @@ export const postData = ({
     }),
   });
 
-export const updateData = ({
+export const putData = ({
   resourcePath,
   data,
   onRequest,

@@ -13,7 +13,7 @@ import {countNewReceivedDebtRequestsRequest} from '../../actions/debt-requests-a
 import {countNewReceivedRepaymentRequestsRequest} from '../../actions/repayment-requests-actions';
 
 function Header(props) {
-  const isAuthenticated = !!Object.entries(props.currentUser).length;
+  const isAuthenticated = !!props.currentUser;
 
   useEffect(() => {
     props.getCurrentUser();

@@ -4,7 +4,7 @@ import {PageDebts, PageFriends, PageGroups} from '../../Page';
 import {connect} from 'react-redux';
 
 function ProtectedNavigationPage(props) {
-  const isAuthenticated = !!Object.entries(props.currentUser).length;
+  const isAuthenticated = !!props.currentUser;
 
   return (
     isAuthenticated && (

@@ -1,6 +1,6 @@
 // @flow
 
-import { deleteData, getData, postData } from '../api';
+import { deleteData, getData, postData, putData } from '../api';
 import type { FriendRequest } from '../types/model';
 import type { Action, ThunkAction } from '../types/redux';
 
@@ -84,7 +84,7 @@ export function sendFriendRequestRequest(data: FriendRequest): ThunkAction {
 
 export function acceptFriendRequestRequest(id: number): ThunkAction {
   return dispatch =>
-    postData({
+    putData({
       resourcePath: `${URL}/${id}/accept`,
       onSuccess: () => dispatch(answerOnFriendRequest()),
     });
@@ -92,7 +92,7 @@ export function acceptFriendRequestRequest(id: number): ThunkAction {
 
 export function rejectFriendRequestRequest(id: number): ThunkAction {
   return dispatch =>
-    postData({
+    putData({
       resourcePath: `${URL}/${id}/reject`,
       onSuccess: () => dispatch(answerOnFriendRequest()),
     });

@@ -1,6 +1,6 @@
 // @flow
 
-import { deleteData, getData, postData } from '../api';
+import { deleteData, getData, postData, putData } from '../api';
 import type { Action, ThunkAction } from '../types/redux';
 import type { RepaymentRequest } from '../types/model';
 
@@ -89,7 +89,7 @@ export function sendRepaymentRequestRequest(
 
 export function acceptRepaymentRequestRequest(id: number): ThunkAction {
   return dispatch =>
-    postData({
+    putData({
       resourcePath: `${URL}/${id}/accept`,
       onSuccess: () => dispatch(answerOnRepaymentRequest()),
     });
@@ -97,7 +97,7 @@ export function acceptRepaymentRequestRequest(id: number): ThunkAction {
 
 export function rejectRepaymentRequestRequest(id: number): ThunkAction {
   return dispatch =>
-    postData({
+    putData({
       resourcePath: `${URL}/${id}/reject`,
       onSuccess: () => dispatch(answerOnRepaymentRequest()),
     });

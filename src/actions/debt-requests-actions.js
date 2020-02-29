@@ -1,6 +1,6 @@
 // @flow
 
-import { deleteData, getData, postData } from '../api';
+import { deleteData, getData, postData, putData } from '../api';
 import type { Action, ThunkAction } from '../types/redux';
 import type { DebtRequest } from '../types/model';
 
@@ -81,7 +81,7 @@ export function sendDebtRequestRequest(data: DebtRequest): ThunkAction {
 
 export function acceptDebtRequestRequest(id: number): ThunkAction {
   return dispatch =>
-    postData({
+    putData({
       resourcePath: `${URL}/${id}/accept`,
       onSuccess: () => dispatch(answerOnDebtRequest()),
     });
@@ -89,7 +89,7 @@ export function acceptDebtRequestRequest(id: number): ThunkAction {
 
 export function rejectDebtRequestRequest(id: number): ThunkAction {
   return dispatch =>
-    postData({
+    putData({
       resourcePath: `${URL}/${id}/reject`,
       onSuccess: () => dispatch(answerOnDebtRequest()),
     });

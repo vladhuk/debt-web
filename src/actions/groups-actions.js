@@ -1,4 +1,8 @@
+// @flow
+
 import { deleteData, getData, postData, updateData } from '../api';
+import type { Action, ThunkAction } from '../types/redux';
+import type { Group, User } from '../types/model';
 
 export const GET_GROUPS = 'groups:getAll';
 export const GET_GROUP = 'groups:get';
@@ -9,52 +13,52 @@ export const UPDATE_GROUP = 'groups:update';
 
 const URL = '/groups';
 
-export function getGroups(groups) {
+export function getGroups(groups: Group[]): Action {
   return {
     type: GET_GROUPS,
     payload: {
-      groups: groups,
+      groups,
     },
   };
 }
 
-export function getGroup(group) {
+export function getGroup(group: Group): Action {
   return {
     type: GET_GROUP,
     payload: {
-      group: group,
+      group,
     },
   };
 }
 
-export function getGroupMembers(members) {
+export function getGroupMembers(members: User[]): Action {
   return {
     type: GET_GROUP_MEMBERS,
     payload: {
-      members: members,
+      members,
     },
   };
 }
 
-export function createGroup() {
+export function createGroup(): Action {
   return {
     type: CREATE_GROUP,
   };
 }
 
-export function deleteGroup() {
+export function deleteGroup(): Action {
   return {
     type: DELETE_GROUP,
   };
 }
 
-export function updateGroup() {
+export function updateGroup(): Action {
   return {
     type: UPDATE_GROUP,
   };
 }
 
-export function getGroupsRequest() {
+export function getGroupsRequest(): ThunkAction {
   return dispatch =>
     getData({
       resourcePath: URL,
@@ -62,23 +66,23 @@ export function getGroupsRequest() {
     });
 }
 
-export function getGroupRequest(id) {
+export function getGroupRequest(id: number): ThunkAction {
   return dispatch =>
     getData({
-      resourcePath: URL + `/${id}`,
+      resourcePath: `${URL}/${id}`,
       onSuccess: group => dispatch(getGroup(group)),
     });
 }
 
-export function getGroupMembersRequest(groupId) {
+export function getGroupMembersRequest(groupId: number): ThunkAction {
   return dispatch =>
     getData({
-      resourcePath: URL + `/${groupId}`,
+      resourcePath: `${URL}/${groupId}`,
       onSuccess: members => dispatch(getGroupMembers(members)),
     });
 }
 
-export function createGroupRequest(group) {
+export function createGroupRequest(group: Group): ThunkAction {
   return dispatch =>
     postData({
       resourcePath: URL,
@@ -87,7 +91,7 @@ export function createGroupRequest(group) {
     });
 }
 
-export function updateGroupRequest(group) {
+export function updateGroupRequest(group: Group): ThunkAction {
   return dispatch =>
     updateData({
       resourcePath: URL,
@@ -96,17 +100,20 @@ export function updateGroupRequest(group) {
     });
 }
 
-export function deleteGroupRequest(id) {
+export function deleteGroupRequest(id: number): ThunkAction {
   return dispatch =>
     deleteData({
-      resourcePath: URL + `/${id}`,
+      resourcePath: `${URL}/${id}`,
       onSuccess: () => dispatch(deleteGroup()),
     });
 }
 
-export function deleteGroupMember(groupId, memberId) {
-  return dispatch =>
+export function deleteGroupMember(
+  groupId: number,
+  memberId: number
+): ThunkAction {
+  return () =>
     deleteData({
-      resourcePath: URL + `/${groupId}/members/${memberId}`,
+      resourcePath: `${URL}/${groupId}/members/${memberId}`,
     });
 }

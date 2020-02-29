@@ -1,4 +1,8 @@
+// @flow
+
 import { deleteData, getData, postData } from '../api';
+import type { FriendRequest } from '../types/model';
+import type { Action, ThunkAction } from '../types/redux';
 
 export const GET_SENT_FRIEND_REQUESTS = 'friend-requests:getAllSent';
 export const GET_RECEIVED_FRIEND_REQUESTS = 'friend-requests:getAllReceived';
@@ -9,101 +13,103 @@ export const DELETE_FRIEND_REQUEST = 'friend-requests:delete';
 
 const URL = '/friend-requests';
 
-export function getSentFriendRequests(friendRequests) {
+export function getSentFriendRequests(friendRequests: FriendRequest[]): Action {
   return {
     type: GET_SENT_FRIEND_REQUESTS,
     payload: {
-      friendRequests: friendRequests,
+      friendRequests,
     },
   };
 }
 
-export function getReceivedFriendRequests(friendRequests) {
+export function getReceivedFriendRequests(
+  friendRequests: FriendRequest[]
+): Action {
   return {
     type: GET_RECEIVED_FRIEND_REQUESTS,
     payload: {
-      friendRequests: friendRequests,
+      friendRequests,
     },
   };
 }
 
 export function countNewReceivedFriendRequests(
-  numberOfNewReceivedFriendRequests
-) {
+  numberOfNewReceivedFriendRequests: number
+): Action {
   return {
     type: COUNT_NEW_RECEIVED_FRIEND_REQUESTS,
     payload: {
-      numberOfNewReceivedFriendRequests: numberOfNewReceivedFriendRequests,
+      numberOfNewReceivedFriendRequests,
     },
   };
 }
 
-export function answerOnFriendRequest() {
+export function answerOnFriendRequest(): Action {
   return {
     type: ANSWER_ON_FRIEND_REQUEST,
   };
 }
 
-export function deleteFriendRequest() {
+export function deleteFriendRequest(): Action {
   return {
     type: DELETE_FRIEND_REQUEST,
   };
 }
 
-export function getSentFriendRequestsRequest() {
+export function getSentFriendRequestsRequest(): ThunkAction {
   return dispatch =>
     getData({
-      resourcePath: URL + '/sent',
+      resourcePath: `${URL}/sent`,
       onSuccess: friendRequests =>
         dispatch(getSentFriendRequests(friendRequests)),
     });
 }
 
-export function getReceivedFriendRequestsRequest() {
+export function getReceivedFriendRequestsRequest(): ThunkAction {
   return dispatch =>
     getData({
-      resourcePath: URL + '/received',
+      resourcePath: `${URL}/received`,
       onSuccess: friendRequests =>
         dispatch(getReceivedFriendRequests(friendRequests)),
     });
 }
 
-export function sendFriendRequestRequest(data) {
-  return dispatch =>
+export function sendFriendRequestRequest(data: FriendRequest): ThunkAction {
+  return () =>
     postData({
       resourcePath: URL,
-      data: data,
+      data,
     });
 }
 
-export function acceptFriendRequestRequest(id) {
+export function acceptFriendRequestRequest(id: number): ThunkAction {
   return dispatch =>
     postData({
-      resourcePath: URL + `/${id}/accept`,
+      resourcePath: `${URL}/${id}/accept`,
       onSuccess: () => dispatch(answerOnFriendRequest()),
     });
 }
 
-export function rejectFriendRequestRequest(id) {
+export function rejectFriendRequestRequest(id: number): ThunkAction {
   return dispatch =>
     postData({
-      resourcePath: URL + `/${id}/reject`,
+      resourcePath: `${URL}/${id}/reject`,
       onSuccess: () => dispatch(answerOnFriendRequest()),
     });
 }
 
-export function deleteSentFriendRequestRequest(id) {
+export function deleteSentFriendRequestRequest(id: number): ThunkAction {
   return dispatch =>
     deleteData({
-      resourcePath: URL + `/sent/${id}`,
+      resourcePath: `${URL}/sent/${id}`,
       onSuccess: () => dispatch(deleteFriendRequest()),
     });
 }
 
-export function countNewReceivedFriendRequestsRequest() {
+export function countNewReceivedFriendRequestsRequest(): ThunkAction {
   return dispatch =>
     getData({
-      resourcePath: URL + '/received/new/count',
+      resourcePath: `${URL}/received/new/count`,
       onSuccess: number => dispatch(countNewReceivedFriendRequests(number)),
     });
 }

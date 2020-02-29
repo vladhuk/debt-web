@@ -40,7 +40,7 @@ function FormAddToBlacklist(props) {
             type="text"
             placeholder="Username"
             autoComplete="off"
-            autofocus
+            autoFocus
             required
             isInvalid={!validatedUsername}
             onChange={event => {

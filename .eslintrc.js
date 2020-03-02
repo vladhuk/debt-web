@@ -8,14 +8,22 @@ module.exports = {
   extends: [
     'airbnb',
     'prettier',
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
   ],
 
   plugins: [
     'prettier',
     '@typescript-eslint',
   ],
+
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      }
+    }
+  },
 
   rules: {
     'prettier/prettier': [WARN],

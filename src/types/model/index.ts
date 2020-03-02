@@ -1,5 +1,3 @@
-// @flow
-
 export * from './User';
 export * from './DebtRequest';
 export * from './FriendRequest';

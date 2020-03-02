@@ -1,59 +1,54 @@
-// @flow
-
 import { API_BASE_URL, HTTP_METHOD } from '../constants';
-import type {
-  ApiResponse,
-  ApiResponseError,
-  ApiResponseSuccess,
-} from '../types/api';
 import { getBasicHeaders, getHeadersWithJsonBody } from './headers';
 
-type Callbacks = {|
-  onRequest?: () => void,
-  onSuccess?: ApiResponseSuccess => void,
-  onError?: ApiResponseError => void,
-|};
+interface Callbacks<ResponseBody> {
+  onRequest?: () => void;
+  onSuccess?: (data: ResponseBody) => void;
+  onError?: (error: Error) => void;
+}
 
-type DefaultThenArgs = {|
-  customFetch: Promise<any>,
-  ...Callbacks,
-|};
+interface DefaultThenArgs<ResponseBody> extends Callbacks<ResponseBody> {
+  customFetch: Promise<Response>;
+}
 
-type RequestArgs = {|
-  resourcePath: string,
-  data?: any,
-  ...Callbacks,
-|};
+interface RequestArgs<ResponseBody> extends Callbacks<ResponseBody> {
+  resourcePath: string;
+}
 
-const withDefaultThen = ({
+interface PostRequestArgs<RequestBody, ResponseBody>
+  extends RequestArgs<ResponseBody> {
+  data?: RequestBody;
+}
+
+function withDefaultThen<ResponseBody>({
   customFetch,
   onRequest,
   onSuccess,
   onError,
-}: DefaultThenArgs): Promise<ApiResponse> => {
+}: DefaultThenArgs<ResponseBody>): Promise<void> {
   onRequest && onRequest();
 
   return customFetch
     .then(response => response.text())
-    .then((text: ?string) => JSON.parse(text || '{}'))
-    .then((response: ApiResponse) => {
+    .then(text => JSON.parse(text || '{}'))
+    .then(response => {
       if (response.error) {
         throw response.error;
       }
       onSuccess && onSuccess(response);
     })
-    .catch((error: ApiResponseError) => {
+    .catch((error: Error) => {
       onError && onError(error);
     });
-};
+}
 
-export const getData = ({
+export function getData<ResponseBody>({
   resourcePath,
   onRequest,
   onSuccess,
   onError,
-}: RequestArgs): Promise<ApiResponse> =>
-  withDefaultThen({
+}: RequestArgs<ResponseBody>): Promise<void> {
+  return withDefaultThen({
     onRequest,
     onSuccess,
     onError,
@@ -62,15 +57,16 @@ export const getData = ({
       headers: getBasicHeaders(),
     }),
   });
+}
 
-export const postData = ({
+export function postData<RequestBody, ResponseBody>({
   resourcePath,
   data,
   onRequest,
   onSuccess,
   onError,
-}: RequestArgs): Promise<ApiResponse> =>
-  withDefaultThen({
+}: PostRequestArgs<RequestBody, ResponseBody>): Promise<void> {
+  return withDefaultThen({
     onRequest,
     onSuccess,
     onError,
@@ -80,15 +76,16 @@ export const postData = ({
       body: JSON.stringify(data),
     }),
   });
+}
 
-export const putData = ({
+export function putData<RequestBody, ResponseBody>({
   resourcePath,
   data,
   onRequest,
   onSuccess,
   onError,
-}: RequestArgs): Promise<ApiResponse> =>
-  withDefaultThen({
+}: PostRequestArgs<RequestBody, ResponseBody>): Promise<void> {
+  return withDefaultThen({
     onRequest,
     onSuccess,
     onError,
@@ -98,14 +95,15 @@ export const putData = ({
       body: JSON.stringify(data),
     }),
   });
+}
 
-export const deleteData = ({
+export function deleteData<ResponseBody>({
   resourcePath,
   onRequest,
   onSuccess,
   onError,
-}: RequestArgs): Promise<ApiResponse> =>
-  withDefaultThen({
+}: RequestArgs<ResponseBody>): Promise<void> {
+  return withDefaultThen({
     onRequest,
     onSuccess,
     onError,
@@ -114,3 +112,4 @@ export const deleteData = ({
       headers: getBasicHeaders(),
     }),
   });
+}

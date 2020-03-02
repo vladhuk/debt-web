@@ -1,9 +1,7 @@
-// @flow
-
 import { getToken } from '../util';
 import HeadersBuilder from './HeadersBuilder';
 
-type Header = { [string]: string };
+type Header = { [key: string]: string };
 
 const jsonHeader: Header = { 'Content-Type': 'application/json' };
 

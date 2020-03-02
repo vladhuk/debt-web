@@ -3,16 +3,18 @@ const WARN = 1;
 const ERROR = 2;
 
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
 
   extends: [
     'airbnb',
     'prettier',
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
   ],
 
   plugins: [
     'prettier',
-    'flowtype',
+    '@typescript-eslint',
   ],
 
   rules: {

@@ -1,5 +1,3 @@
-// @flow
-
 import {
   ANSWER_ON_DEBT_REQUEST,
   COUNT_NEW_RECEIVED_DEBT_REQUESTS,
@@ -7,7 +5,7 @@ import {
   GET_RECEIVED_DEBT_REQUESTS,
   GET_SENT_DEBT_REQUESTS,
 } from '../actions/debt-requests-actions';
-import type { Action, DebtRequestState } from '../types/redux';
+import { CustomAction, DebtRequestState } from '../types/redux';
 
 const initialState: DebtRequestState = {
   sent: [],
@@ -18,7 +16,7 @@ const initialState: DebtRequestState = {
 
 export function debtRequestsReducer(
   state: DebtRequestState = initialState,
-  { type, payload = {} }: Action
+  { type, payload }: CustomAction
 ): DebtRequestState {
   switch (type) {
     case GET_SENT_DEBT_REQUESTS:

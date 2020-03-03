@@ -1,5 +1,3 @@
-// @flow
-
 import {
   ANSWER_ON_REPAYMENT_REQUEST,
   COUNT_NEW_RECEIVED_REPAYMENT_REQUESTS,
@@ -7,7 +5,7 @@ import {
   GET_RECEIVED_REPAYMENT_REQUESTS,
   GET_SENT_REPAYMENT_REQUESTS,
 } from '../actions/repayment-requests-actions';
-import type { Action, RepaymentRequestState } from '../types/redux';
+import { CustomAction, RepaymentRequestState } from '../types/redux';
 
 const initialState: RepaymentRequestState = {
   sent: [],
@@ -18,7 +16,7 @@ const initialState: RepaymentRequestState = {
 
 export function repaymentRequestsReducer(
   state: RepaymentRequestState = initialState,
-  { type, payload = {} }: Action
+  { type, payload }: CustomAction
 ): RepaymentRequestState {
   switch (type) {
     case GET_SENT_REPAYMENT_REQUESTS:

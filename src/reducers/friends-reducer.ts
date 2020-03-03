@@ -1,7 +1,5 @@
-// @flow
-
 import { DELETE_FRIEND, GET_ALL_FRIENDS } from '../actions/friends-actions';
-import type { Action, FriendsState } from '../types/redux';
+import { CustomAction, FriendsState } from '../types/redux';
 
 const initialState: FriendsState = {
   list: [],
@@ -10,7 +8,7 @@ const initialState: FriendsState = {
 
 export function friendsReducer(
   state: FriendsState = initialState,
-  { type, payload = {} }: Action
+  { type, payload }: CustomAction
 ): FriendsState {
   switch (type) {
     case GET_ALL_FRIENDS:

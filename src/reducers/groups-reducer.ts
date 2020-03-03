@@ -1,5 +1,3 @@
-// @flow
-
 import {
   CREATE_GROUP,
   DELETE_GROUP,
@@ -8,7 +6,7 @@ import {
   GET_GROUPS,
   UPDATE_GROUP,
 } from '../actions/groups-actions';
-import type { Action, GroupState } from '../types/redux';
+import { CustomAction, GroupState } from '../types/redux';
 
 const initialState: GroupState = {
   groups: [],
@@ -19,7 +17,7 @@ const initialState: GroupState = {
 
 export function groupsReducer(
   state: GroupState = initialState,
-  { type, payload = {} }: Action
+  { type, payload }: CustomAction
 ): GroupState {
   switch (type) {
     case GET_GROUPS:

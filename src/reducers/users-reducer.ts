@@ -1,11 +1,9 @@
-// @flow
-
 import {
   GET_CURRENT_USER,
   GET_USER_BY_ID,
   GET_USER_BY_USERNAME,
 } from '../actions/users-actions';
-import type { Action, UserState } from '../types/redux';
+import { CustomAction, UserState } from '../types/redux';
 
 const initialState: UserState = {
   currentUser: null,
@@ -14,7 +12,7 @@ const initialState: UserState = {
 
 export function usersReducer(
   state: UserState = initialState,
-  { type, payload = {} }: Action
+  { type, payload }: CustomAction
 ): UserState {
   switch (type) {
     case GET_CURRENT_USER:

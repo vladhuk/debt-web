@@ -1,8 +1,6 @@
-// @flow
-
 import { deleteData, getData, postData, putData } from '../api';
-import type { Action, ThunkAction } from '../types/redux';
-import type { RepaymentRequest } from '../types/model';
+import { RepaymentRequest } from '../types/model';
+import { CustomAction, CustomThunkAction } from '../types/redux';
 
 export const GET_SENT_REPAYMENT_REQUESTS = 'repayment-requests:getAllSent';
 export const GET_RECEIVED_REPAYMENT_REQUESTS =
@@ -16,7 +14,7 @@ const URL = '/repayment-requests';
 
 export function getSentRepaymentRequests(
   repaymentRequests: RepaymentRequest[]
-): Action {
+): CustomAction {
   return {
     type: GET_SENT_REPAYMENT_REQUESTS,
     payload: {
@@ -27,7 +25,7 @@ export function getSentRepaymentRequests(
 
 export function getReceivedRepaymentRequests(
   repaymentRequests: RepaymentRequest[]
-): Action {
+): CustomAction {
   return {
     type: GET_RECEIVED_REPAYMENT_REQUESTS,
     payload: {
@@ -38,7 +36,7 @@ export function getReceivedRepaymentRequests(
 
 export function countNewReceivedRepaymentRequests(
   numberOfNewReceivedRepaymentRequests: number
-): Action {
+): CustomAction {
   return {
     type: COUNT_NEW_RECEIVED_REPAYMENT_REQUESTS,
     payload: {
@@ -47,74 +45,77 @@ export function countNewReceivedRepaymentRequests(
   };
 }
 
-export function answerOnRepaymentRequest(): Action {
+export function answerOnRepaymentRequest(): CustomAction {
   return {
     type: ANSWER_ON_REPAYMENT_REQUEST,
   };
 }
 
-export function deleteRepaymentRequest(): Action {
+export function deleteRepaymentRequest(): CustomAction {
   return {
     type: DELETE_REPAYMENT_REQUEST,
   };
 }
 
-export function getSentRepaymentRequestsRequest(): ThunkAction {
-  return dispatch =>
+export function getSentRepaymentRequestsRequest(): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/sent`,
-      onSuccess: repaymentRequests =>
+      onSuccess: (repaymentRequests: RepaymentRequest[]) =>
         dispatch(getSentRepaymentRequests(repaymentRequests)),
     });
 }
 
-export function getReceivedRepaymentRequestsRequest(): ThunkAction {
-  return dispatch =>
+export function getReceivedRepaymentRequestsRequest(): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/received`,
-      onSuccess: repaymentRequests =>
+      onSuccess: (repaymentRequests: RepaymentRequest[]) =>
         dispatch(getReceivedRepaymentRequests(repaymentRequests)),
     });
 }
 
 export function sendRepaymentRequestRequest(
   data: RepaymentRequest
-): ThunkAction {
-  return () =>
+): CustomThunkAction {
+  return (): Promise<void> =>
     postData({
       resourcePath: URL,
       data,
     });
 }
 
-export function acceptRepaymentRequestRequest(id: number): ThunkAction {
-  return dispatch =>
+export function acceptRepaymentRequestRequest(id: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     putData({
       resourcePath: `${URL}/${id}/accept`,
       onSuccess: () => dispatch(answerOnRepaymentRequest()),
     });
 }
 
-export function rejectRepaymentRequestRequest(id: number): ThunkAction {
-  return dispatch =>
+export function rejectRepaymentRequestRequest(id: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     putData({
       resourcePath: `${URL}/${id}/reject`,
       onSuccess: () => dispatch(answerOnRepaymentRequest()),
     });
 }
 
-export function deleteSentRepaymentRequestRequest(id: number): ThunkAction {
-  return dispatch =>
+export function deleteSentRepaymentRequestRequest(
+  id: number
+): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     deleteData({
       resourcePath: `${URL}/sent/${id}`,
       onSuccess: () => dispatch(deleteRepaymentRequest()),
     });
 }
 
-export function countNewReceivedRepaymentRequestsRequest(): ThunkAction {
-  return dispatch =>
+export function countNewReceivedRepaymentRequestsRequest(): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/received/new/count`,
-      onSuccess: number => dispatch(countNewReceivedRepaymentRequests(number)),
+      onSuccess: (number: number) =>
+        dispatch(countNewReceivedRepaymentRequests(number)),
     });
 }

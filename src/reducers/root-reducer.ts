@@ -1,5 +1,3 @@
-// @flow
-
 import { combineReducers } from 'redux';
 import { friendsReducer } from './friends-reducer';
 import { authReducer } from './auth-reducer';
@@ -11,10 +9,12 @@ import { debtRequestsReducer } from './debt-request-reducer';
 import { repaymentRequestsReducer } from './repayment-requests-reducer';
 import { usersReducer } from './users-reducer';
 import { LOGOUT } from '../actions/auth-actions';
-import type { State } from '../types/redux/State';
-import type { Action } from '../types/redux';
+import { State, CustomAction } from '../types/redux';
 
-const appReducer: (state: ?State, action: Action) => State = combineReducers({
+const appReducer: (
+  state: State | undefined,
+  action: CustomAction
+) => State = combineReducers({
   friends: friendsReducer,
   auth: authReducer,
   blacklist: blacklistReducer,
@@ -26,7 +26,7 @@ const appReducer: (state: ?State, action: Action) => State = combineReducers({
   users: usersReducer,
 });
 
-const rootReducer = (state: State, action: Action): State => {
+const rootReducer = (state: State, action: CustomAction): State => {
   if (action.type === LOGOUT) {
     return appReducer(undefined, action);
   }

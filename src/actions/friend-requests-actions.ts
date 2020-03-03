@@ -1,8 +1,6 @@
-// @flow
-
 import { deleteData, getData, postData, putData } from '../api';
-import type { FriendRequest } from '../types/model';
-import type { Action, ThunkAction } from '../types/redux';
+import { FriendRequest } from '../types/model';
+import { CustomAction, CustomThunkAction } from '../types/redux';
 
 export const GET_SENT_FRIEND_REQUESTS = 'friend-requests:getAllSent';
 export const GET_RECEIVED_FRIEND_REQUESTS = 'friend-requests:getAllReceived';
@@ -13,7 +11,9 @@ export const DELETE_FRIEND_REQUEST = 'friend-requests:delete';
 
 const URL = '/friend-requests';
 
-export function getSentFriendRequests(friendRequests: FriendRequest[]): Action {
+export function getSentFriendRequests(
+  friendRequests: FriendRequest[]
+): CustomAction {
   return {
     type: GET_SENT_FRIEND_REQUESTS,
     payload: {
@@ -24,7 +24,7 @@ export function getSentFriendRequests(friendRequests: FriendRequest[]): Action {
 
 export function getReceivedFriendRequests(
   friendRequests: FriendRequest[]
-): Action {
+): CustomAction {
   return {
     type: GET_RECEIVED_FRIEND_REQUESTS,
     payload: {
@@ -35,7 +35,7 @@ export function getReceivedFriendRequests(
 
 export function countNewReceivedFriendRequests(
   numberOfNewReceivedFriendRequests: number
-): Action {
+): CustomAction {
   return {
     type: COUNT_NEW_RECEIVED_FRIEND_REQUESTS,
     payload: {
@@ -44,72 +44,75 @@ export function countNewReceivedFriendRequests(
   };
 }
 
-export function answerOnFriendRequest(): Action {
+export function answerOnFriendRequest(): CustomAction {
   return {
     type: ANSWER_ON_FRIEND_REQUEST,
   };
 }
 
-export function deleteFriendRequest(): Action {
+export function deleteFriendRequest(): CustomAction {
   return {
     type: DELETE_FRIEND_REQUEST,
   };
 }
 
-export function getSentFriendRequestsRequest(): ThunkAction {
-  return dispatch =>
+export function getSentFriendRequestsRequest(): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/sent`,
-      onSuccess: friendRequests =>
+      onSuccess: (friendRequests: FriendRequest[]) =>
         dispatch(getSentFriendRequests(friendRequests)),
     });
 }
 
-export function getReceivedFriendRequestsRequest(): ThunkAction {
-  return dispatch =>
+export function getReceivedFriendRequestsRequest(): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/received`,
-      onSuccess: friendRequests =>
+      onSuccess: (friendRequests: FriendRequest[]) =>
         dispatch(getReceivedFriendRequests(friendRequests)),
     });
 }
 
-export function sendFriendRequestRequest(data: FriendRequest): ThunkAction {
-  return () =>
+export function sendFriendRequestRequest(
+  data: FriendRequest
+): CustomThunkAction {
+  return (): Promise<void> =>
     postData({
       resourcePath: URL,
       data,
     });
 }
 
-export function acceptFriendRequestRequest(id: number): ThunkAction {
-  return dispatch =>
+export function acceptFriendRequestRequest(id: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     putData({
       resourcePath: `${URL}/${id}/accept`,
       onSuccess: () => dispatch(answerOnFriendRequest()),
     });
 }
 
-export function rejectFriendRequestRequest(id: number): ThunkAction {
-  return dispatch =>
+export function rejectFriendRequestRequest(id: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     putData({
       resourcePath: `${URL}/${id}/reject`,
       onSuccess: () => dispatch(answerOnFriendRequest()),
     });
 }
 
-export function deleteSentFriendRequestRequest(id: number): ThunkAction {
-  return dispatch =>
+export function deleteSentFriendRequestRequest(id: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     deleteData({
       resourcePath: `${URL}/sent/${id}`,
       onSuccess: () => dispatch(deleteFriendRequest()),
     });
 }
 
-export function countNewReceivedFriendRequestsRequest(): ThunkAction {
-  return dispatch =>
+export function countNewReceivedFriendRequestsRequest(): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/received/new/count`,
-      onSuccess: number => dispatch(countNewReceivedFriendRequests(number)),
+      onSuccess: (number: number) =>
+        dispatch(countNewReceivedFriendRequests(number)),
     });
 }

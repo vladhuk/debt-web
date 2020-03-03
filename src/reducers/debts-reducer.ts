@@ -1,11 +1,9 @@
-// @flow
-
 import { GET_DEBTS } from '../actions/debts-actions';
-import type { Action, DebtState } from '../types/redux';
+import { CustomAction, DebtState } from '../types/redux';
 
 export function debtsReducer(
   state: DebtState = [],
-  { type, payload = {} }: Action
+  { type, payload }: CustomAction
 ): DebtState {
   switch (type) {
     case GET_DEBTS:

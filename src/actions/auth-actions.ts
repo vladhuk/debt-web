@@ -1,13 +1,6 @@
-// @flow
-
 import { postData } from '../api';
-import type {
-  JwtAuthResponse,
-  LoginRequest,
-  SignUpRequest,
-} from '../types/payload';
-import type { ApiResponseError } from '../types/api';
-import type { Action, ThunkAction } from '../types/redux';
+import { CustomAction, CustomThunkAction } from '../types/redux';
+import { JwtAuthResponse, LoginRequest, SignUpRequest } from '../types/payload';
 
 export const SIGN_IN_SUCCESS = 'auth:signInSuccess';
 export const SIGN_IN_ERROR = 'auth:signInError';
@@ -21,7 +14,7 @@ const URL = '/auth';
 export function signInSuccess({
   accessToken,
   tokenType,
-}: JwtAuthResponse): Action {
+}: JwtAuthResponse): CustomAction {
   return {
     type: SIGN_IN_SUCCESS,
     payload: {
@@ -30,7 +23,7 @@ export function signInSuccess({
   };
 }
 
-export function signInError(error: ApiResponseError): Action {
+export function signInError(error: Error): CustomAction {
   return {
     type: SIGN_IN_ERROR,
     payload: {
@@ -42,7 +35,7 @@ export function signInError(error: ApiResponseError): Action {
 export function signUpSuccess({
   accessToken,
   tokenType,
-}: JwtAuthResponse): Action {
+}: JwtAuthResponse): CustomAction {
   return {
     type: SIGN_UP_SUCCESS,
     payload: {
@@ -51,7 +44,7 @@ export function signUpSuccess({
   };
 }
 
-export function signUpError(error: ApiResponseError): Action {
+export function signUpError(error: Error): CustomAction {
   return {
     type: SIGN_UP_ERROR,
     payload: {
@@ -60,34 +53,34 @@ export function signUpError(error: ApiResponseError): Action {
   };
 }
 
-export function cleanError(): Action {
+export function cleanError(): CustomAction {
   return {
     type: CLEAN_ERROR,
   };
 }
 
-export function logout(): Action {
+export function logout(): CustomAction {
   return {
     type: LOGOUT,
   };
 }
 
-export function signInRequest(data: LoginRequest): ThunkAction {
-  return dispatch =>
+export function signInRequest(data: LoginRequest): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     postData({
       resourcePath: `${URL}/signin`,
       data,
-      onSuccess: payload => dispatch(signInSuccess(payload)),
+      onSuccess: (payload: JwtAuthResponse) => dispatch(signInSuccess(payload)),
       onError: error => dispatch(signInError(error)),
     });
 }
 
-export function signUpRequest(data: SignUpRequest): ThunkAction {
-  return dispatch =>
+export function signUpRequest(data: SignUpRequest): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     postData({
       resourcePath: `${URL}/signup`,
       data,
-      onSuccess: payload => dispatch(signUpSuccess(payload)),
+      onSuccess: (payload: JwtAuthResponse) => dispatch(signUpSuccess(payload)),
       onError: error => dispatch(signUpError(error)),
     });
 }

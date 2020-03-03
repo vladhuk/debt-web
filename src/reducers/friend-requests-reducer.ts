@@ -1,5 +1,3 @@
-// @flow
-
 import {
   ANSWER_ON_FRIEND_REQUEST,
   COUNT_NEW_RECEIVED_FRIEND_REQUESTS,
@@ -7,7 +5,7 @@ import {
   GET_RECEIVED_FRIEND_REQUESTS,
   GET_SENT_FRIEND_REQUESTS,
 } from '../actions/friend-requests-actions';
-import type { Action, FriendRequestState } from '../types/redux';
+import { CustomAction, FriendRequestState } from '../types/redux';
 
 const initialState: FriendRequestState = {
   sent: [],
@@ -18,7 +16,7 @@ const initialState: FriendRequestState = {
 
 export function friendRequestsReducer(
   state: FriendRequestState = initialState,
-  { type, payload = {} }: Action
+  { type, payload }: CustomAction
 ): FriendRequestState {
   switch (type) {
     case GET_SENT_FRIEND_REQUESTS:

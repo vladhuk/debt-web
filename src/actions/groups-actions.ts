@@ -1,8 +1,6 @@
-// @flow
-
 import { deleteData, getData, postData, putData } from '../api';
-import type { Action, ThunkAction } from '../types/redux';
-import type { Group, User } from '../types/model';
+import { CustomAction, CustomThunkAction } from '../types/redux';
+import { Group, User } from '../types/model';
 
 export const GET_GROUPS = 'groups:getAll';
 export const GET_GROUP = 'groups:get';
@@ -13,7 +11,7 @@ export const UPDATE_GROUP = 'groups:update';
 
 const URL = '/groups';
 
-export function getGroups(groups: Group[]): Action {
+export function getGroups(groups: Group[]): CustomAction {
   return {
     type: GET_GROUPS,
     payload: {
@@ -22,7 +20,7 @@ export function getGroups(groups: Group[]): Action {
   };
 }
 
-export function getGroup(group: Group): Action {
+export function getGroup(group: Group): CustomAction {
   return {
     type: GET_GROUP,
     payload: {
@@ -31,7 +29,7 @@ export function getGroup(group: Group): Action {
   };
 }
 
-export function getGroupMembers(members: User[]): Action {
+export function getGroupMembers(members: User[]): CustomAction {
   return {
     type: GET_GROUP_MEMBERS,
     payload: {
@@ -40,50 +38,50 @@ export function getGroupMembers(members: User[]): Action {
   };
 }
 
-export function createGroup(): Action {
+export function createGroup(): CustomAction {
   return {
     type: CREATE_GROUP,
   };
 }
 
-export function deleteGroup(): Action {
+export function deleteGroup(): CustomAction {
   return {
     type: DELETE_GROUP,
   };
 }
 
-export function updateGroup(): Action {
+export function updateGroup(): CustomAction {
   return {
     type: UPDATE_GROUP,
   };
 }
 
-export function getGroupsRequest(): ThunkAction {
-  return dispatch =>
+export function getGroupsRequest(): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: URL,
-      onSuccess: groups => dispatch(getGroups(groups)),
+      onSuccess: (groups: Group[]) => dispatch(getGroups(groups)),
     });
 }
 
-export function getGroupRequest(id: number): ThunkAction {
-  return dispatch =>
+export function getGroupRequest(id: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/${id}`,
-      onSuccess: group => dispatch(getGroup(group)),
+      onSuccess: (group: Group) => dispatch(getGroup(group)),
     });
 }
 
-export function getGroupMembersRequest(groupId: number): ThunkAction {
-  return dispatch =>
+export function getGroupMembersRequest(groupId: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     getData({
       resourcePath: `${URL}/${groupId}`,
-      onSuccess: members => dispatch(getGroupMembers(members)),
+      onSuccess: (members: User[]) => dispatch(getGroupMembers(members)),
     });
 }
 
-export function createGroupRequest(group: Group): ThunkAction {
-  return dispatch =>
+export function createGroupRequest(group: Group): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     postData({
       resourcePath: URL,
       data: group,
@@ -91,8 +89,8 @@ export function createGroupRequest(group: Group): ThunkAction {
     });
 }
 
-export function updateGroupRequest(group: Group): ThunkAction {
-  return dispatch =>
+export function updateGroupRequest(group: Group): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     putData({
       resourcePath: URL,
       data: group,
@@ -100,8 +98,8 @@ export function updateGroupRequest(group: Group): ThunkAction {
     });
 }
 
-export function deleteGroupRequest(id: number): ThunkAction {
-  return dispatch =>
+export function deleteGroupRequest(id: number): CustomThunkAction {
+  return (dispatch): Promise<void> =>
     deleteData({
       resourcePath: `${URL}/${id}`,
       onSuccess: () => dispatch(deleteGroup()),
@@ -111,8 +109,8 @@ export function deleteGroupRequest(id: number): ThunkAction {
 export function deleteGroupMember(
   groupId: number,
   memberId: number
-): ThunkAction {
-  return () =>
+): CustomThunkAction {
+  return (): Promise<void> =>
     deleteData({
       resourcePath: `${URL}/${groupId}/members/${memberId}`,
     });

@@ -8,38 +8,37 @@ import {
 import { Debt } from '../payload';
 
 export interface AuthState {
-  readonly accessToken: string;
-  readonly error: Error;
+  readonly accessToken: string | null;
+  readonly error: Error | null;
 }
 
 export type BlacklistState = User[];
 
-export interface DebtRequestState {
+interface RequestState {
+  readonly number: number;
+  readonly isNeededToUpdateList: boolean;
+}
+
+export interface DebtRequestState extends RequestState {
   readonly sent: DebtRequest[];
   readonly received: DebtRequest[];
-  readonly number: number;
-  readonly isNeededToUpdateList: boolean;
 }
 
-export interface FriendRequestState {
+export interface FriendRequestState extends RequestState {
   readonly sent: FriendRequest[];
   readonly received: FriendRequest[];
-  readonly number: number;
-  readonly isNeededToUpdateList: boolean;
 }
 
-export interface RepaymentRequestState {
+export interface RepaymentRequestState extends RequestState {
   readonly sent: RepaymentRequest[];
   readonly received: RepaymentRequest[];
-  readonly number: number;
-  readonly isNeededToUpdateList: boolean;
 }
 
 export type DebtState = Debt[];
 
 export interface GroupState {
   readonly groups: Group[];
-  readonly group: Group;
+  readonly group: Group | null;
   readonly members: User[];
   readonly isNeededToUpdateList: boolean;
 }
@@ -50,8 +49,8 @@ export interface FriendsState {
 }
 
 export interface UserState {
-  readonly currentUser: User;
-  readonly user: User;
+  readonly currentUser: User | null;
+  readonly user: User | null;
 }
 
 export interface State {

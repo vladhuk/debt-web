@@ -1,10 +1,18 @@
+// @flow
+
 import Row from 'react-bootstrap/Row';
 import React from 'react';
 
-export function Title(props) {
+type Props = {|
+  title: string,
+|};
+
+export function Title(props: Props) {
+  const { title } = props;
+
   return (
     <Row className="border-bottom pb-2">
-      <h1>{props.title}</h1>
+      <h1>{title}</h1>
     </Row>
   );
 }

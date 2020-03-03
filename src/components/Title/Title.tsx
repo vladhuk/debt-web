@@ -1,13 +1,11 @@
-// @flow
-
 import Row from 'react-bootstrap/Row';
 import React from 'react';
 
-type Props = {|
-  title: string,
-|};
+interface Props {
+  title: string;
+}
 
-export function Title(props: Props) {
+export function Title(props: Props): JSX.Element {
   const { title } = props;
 
   return (

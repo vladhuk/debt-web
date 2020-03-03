@@ -1,18 +1,16 @@
-// @flow
-
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import * as React from 'react';
+import React, { SyntheticEvent } from 'react';
 
-type Props = {|
-  title: string,
-  buttonTitle: string,
-  onButtonClick: SyntheticEvent<HTMLButtonElement>,
-  children: React.Node,
-|};
+interface Props {
+  title: string;
+  buttonTitle: string;
+  onButtonClick: (event: SyntheticEvent<HTMLButtonElement>) => void;
+  children: JSX.ElementChildrenAttribute;
+}
 
-export function TitleWithButton(props: Props) {
+export function TitleWithButton(props: Props): JSX.Element {
   const { title, buttonTitle, onButtonClick, children } = props;
 
   return (

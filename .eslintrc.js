@@ -36,7 +36,7 @@ module.exports = {
     'react/destructuring-assignment': WARN,
     'react/prop-types': OFF,
     'react/jsx-boolean-value': WARN,
-    'react/jsx-props-no-spreading': ERROR,
+    'react/jsx-props-no-spreading': WARN,
     'react/jsx-one-expression-per-line': OFF,
 
     'jsx-a11y/alt-text': WARN,

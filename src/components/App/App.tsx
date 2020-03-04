@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Header from '../Header';
 import { NavigationPage } from '../Navigation';
 
-function App() {
+export default function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Header />
@@ -14,5 +14,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;

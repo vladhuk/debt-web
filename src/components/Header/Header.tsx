@@ -1,19 +1,42 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
-import {LinkContainer} from 'react-router-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import NotificationsCounter from '../NotificationsCounter';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {getCurrentUserRequest} from '../../actions/users-actions';
-import {countNewReceivedFriendRequestsRequest} from '../../actions/friend-requests-actions';
-import {countNewReceivedDebtRequestsRequest} from '../../actions/debt-requests-actions';
-import {countNewReceivedRepaymentRequestsRequest} from '../../actions/repayment-requests-actions';
+import { getCurrentUserRequest } from '../../actions/users-actions';
+import { countNewReceivedFriendRequestsRequest } from '../../actions/friend-requests-actions';
+import { countNewReceivedDebtRequestsRequest } from '../../actions/debt-requests-actions';
+import { countNewReceivedRepaymentRequestsRequest } from '../../actions/repayment-requests-actions';
+import { State } from '../../types/redux';
+import { User } from '../../types/model';
 
-function Header(props) {
-  const isAuthenticated = !!props.currentUser;
+interface StateProps {
+  currentUser: User | null;
+  friendsNotificationsNumber: number;
+  debtsNotificationsNumber: number;
+}
+
+interface DispatchProps {
+  getCurrentUser(): void;
+  countFriendRequestsNotifications(): void;
+  countDebtRequestsNotifications(): void;
+  countRepaymentRequestsNotifications(): void;
+}
+
+type Props = StateProps & DispatchProps;
+
+export function Header(props: Props): JSX.Element {
+  const {
+    currentUser,
+    friendsNotificationsNumber,
+    debtsNotificationsNumber,
+  } = props;
+
+  const isAuthenticated = !!currentUser;
 
   useEffect(() => {
     props.getCurrentUser();
@@ -25,7 +48,7 @@ function Header(props) {
       props.countDebtRequestsNotifications();
       props.countRepaymentRequestsNotifications();
     }
-  }, [props.currentUser]);
+  }, [currentUser]);
 
   return (
     <Navbar bg="dark" variant="dark">
@@ -38,7 +61,7 @@ function Header(props) {
             <Nav.Link>
               Friends{' '}
               <NotificationsCounter>
-                {props.friendsNotificationsNumber}
+                {friendsNotificationsNumber}
               </NotificationsCounter>
             </Nav.Link>
           </LinkContainer>
@@ -49,7 +72,7 @@ function Header(props) {
             <Nav.Link>
               Debts{' '}
               <NotificationsCounter>
-                {props.debtsNotificationsNumber}
+                {debtsNotificationsNumber}
               </NotificationsCounter>
             </Nav.Link>
           </LinkContainer>
@@ -58,8 +81,8 @@ function Header(props) {
       <Nav className="ml-auto">
         {isAuthenticated ? (
           <>
-            <Navbar.Text disabled>
-              Signed in as: {props.currentUser.name}
+            <Navbar.Text>
+              Signed in as: {currentUser && currentUser.name}
             </Navbar.Text>
             <LinkContainer to="/logout">
               <Nav.Item className="ml-3">
@@ -84,14 +107,14 @@ function Header(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   currentUser: state.users.currentUser,
   friendsNotificationsNumber: state.friendRequests.number,
   debtsNotificationsNumber:
     state.debtRequests.number + state.repaymentRequests.number,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       getCurrentUser: getCurrentUserRequest,
@@ -102,4 +125,6 @@ const mapDispatchToProps = dispatch =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Header);

@@ -8,7 +8,7 @@ export interface IconProps {
 }
 
 export function Icon(props: IconProps): JSX.Element {
-  const { className, alt } = props;
+  const { className, src, alt } = props;
 
-  return <img className={`icon ${className || ''}`} alt={alt} />;
+  return <img className={`icon ${className || ''}`} src={src} alt={alt} />;
 }

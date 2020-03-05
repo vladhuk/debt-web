@@ -125,6 +125,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
     dispatch
   );
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-export default connector(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import {
   TabAllDebts,
   TabReceivedDebtRequests,
@@ -8,7 +8,7 @@ import {
   TabSentRepaymentRequests,
 } from '../../Tab';
 
-function NavigationDebtsSidebar() {
+export function NavigationDebtsSidebar(): JSX.Element {
   return (
     <Switch>
       <Route exact path="/debts/all" component={TabAllDebts} />
@@ -36,5 +36,3 @@ function NavigationDebtsSidebar() {
     </Switch>
   );
 }
-
-export { NavigationDebtsSidebar };

@@ -1,8 +1,8 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
-import {PageLogout, PageSignIn, PageSignUp} from '../../Page';
+import { Route, Switch } from 'react-router-dom';
+import { PageLogout, PageSignIn, PageSignUp } from '../../Page';
 
-export function PublicNavigationPage() {
+export function PublicNavigationPage(): JSX.Element {
   return (
     <Switch>
       <Route exact path="/signin" component={PageSignIn} />

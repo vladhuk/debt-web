@@ -1,8 +1,13 @@
 import React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
-import {TabAllFriends, TabBlacklist, TabReceivedFriendRequests, TabSentFriendRequests,} from '../../Tab';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import {
+  TabAllFriends,
+  TabBlacklist,
+  TabReceivedFriendRequests,
+  TabSentFriendRequests,
+} from '../../Tab';
 
-function NavigationFriendsSidebar() {
+export function NavigationFriendsSidebar(): JSX.Element {
   return (
     <Switch>
       <Route exact path="/friends/all" component={TabAllFriends} />
@@ -21,5 +26,3 @@ function NavigationFriendsSidebar() {
     </Switch>
   );
 }
-
-export { NavigationFriendsSidebar };

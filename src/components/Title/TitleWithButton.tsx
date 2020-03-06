@@ -7,7 +7,7 @@ interface Props {
   title: string;
   buttonTitle: string;
   onButtonClick: (event: SyntheticEvent<HTMLButtonElement>) => void;
-  children: JSX.ElementChildrenAttribute;
+  children: React.ReactNode;
 }
 
 export function TitleWithButton(props: Props): JSX.Element {
@@ -16,12 +16,10 @@ export function TitleWithButton(props: Props): JSX.Element {
   return (
     <Row className="border-bottom pb-2">
       <h1>{title}</h1>
-
       <ButtonToolbar className="ml-auto">
         <Button variant="primary" onClick={onButtonClick}>
           {buttonTitle}
         </Button>
-
         {children}
       </ButtonToolbar>
     </Row>

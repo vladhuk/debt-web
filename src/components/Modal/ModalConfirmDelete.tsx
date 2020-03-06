@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 
 interface Props {
   show: boolean;
-  children: JSX.ElementChildrenAttribute;
+  children: string;
   onHide(): void;
   onDelete(): void;
 }

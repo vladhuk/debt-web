@@ -11,7 +11,7 @@ interface ButtonProps {
 interface Props {
   title: string;
   buttons: ButtonProps[];
-  children: JSX.ElementChildrenAttribute;
+  children: React.ReactNode;
 }
 
 export function TitleWithButtons(props: Props): JSX.Element {

@@ -3,7 +3,7 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 interface Props {
   text: string;
-  children: JSX.ElementChildrenAttribute;
+  children: React.ReactNode;
 }
 
 export function DefaultTooltip(props: Props): JSX.Element {

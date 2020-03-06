@@ -2,7 +2,7 @@ import React from 'react';
 import Container from 'react-bootstrap/Container';
 
 interface Props {
-  children: JSX.ElementChildrenAttribute;
+  children: React.ReactNode;
 }
 
 export function PageContainer(props: Props): JSX.Element {

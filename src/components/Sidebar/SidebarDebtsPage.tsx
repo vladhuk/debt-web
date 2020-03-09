@@ -1,12 +1,23 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
-import {LinkContainer} from 'react-router-bootstrap';
-import {Sidebar} from './Sidebar';
-import NotificationsCounter from '../NotificationsCounter';
-import {connect} from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
+import { connect } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
+import { Sidebar } from './Sidebar';
+import NotificationsCounter from '../NotificationsCounter';
+import { State } from '../../types/redux';
 
-function SidebarDebtsPage(props) {
+interface StateProps {
+  debtRequestsNotificationsNumber?: number;
+  repaymentRequestsNotificationNumber?: number;
+}
+
+function SidebarDebtsPage(props: StateProps): JSX.Element {
+  const {
+    debtRequestsNotificationsNumber,
+    repaymentRequestsNotificationNumber,
+  } = props;
+
   return (
     <Sidebar>
       <LinkContainer to="/debts/all" className="border-bottom">
@@ -22,7 +33,7 @@ function SidebarDebtsPage(props) {
         <Nav.Link>
           Received requests{' '}
           <NotificationsCounter>
-            {props.debtRequestsNotificationsNumber}
+            {debtRequestsNotificationsNumber || 0}
           </NotificationsCounter>
         </Nav.Link>
       </LinkContainer>
@@ -36,7 +47,7 @@ function SidebarDebtsPage(props) {
         <Nav.Link>
           Received requests{' '}
           <NotificationsCounter>
-            {props.repaymentRequestsNotificationNumber}
+            {repaymentRequestsNotificationNumber || 0}
           </NotificationsCounter>
         </Nav.Link>
       </LinkContainer>
@@ -44,7 +55,7 @@ function SidebarDebtsPage(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   debtRequestsNotificationsNumber: state.debtRequests.number,
   repaymentRequestsNotificationNumber: state.repaymentRequests.number,
 });

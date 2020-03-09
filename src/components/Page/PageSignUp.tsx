@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {setToken} from '../../util';
-import {getCurrentUserRequest} from '../../actions/users-actions';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import Alert from 'react-bootstrap/Alert';
-import {FormSignUp} from '../Form';
+import { RouterProps } from 'react-router';
+import { setToken } from '../../util';
+import { getCurrentUserRequest } from '../../actions/users-actions';
+import { FormSignUp } from '../Form';
 
-function PageSignUp(props) {
+interface DispatchProps {
+  getCurrentUser(): void;
+}
+
+type Props = DispatchProps & RouterProps;
+
+function PageSignUp(props: Props): JSX.Element {
   const [isAlertVisible, setIsAlertVisible] = useState(false);
 
-  const onSuccessSign = accessToken => {
+  const onSuccessSign = (accessToken: string): void => {
     setToken(accessToken);
     props.getCurrentUser();
     props.history.push('/friends/all');
@@ -28,15 +35,15 @@ function PageSignUp(props) {
       <h1 className="text-center p-2">Sign Up</h1>
       <FormSignUp
         className="mx-auto col-md-4"
-        onSubmit={() => setIsAlertVisible(false)}
-        onError={() => setIsAlertVisible(true)}
+        onSubmit={(): void => setIsAlertVisible(false)}
+        onError={(): void => setIsAlertVisible(true)}
         onSuccessSign={onSuccessSign}
       />
     </Container>
   );
 }
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       getCurrentUser: getCurrentUserRequest,

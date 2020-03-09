@@ -7,7 +7,7 @@ interface Props {
   show: boolean;
   group?: Group;
   onHide(): void;
-  onSubmit(): void;
+  onSubmit(group: Group): void;
 }
 
 export function ModalEditGroup(props: Props): JSX.Element {

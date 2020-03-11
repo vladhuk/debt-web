@@ -1,9 +1,10 @@
-import {Icon, IconAccepted, IconRejected, IconViewed} from '../../Icon';
 import React from 'react';
-import {STATUS} from '../../../constants';
-import {DefaultTooltip} from '../../Tooltip';
+import { Icon, IconAccepted, IconRejected, IconViewed } from '../../Icon';
+import { STATUS } from '../../../constants';
+import { DefaultTooltip } from '../../Tooltip';
+import { StatusName } from '../../../types/model/Status';
 
-export function getStatusIcon(status) {
+export function getStatusIcon(status: StatusName): JSX.Element {
   switch (status) {
     case STATUS.VIEWED:
       return (

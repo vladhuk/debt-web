@@ -2,7 +2,7 @@ import React from 'react';
 import Toast from 'react-bootstrap/Toast';
 import './index.css';
 import {CardReceivedRequestHeader} from './CardHeader';
-import {getStatusIcon} from './CardHeader/util';
+import {getStatusIcon} from './util/status-icon-provider';
 
 export function CardReceivedDebtRequest(props) {
   const totalLent = props.request.orders

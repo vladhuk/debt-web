@@ -2,7 +2,7 @@ import React from 'react';
 import Toast from 'react-bootstrap/Toast';
 import './index.css';
 import {CardSentRequestHeader} from './CardHeader';
-import {getStatusIcon} from './CardHeader/util';
+import {getStatusIcon} from './util/status-icon-provider';
 import {STATUS} from '../../constants';
 
 export function CardSentDebtRequest(props) {
@@ -20,7 +20,7 @@ export function CardSentDebtRequest(props) {
     <Toast className="card-request my-3">
       <CardSentRequestHeader
         status={props.request.status.name}
-        forcedDisabledButton={existsAcceptedOrRejectedOrders}
+        isForcedDisabledButton={existsAcceptedOrRejectedOrders}
         onDelete={props.onDelete}
       />
       <Toast.Body className="py-2">

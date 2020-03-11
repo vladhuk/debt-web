@@ -40,6 +40,8 @@ module.exports = {
     'react/jsx-one-expression-per-line': OFF,
 
     'jsx-a11y/alt-text': WARN,
+    'jsx-a11y/no-noninteractive-element-interactions': OFF,
+    'jsx-a11y/click-events-have-key-events': OFF,
 
     'object-shorthand': WARN,
     'no-use-before-define': WARN,

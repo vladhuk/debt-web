@@ -1,3 +1,5 @@
+export type StatusName = 'SENT' | 'VIEWED' | 'ACCEPTED' | 'REJECTED';
+
 export interface Status {
-  name: 'SENT' | 'VIEWED' | 'ACCEPTED' | 'REJECTED';
+  name: StatusName;
 }

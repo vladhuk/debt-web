@@ -3,8 +3,7 @@ import Button from 'react-bootstrap/Button';
 import React from 'react';
 import { getStatusIcon } from '../util/status-icon-provider';
 import { STATUS } from '../../../constants';
-import { User } from '../../../types/model';
-import { StatusName } from '../../../types/model/Status';
+import { User, StatusName } from '../../../types/response';
 
 interface Props {
   user: User;

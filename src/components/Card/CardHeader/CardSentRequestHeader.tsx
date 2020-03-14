@@ -3,13 +3,12 @@ import Button from 'react-bootstrap/Button';
 import Toast from 'react-bootstrap/Toast';
 import { getStatusIcon } from '../util/status-icon-provider';
 import { STATUS } from '../../../constants';
-import { User } from '../../../types/model';
-import { StatusName } from '../../../types/model/Status';
+import { User, StatusName } from '../../../types/response';
 
 interface Props {
-  user: User;
+  user?: User;
   status: StatusName;
-  isForcedDisabledButton: boolean;
+  isForcedDisabledButton?: boolean;
   onDelete(): void;
 }
 

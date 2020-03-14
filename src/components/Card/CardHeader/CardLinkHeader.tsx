@@ -2,10 +2,10 @@ import Toast from 'react-bootstrap/Toast';
 import React from 'react';
 
 interface Props {
-  closeButton?: JSX.Element;
-  username: string;
+  closeButton?: boolean;
+  username?: string;
   name: string;
-  onTitleClick(): void;
+  onTitleClick?: () => void;
 }
 
 export function CardLinkHeader(props: Props): JSX.Element {

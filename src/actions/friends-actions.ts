@@ -1,5 +1,5 @@
 import { deleteData, getData } from '../api';
-import { User } from '../types/model';
+import { User } from '../types/response';
 import { CustomAction, CustomThunkAction } from '../types/redux';
 
 export const GET_ALL_FRIENDS = 'friends:getAll';

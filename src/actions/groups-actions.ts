@@ -1,10 +1,11 @@
 import { deleteData, getData, postData, putData } from '../api';
 import { CustomAction, CustomThunkAction } from '../types/redux';
-import { Group, User } from '../types/model';
+import { Group } from '../types/response';
+import { GroupPayload } from '../types/request';
 
 export const GET_GROUPS = 'groups:getAll';
 export const GET_GROUP = 'groups:get';
-export const GET_GROUP_MEMBERS = 'gruoups:getMembers';
+export const GET_GROUP_MEMBERS = 'groups:getMembers';
 export const CREATE_GROUP = 'groups:create';
 export const DELETE_GROUP = 'groups:delete';
 export const UPDATE_GROUP = 'groups:update';
@@ -16,24 +17,6 @@ export function getGroups(groups: Group[]): CustomAction {
     type: GET_GROUPS,
     payload: {
       groups,
-    },
-  };
-}
-
-export function getGroup(group: Group): CustomAction {
-  return {
-    type: GET_GROUP,
-    payload: {
-      group,
-    },
-  };
-}
-
-export function getGroupMembers(members: User[]): CustomAction {
-  return {
-    type: GET_GROUP_MEMBERS,
-    payload: {
-      members,
     },
   };
 }
@@ -64,23 +47,7 @@ export function getGroupsRequest(): CustomThunkAction {
     });
 }
 
-export function getGroupRequest(id: number): CustomThunkAction {
-  return (dispatch): Promise<void> =>
-    getData({
-      resourcePath: `${URL}/${id}`,
-      onSuccess: (group: Group) => dispatch(getGroup(group)),
-    });
-}
-
-export function getGroupMembersRequest(groupId: number): CustomThunkAction {
-  return (dispatch): Promise<void> =>
-    getData({
-      resourcePath: `${URL}/${groupId}`,
-      onSuccess: (members: User[]) => dispatch(getGroupMembers(members)),
-    });
-}
-
-export function createGroupRequest(group: Group): CustomThunkAction {
+export function createGroupRequest(group: GroupPayload): CustomThunkAction {
   return (dispatch): Promise<void> =>
     postData({
       resourcePath: URL,
@@ -89,7 +56,7 @@ export function createGroupRequest(group: Group): CustomThunkAction {
     });
 }
 
-export function updateGroupRequest(group: Group): CustomThunkAction {
+export function updateGroupRequest(group: GroupPayload): CustomThunkAction {
   return (dispatch): Promise<void> =>
     putData({
       resourcePath: URL,
@@ -103,15 +70,5 @@ export function deleteGroupRequest(id: number): CustomThunkAction {
     deleteData({
       resourcePath: `${URL}/${id}`,
       onSuccess: () => dispatch(deleteGroup()),
-    });
-}
-
-export function deleteGroupMember(
-  groupId: number,
-  memberId: number
-): CustomThunkAction {
-  return (): Promise<void> =>
-    deleteData({
-      resourcePath: `${URL}/${groupId}/members/${memberId}`,
     });
 }

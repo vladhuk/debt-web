@@ -1,6 +1,7 @@
 import { deleteData, getData, postData, putData } from '../api';
-import { RepaymentRequest } from '../types/model';
+import { RepaymentRequest } from '../types/response';
 import { CustomAction, CustomThunkAction } from '../types/redux';
+import { RepaymentRequestPayload } from '../types/request';
 
 export const GET_SENT_REPAYMENT_REQUESTS = 'repayment-requests:getAllSent';
 export const GET_RECEIVED_REPAYMENT_REQUESTS =
@@ -76,7 +77,7 @@ export function getReceivedRepaymentRequestsRequest(): CustomThunkAction {
 }
 
 export function sendRepaymentRequestRequest(
-  data: RepaymentRequest
+  data: RepaymentRequestPayload
 ): CustomThunkAction {
   return (): Promise<void> =>
     postData({

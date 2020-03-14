@@ -1,6 +1,7 @@
 import { deleteData, getData, postData } from '../api';
-import { User } from '../types/model';
+import { User } from '../types/response';
 import { CustomAction, CustomThunkAction } from '../types/redux';
+import { UserPayload } from '../types/request';
 
 export const GET_FULL_BLACKLIST = 'blacklist:getAll';
 
@@ -23,7 +24,7 @@ export function getFullBlacklistRequest(): CustomThunkAction {
     });
 }
 
-export function addToBlacklistRequest(data: User): CustomThunkAction {
+export function addToBlacklistRequest(data: UserPayload): CustomThunkAction {
   return (): Promise<void> =>
     postData({
       resourcePath: URL,

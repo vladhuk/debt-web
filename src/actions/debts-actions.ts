@@ -1,6 +1,6 @@
 import { getData } from '../api';
 import { CustomAction, CustomThunkAction } from '../types/redux';
-import { Debt } from '../types/payload';
+import { Debt } from '../types/response';
 
 export const GET_DEBTS = 'debts:getAll';
 

@@ -1,6 +1,7 @@
 import { deleteData, getData, postData, putData } from '../api';
-import { DebtRequest } from '../types/model';
+import { DebtRequest } from '../types/response';
 import { CustomAction, CustomThunkAction } from '../types/redux';
+import { DebtRequestPayload } from '../types/request';
 
 export const GET_SENT_DEBT_REQUESTS = 'debt-requests:getAllSent';
 export const GET_RECEIVED_DEBT_REQUESTS = 'debt-requests:getAllReceived';
@@ -72,7 +73,9 @@ export function getReceivedDebtRequestsRequest(): CustomThunkAction {
     });
 }
 
-export function sendDebtRequestRequest(data: DebtRequest): CustomThunkAction {
+export function sendDebtRequestRequest(
+  data: DebtRequestPayload
+): CustomThunkAction {
   return (): Promise<void> =>
     postData({
       resourcePath: URL,

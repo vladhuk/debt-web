@@ -1,6 +1,7 @@
 import { postData } from '../api';
 import { CustomAction, CustomThunkAction } from '../types/redux';
-import { JwtAuthResponse, LoginRequest, SignUpRequest } from '../types/payload';
+import { LoginPayload, SignUpPayload } from '../types/request';
+import { JwtToken } from '../types/response';
 
 export const SIGN_IN_SUCCESS = 'auth:signInSuccess';
 export const SIGN_IN_ERROR = 'auth:signInError';
@@ -14,7 +15,7 @@ const URL = '/auth';
 export function signInSuccess({
   accessToken,
   tokenType,
-}: JwtAuthResponse): CustomAction {
+}: JwtToken): CustomAction {
   return {
     type: SIGN_IN_SUCCESS,
     payload: {
@@ -35,7 +36,7 @@ export function signInError(error: Error): CustomAction {
 export function signUpSuccess({
   accessToken,
   tokenType,
-}: JwtAuthResponse): CustomAction {
+}: JwtToken): CustomAction {
   return {
     type: SIGN_UP_SUCCESS,
     payload: {
@@ -65,22 +66,22 @@ export function logout(): CustomAction {
   };
 }
 
-export function signInRequest(data: LoginRequest): CustomThunkAction {
+export function signInRequest(data: LoginPayload): CustomThunkAction {
   return (dispatch): Promise<void> =>
     postData({
       resourcePath: `${URL}/signin`,
       data,
-      onSuccess: (payload: JwtAuthResponse) => dispatch(signInSuccess(payload)),
+      onSuccess: (payload: JwtToken) => dispatch(signInSuccess(payload)),
       onError: error => dispatch(signInError(error)),
     });
 }
 
-export function signUpRequest(data: SignUpRequest): CustomThunkAction {
+export function signUpRequest(data: SignUpPayload): CustomThunkAction {
   return (dispatch): Promise<void> =>
     postData({
       resourcePath: `${URL}/signup`,
       data,
-      onSuccess: (payload: JwtAuthResponse) => dispatch(signUpSuccess(payload)),
+      onSuccess: (payload: JwtToken) => dispatch(signUpSuccess(payload)),
       onError: error => dispatch(signUpError(error)),
     });
 }

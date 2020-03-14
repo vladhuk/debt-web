@@ -1,6 +1,7 @@
 import { deleteData, getData, postData, putData } from '../api';
-import { FriendRequest } from '../types/model';
+import { FriendRequest } from '../types/response';
 import { CustomAction, CustomThunkAction } from '../types/redux';
+import { FriendRequestPayload } from '../types/request';
 
 export const GET_SENT_FRIEND_REQUESTS = 'friend-requests:getAllSent';
 export const GET_RECEIVED_FRIEND_REQUESTS = 'friend-requests:getAllReceived';
@@ -75,7 +76,7 @@ export function getReceivedFriendRequestsRequest(): CustomThunkAction {
 }
 
 export function sendFriendRequestRequest(
-  data: FriendRequest
+  data: FriendRequestPayload
 ): CustomThunkAction {
   return (): Promise<void> =>
     postData({

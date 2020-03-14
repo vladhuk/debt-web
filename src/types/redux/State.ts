@@ -4,8 +4,8 @@ import {
   Group,
   RepaymentRequest,
   User,
-} from '../model';
-import { Debt } from '../payload';
+  Debt,
+} from '../response';
 
 export interface AuthState {
   readonly accessToken: string | null;

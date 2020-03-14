@@ -1,4 +1,4 @@
-import { User } from '../model';
+import { User } from './User';
 
 export interface Debt {
   readonly partner: User;

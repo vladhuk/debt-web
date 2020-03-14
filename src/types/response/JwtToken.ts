@@ -1,4 +1,4 @@
-export interface JwtAuthResponse {
+export interface JwtToken {
   readonly accessToken: string;
   readonly tokenType: string;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormEditGroup } from '../Form';
-import { Group } from '../../types/model';
+import { Group } from '../../types/response';
 import { ModalDefault } from './ModalDefault';
 
 interface Props {

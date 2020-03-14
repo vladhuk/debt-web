@@ -12,7 +12,7 @@ import { countNewReceivedFriendRequestsRequest } from '../../actions/friend-requ
 import { countNewReceivedDebtRequestsRequest } from '../../actions/debt-requests-actions';
 import { countNewReceivedRepaymentRequestsRequest } from '../../actions/repayment-requests-actions';
 import { State } from '../../types/redux';
-import { User } from '../../types/model';
+import { User } from '../../types/response';
 
 interface StateProps {
   currentUser: User | null;

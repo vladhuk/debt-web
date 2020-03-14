@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PageDebts, PageFriends, PageGroups } from '../../Page';
-import { User } from '../../../types/model';
+import { User } from '../../../types/response';
 import { State } from '../../../types/redux';
 
 interface StateProps {

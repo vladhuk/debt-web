@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon, IconAccepted, IconRejected, IconViewed } from '../../Icon';
 import { STATUS } from '../../../constants';
 import { DefaultTooltip } from '../../Tooltip';
-import { StatusName } from '../../../types/model/Status';
+import { StatusName } from '../../../types/response';
 
 export function getStatusIcon(status: StatusName): JSX.Element {
   switch (status) {

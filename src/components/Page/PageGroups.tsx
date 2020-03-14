@@ -11,7 +11,7 @@ import {
 } from '../../actions/groups-actions';
 import { CardGroup } from '../Card';
 import { ModalEditGroup } from '../Modal';
-import { Group } from '../../types/model';
+import { Group } from '../../types/response';
 import { State } from '../../types/redux';
 
 interface StateProps {

@@ -1,4 +1,4 @@
-import { StatusName } from '../types/model/Status';
+import { StatusName } from '../types/response';
 
 export const API_BASE_URL = 'http://localhost:8080/api';
 export const ACCESS_TOKEN_COOKIE_NAME = 'AccessToken';

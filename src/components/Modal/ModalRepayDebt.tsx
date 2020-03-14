@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormRepayDebt } from '../Form';
-import { Debt } from '../../types/payload';
 import { ModalDefault } from './ModalDefault';
+import { Debt } from '../../types/response';
 
 interface Props {
   show: boolean;

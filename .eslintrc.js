@@ -38,6 +38,7 @@ module.exports = {
     'react/jsx-boolean-value': WARN,
     'react/jsx-props-no-spreading': WARN,
     'react/jsx-one-expression-per-line': OFF,
+    'react/jsx-curly-newline': OFF,
 
     'jsx-a11y/alt-text': WARN,
     'jsx-a11y/no-noninteractive-element-interactions': OFF,

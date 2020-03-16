@@ -7,7 +7,7 @@ import NotificationsCounter from '../NotificationsCounter';
 import { State } from '../../types/redux';
 
 interface StateProps {
-  friendsNotificationsNumber?: number;
+  friendsNotificationsNumber: number;
 }
 
 function SidebarFriendsPage(props: StateProps): JSX.Element {
@@ -40,6 +40,8 @@ const mapStateToProps = (state: State): StateProps => ({
   friendsNotificationsNumber: state.friendRequests.number,
 });
 
-const connectedComponent = connect(mapStateToProps, null)(SidebarFriendsPage);
+const connectedComponent = connect<StateProps, {}, {}, State>(mapStateToProps)(
+  SidebarFriendsPage
+);
 
 export { connectedComponent as SidebarFriendsPage };

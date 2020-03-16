@@ -6,7 +6,7 @@ import { User } from '../../../types/response';
 import { State } from '../../../types/redux';
 
 interface StateProps {
-  currentUser?: User | null;
+  currentUser: User | null;
 }
 
 function ProtectedNavigationPage(props: StateProps): JSX.Element | null {
@@ -29,9 +29,8 @@ const mapStateToProps = (state: State): StateProps => ({
   currentUser: state.users.currentUser,
 });
 
-const connectedComponent = connect(
-  mapStateToProps,
-  null
-)(ProtectedNavigationPage);
+const connectedComponent = connect<StateProps, {}, {}, State>(mapStateToProps)(
+  ProtectedNavigationPage
+);
 
 export { connectedComponent as ProtectedNavigationPage };

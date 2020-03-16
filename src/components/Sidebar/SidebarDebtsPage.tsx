@@ -8,8 +8,8 @@ import NotificationsCounter from '../NotificationsCounter';
 import { State } from '../../types/redux';
 
 interface StateProps {
-  debtRequestsNotificationsNumber?: number;
-  repaymentRequestsNotificationNumber?: number;
+  debtRequestsNotificationsNumber: number;
+  repaymentRequestsNotificationNumber: number;
 }
 
 function SidebarDebtsPage(props: StateProps): JSX.Element {
@@ -47,7 +47,7 @@ function SidebarDebtsPage(props: StateProps): JSX.Element {
         <Nav.Link>
           Received requests{' '}
           <NotificationsCounter>
-            {repaymentRequestsNotificationNumber || 0}
+            {repaymentRequestsNotificationNumber}
           </NotificationsCounter>
         </Nav.Link>
       </LinkContainer>
@@ -60,6 +60,8 @@ const mapStateToProps = (state: State): StateProps => ({
   repaymentRequestsNotificationNumber: state.repaymentRequests.number,
 });
 
-const connectedComponent = connect(mapStateToProps, null)(SidebarDebtsPage);
+const connectedComponent = connect<StateProps, {}, {}, State>(mapStateToProps)(
+  SidebarDebtsPage
+);
 
 export { connectedComponent as SidebarDebtsPage };

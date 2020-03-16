@@ -1,18 +1,32 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import {bindActionCreators} from 'redux';
-import {sendFriendRequestRequest} from '../../actions/friend-requests-actions';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { addToBlacklistRequest } from '../../actions/blacklist-actions';
+import { UserPayload } from '../../types/request';
 
-function FormAddFriend(props) {
+interface DispatchProps {
+  addToBlacklist(user: UserPayload): void;
+}
+
+interface OwnProps {
+  onSubmit(): void;
+}
+
+type Props = DispatchProps & OwnProps;
+
+function FormAddToBlacklist(props: Props): JSX.Element {
   const [validatedUsername, setValidatedUsername] = useState(true);
   const [username, setUsername] = useState('');
-  const [comment, setComment] = useState('');
 
-  const handleSubmit = event => {
+  const validateFields = (): void => {
+    setValidatedUsername(!!username.length);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -21,16 +35,9 @@ function FormAddFriend(props) {
     validateFields();
 
     if (form.checkValidity()) {
-      props.sendFriendRequest({
-        receiver: { username },
-        comment: comment,
-      });
+      props.addToBlacklist({ username });
       props.onSubmit();
     }
-  };
-
-  const validateFields = () => {
-    setValidatedUsername(!!username.length);
   };
 
   return (
@@ -47,7 +54,7 @@ function FormAddFriend(props) {
             autoFocus
             required
             isInvalid={!validatedUsername}
-            onChange={event => {
+            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
               setUsername(event.target.value);
               setValidatedUsername(true);
             }}
@@ -58,32 +65,26 @@ function FormAddFriend(props) {
         </InputGroup>
       </Form.Group>
 
-      <Form.Group controlId="comment">
-        <Form.Control
-          type="text"
-          placeholder="Enter comment (optional)"
-          onChange={event => setComment(event.target.value)}
-          autoComplete="off"
-        />
-      </Form.Group>
-
       <Row className="justify-content-center">
         <Button type="submit" variant="success">
-          Send request
+          Add
         </Button>
       </Row>
     </Form>
   );
 }
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
-      sendFriendRequest: sendFriendRequestRequest,
+      addToBlacklist: addToBlacklistRequest,
     },
     dispatch
   );
 
-const connectedComponent = connect(null, mapDispatchToProps)(FormAddFriend);
+const connectedComponent = connect(
+  null,
+  mapDispatchToProps
+)(FormAddToBlacklist);
 
-export { connectedComponent as FormAddFriend };
+export { connectedComponent as FormAddToBlacklist };

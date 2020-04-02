@@ -1,43 +1,81 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {sendDebtRequestRequest} from '../../actions/debt-requests-actions';
-import {getGroupsRequest} from '../../actions/groups-actions';
-import {getAllFriendsRequest} from '../../actions/friends-actions';
-import {FormControl} from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
+import { sendDebtRequestRequest } from '../../actions/debt-requests-actions';
+import { getGroupsRequest } from '../../actions/groups-actions';
+import { getAllFriendsRequest } from '../../actions/friends-actions';
+import { Group, User } from '../../types/response';
+import { State } from '../../types/redux';
+import { DebtRequestPayload } from '../../types/request';
 
-function FormCreateDebt(props) {
+interface StateProps {
+  groups: Group[];
+  friends: User[];
+}
+
+interface DispatchProps {
+  sendDebtRequest(request: DebtRequestPayload): void;
+  getGroups(): void;
+  getFriends(): void;
+}
+
+interface OwnProps {
+  onSubmit(): void;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+interface Checkbox {
+  person: User;
+  checked: boolean;
+}
+
+function FormCreateDebt(props: Props): JSX.Element {
+  const { friends, groups } = props;
+
   const [validatedForm, setValidatedForm] = useState(false);
   const [validatedAmount, setValidatedAmount] = useState(true);
   const [validatedFriends, setValidatedFriends] = useState(true);
   const [amount, setAmount] = useState(0);
-  const [amountPerPerson, setAmountPerPerson] = useState((0).toFixed(2));
-  const [selectedGroup, setSelectedGroup] = useState();
+  const [amountPerPerson, setAmountPerPerson] = useState<number>(0);
+  const [selectedGroup, setSelectedGroup] = useState<Group | null>();
   const [comment, setComment] = useState('');
-  const [personsForSelect, setPersonsForSelect] = useState([]);
-  const [checkboxes, setCheckboxes] = useState([]);
-  const [selectedPersons, setSelectedPersons] = useState([]);
+  const [personsForSelect, setPersonsForSelect] = useState<User[]>([]);
+  const [checkboxes, setCheckboxes] = useState<Checkbox[]>([]);
+  const [selectedPersons, setSelectedPersons] = useState<User[]>([]);
 
   useEffect(() => {
-    if (!props.friends.length) {
+    if (!friends.length) {
       props.getFriends();
     }
-    if (!props.groups.length) {
+    if (!groups.length) {
       props.getGroups();
     }
   }, []);
 
   useEffect(() => {
-    setPersonsForSelect(props.friends);
-  }, [props.friends]);
+    setPersonsForSelect(friends);
+  }, [friends]);
 
   useEffect(() => {
     setCheckboxes(personsForSelect.map(person => ({ person, checked: false })));
   }, [personsForSelect]);
+
+  const sendRequest = (): void => {
+    props.sendDebtRequest({
+      orders: selectedPersons.map(person => ({
+        receiver: { id: person.id },
+        amount: amountPerPerson,
+      })),
+      comment,
+    });
+    props.onSubmit();
+  };
 
   useEffect(() => {
     if (validatedForm && validatedFriends) {
@@ -46,18 +84,12 @@ function FormCreateDebt(props) {
     setValidatedForm(false);
   }, [validatedForm, validatedFriends]);
 
-  const sendRequest = () => {
-    props.sendDebtRequest({
-      orders: selectedPersons.map(person => ({
-        receiver: { id: person.id },
-        amount: amountPerPerson,
-      })),
-      comment: comment,
-    });
-    props.onSubmit();
+  const validateFields = (): void => {
+    setValidatedAmount(!!amount);
+    setValidatedFriends(!!selectedPersons.length);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -68,41 +100,37 @@ function FormCreateDebt(props) {
     setValidatedForm(form.checkValidity());
   };
 
-  const validateFields = () => {
-    setValidatedAmount(!!amount);
-    setValidatedFriends(!!selectedPersons.length);
-  };
-
-  const onSelectGroup = group => {
+  const onSelectGroup = (group: Group): void => {
     setSelectedGroup(group);
     setPersonsForSelect(group.members);
+    setSelectedPersons([]);
+    setAmountPerPerson(0);
   };
 
-  const onSelectNone = () => {
-    setPersonsForSelect(props.friends);
+  const onSelectNone = (): void => {
+    setPersonsForSelect(friends);
     setSelectedGroup(null);
   };
 
-  const onChangeAmount = newAmount => {
+  const onChangeAmount = (newAmount: number): void => {
     setAmount(newAmount);
     const numberOfSelectedPersons = checkboxes.filter(c => c.checked).length;
     const newAmountPerPerson = newAmount / numberOfSelectedPersons;
     const fixedNewAmountPerPerson =
       Number.isNaN(newAmountPerPerson) || !Number.isFinite(newAmountPerPerson)
-        ? (0).toFixed(2)
+        ? '0'
         : newAmountPerPerson.toFixed(2);
-    setAmountPerPerson(fixedNewAmountPerPerson);
+    setAmountPerPerson(parseFloat(fixedNewAmountPerPerson));
   };
 
-  const toggleCheckbox = checkbox => {
-    setCheckboxes(
-      checkboxes.map(c => {
-        if (c.person.id === checkbox.person.id) {
-          c.checked = !c.checked;
-        }
-        return c;
-      })
+  const toggleCheckbox = (checkbox: Checkbox): void => {
+    const checkedCheckbox = checkboxes.find(
+      c => c.person.id === checkbox.person.id
     );
+    if (checkedCheckbox) {
+      checkedCheckbox.checked = !checkedCheckbox.checked;
+    }
+
     setSelectedPersons(checkboxes.filter(c => c.checked).map(c => c.person));
     onChangeAmount(amount);
     setValidatedFriends(true);
@@ -116,9 +144,9 @@ function FormCreateDebt(props) {
           type="number"
           required
           isInvalid={!validatedAmount}
-          value={amount}
-          onChange={event => {
-            onChangeAmount(event.target.value);
+          value={amount.toString()}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+            onChangeAmount(parseFloat(event.target.value));
             setValidatedAmount(true);
           }}
         />
@@ -126,7 +154,7 @@ function FormCreateDebt(props) {
           Please enter an amount
         </Form.Control.Feedback>
         <Form.Text className="text-muted">
-          {amountPerPerson} per person
+          {amountPerPerson.toFixed(2)} per person
         </Form.Text>
       </Form.Group>
 
@@ -137,12 +165,12 @@ function FormCreateDebt(props) {
           <Dropdown.Toggle className="w-100" variant="light" id="group-select">
             {selectedGroup ? selectedGroup.title : 'None'}
           </Dropdown.Toggle>
-          <Dropdown.Menu id="group-select" variant="light" className="w-100">
+          <Dropdown.Menu id="group-select" className="w-100">
             <Dropdown.Item onClick={onSelectNone}>None</Dropdown.Item>
-            {props.groups.map(group => (
+            {groups.map(group => (
               <Dropdown.Item
                 key={group.id}
-                onClick={() => onSelectGroup(group)}
+                onClick={(): void => onSelectGroup(group)}
               >
                 {group.title}
               </Dropdown.Item>
@@ -153,12 +181,12 @@ function FormCreateDebt(props) {
 
       <Form.Group>
         <Form.Label>Members of debt</Form.Label>
-        <div className="w-100 vh-15 border p-1">
+        <div className="w-100 vh-15 border p-1 overflow-auto">
           {checkboxes.map(checkbox => (
             <Form.Check
               type="checkbox"
               key={checkbox.person.id}
-              onChange={() => toggleCheckbox(checkbox)}
+              onChange={(): void => toggleCheckbox(checkbox)}
               checked={checkbox.checked}
               label={checkbox.person.username}
             />
@@ -174,7 +202,9 @@ function FormCreateDebt(props) {
         <Form.Control
           type="text"
           placeholder="Enter comment (optional)"
-          onChange={event => setComment(event.target.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void =>
+            setComment(event.target.value)
+          }
           autoComplete="off"
         />
       </Form.Group>
@@ -188,12 +218,12 @@ function FormCreateDebt(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   groups: state.groups.groups,
   friends: state.friends.list,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       sendDebtRequest: sendDebtRequestRequest,

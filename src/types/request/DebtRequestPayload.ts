@@ -1,6 +1,6 @@
 import { OrderPayload } from './OrderPayload';
 
 export interface DebtRequestPayload {
-  order: OrderPayload[];
+  orders: OrderPayload[];
   comment: string;
 }

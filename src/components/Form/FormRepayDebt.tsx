@@ -1,19 +1,36 @@
-import React, {useEffect, useState} from 'react';
+/* eslint no-use-before-define: 0 */
+
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {sendRepaymentRequestRequest} from '../../actions/repayment-requests-actions';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {FormControl} from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
+import { sendRepaymentRequestRequest } from '../../actions/repayment-requests-actions';
+import { Debt } from '../../types/response';
+import { RepaymentRequestPayload } from '../../types/request';
 
-function FormRepayDebt(props) {
+interface DispatchProps {
+  sendRepaymentRequest(request: RepaymentRequestPayload): void;
+}
+
+interface OwnProps {
+  debts: Debt[];
+  onSubmit(): void;
+}
+
+type Props = DispatchProps & OwnProps;
+
+function FormRepayDebt(props: Props): JSX.Element {
+  const { debts } = props;
+
   const [validatedForm, setValidatedForm] = useState(false);
   const [validatedAmount, setValidatedAmount] = useState(true);
   const [validatedDebt, setValidatedDebt] = useState(true);
   const [amount, setAmount] = useState(0);
-  const [selectedDebt, setSelectedDebt] = useState(null);
+  const [selectedDebt, setSelectedDebt] = useState<Debt | null>(null);
   const [comment, setComment] = useState('');
 
   useEffect(() => {
@@ -23,18 +40,28 @@ function FormRepayDebt(props) {
     setValidatedForm(false);
   }, [validatedForm, validatedDebt]);
 
-  const sendRequest = () => {
+  const sendRequest = (): void => {
+    if (!selectedDebt) {
+      setValidatedDebt(false);
+      return;
+    }
+
     props.sendRepaymentRequest({
       order: {
         receiver: { id: selectedDebt.partner.id },
-        amount: amount,
+        amount,
       },
-      comment: comment,
+      comment,
     });
     props.onSubmit();
   };
 
-  const handleSubmit = event => {
+  const validateFields = (): void => {
+    setValidatedAmount(!!amount);
+    setValidatedDebt(!!selectedDebt);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -45,12 +72,11 @@ function FormRepayDebt(props) {
     setValidatedForm(form.checkValidity());
   };
 
-  const validateFields = () => {
-    setValidatedAmount(!!amount);
-    setValidatedDebt(!!selectedDebt);
+  const onChangeAmount = (newAmount: string): void => {
+    setAmount(parseFloat(parseFloat(newAmount).toFixed(2)));
   };
 
-  const onSelectDebt = debt => {
+  const onSelectDebt = (debt: Debt): void => {
     setSelectedDebt(debt);
     setAmount(Math.abs(debt.balance));
     setValidatedDebt(true);
@@ -62,14 +88,14 @@ function FormRepayDebt(props) {
         <Form.Label>Debts</Form.Label>
         <br />
         <Dropdown className="w-100">
-          <Dropdown.Toggle className="w-100" variant="light">
+          <Dropdown.Toggle id="debt-select" className="w-100" variant="light">
             {selectedDebt ? selectedDebt.partner.username : 'None'}
           </Dropdown.Toggle>
-          <Dropdown.Menu variant="light" required className="w-100">
-            {props.debts.map(debt => (
+          <Dropdown.Menu className="w-100">
+            {debts.map(debt => (
               <Dropdown.Item
                 key={debt.partner.id}
-                onClick={() => onSelectDebt(debt)}
+                onClick={(): void => onSelectDebt(debt)}
               >
                 {debt.partner.username}
               </Dropdown.Item>
@@ -88,9 +114,9 @@ function FormRepayDebt(props) {
           type="number"
           required
           isInvalid={!validatedAmount}
-          value={amount}
-          onChange={event => {
-            setAmount(event.target.value);
+          value={amount.toString()}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+            onChangeAmount(event.target.value);
             setValidatedAmount(true);
           }}
         />
@@ -103,7 +129,9 @@ function FormRepayDebt(props) {
         <Form.Control
           type="text"
           placeholder="Enter comment (optional)"
-          onChange={event => setComment(event.target.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void =>
+            setComment(event.target.value)
+          }
           autoComplete="off"
         />
       </Form.Group>
@@ -117,7 +145,7 @@ function FormRepayDebt(props) {
   );
 }
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       sendRepaymentRequest: sendRepaymentRequestRequest,

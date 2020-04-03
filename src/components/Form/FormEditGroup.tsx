@@ -1,37 +1,58 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {getAllFriendsRequest} from '../../actions/friends-actions';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
 import Col from 'react-bootstrap/Col';
-import {IconExchange} from '../Icon';
+import { getAllFriendsRequest } from '../../actions/friends-actions';
+import { IconExchange } from '../Icon';
+import { Group, User } from '../../types/response';
+import { GroupPayload } from '../../types/request';
+import { State } from '../../types/redux';
 
-function FormEditGroup(props) {
+interface StateProps {
+  friends: User[];
+}
+
+interface DispatchProps {
+  getFriends(): void;
+}
+
+interface OwnProps {
+  group?: Group;
+  onSubmit(group: GroupPayload): void;
+  onHide(): void;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+function FormEditGroup(props: Props): JSX.Element {
+  const { group, friends } = props;
+
   const [validatedTitle, setValidatedTitle] = useState(true);
-  const [title, setTitle] = useState((props.group && props.group.title) || '');
-  const [friends, setFriends] = useState([]);
-  const [members, setMembers] = useState(
-    (props.group && props.group.members) || []
-  );
+  const [title, setTitle] = useState((group && group.title) || '');
+  const [friendList, setFriendList] = useState<User[]>([]);
+  const [memberList, setMemberList] = useState((group && group.members) || []);
 
   useEffect(() => {
-    if (!props.friends.length) {
+    if (!friends.length) {
       props.getFriends();
     }
   }, []);
 
   useEffect(() => {
-    const filteredFriends = members
-      ? props.friends.filter(
-          f => !members.map(m => m.id).find(id => id === f.id)
-        )
-      : props.friends;
-    setFriends(filteredFriends);
-  }, [props.friends]);
+    const filteredFriends = memberList
+      ? friends.filter(f => !memberList.map(m => m.id).find(id => id === f.id))
+      : friends;
+    setFriendList(filteredFriends);
+  }, [friends]);
 
-  const handleSubmit = event => {
+  const validateFields = (): void => {
+    setValidatedTitle(!!title.length);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -42,25 +63,21 @@ function FormEditGroup(props) {
     if (form.checkValidity()) {
       props.onSubmit({
         title,
-        members: members.map(m => ({ id: m.id })),
-        id: props.group && props.group.id,
+        members: memberList.map(m => ({ id: m.id })),
+        id: group && group.id,
       });
       props.onHide();
     }
   };
 
-  const validateFields = () => {
-    setValidatedTitle(!!title.length);
+  const moveToFriendList = (member: User): void => {
+    setMemberList(memberList.filter(m => m.id !== member.id));
+    setFriendList([...friendList, member]);
   };
 
-  const moveToFriendList = member => {
-    setMembers(members.filter(m => m.id !== member.id));
-    setFriends([...friends, member]);
-  };
-
-  const moveToMemberList = friend => {
-    setFriends(friends.filter(f => f.id !== friend.id));
-    setMembers([...members, friend]);
+  const moveToMemberList = (friend: User): void => {
+    setFriendList(friendList.filter(f => f.id !== friend.id));
+    setMemberList([...memberList, friend]);
   };
 
   return (
@@ -74,7 +91,7 @@ function FormEditGroup(props) {
           required
           isInvalid={!validatedTitle}
           value={title}
-          onChange={event => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
             setTitle(event.target.value);
             setValidatedTitle(true);
           }}
@@ -89,10 +106,10 @@ function FormEditGroup(props) {
           <Form.Group controlId="members">
             <Form.Label column={false}>Members</Form.Label>
             <Form.Control className="vh-25" as="select" multiple>
-              {members.map(member => (
+              {memberList.map(member => (
                 <option
                   key={member.id}
-                  onClick={() => moveToFriendList(member)}
+                  onClick={(): void => moveToFriendList(member)}
                 >
                   {member.username}
                 </option>
@@ -107,10 +124,10 @@ function FormEditGroup(props) {
           <Form.Group controlId="friends">
             <Form.Label column={false}>Friends</Form.Label>
             <Form.Control className="vh-25" as="select" multiple>
-              {friends.map(friend => (
+              {friendList.map(friend => (
                 <option
                   key={friend.id}
-                  onClick={() => moveToMemberList(friend)}
+                  onClick={(): void => moveToMemberList(friend)}
                 >
                   {friend.username}
                 </option>
@@ -129,11 +146,11 @@ function FormEditGroup(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   friends: state.friends.list,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       getFriends: getAllFriendsRequest,

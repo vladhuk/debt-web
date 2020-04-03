@@ -1,3 +1,5 @@
+/* eslint no-use-before-define: 0 */
+
 import React, { useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -63,8 +65,28 @@ function FormCreateDebt(props: Props): JSX.Element {
   }, [friends]);
 
   useEffect(() => {
-    setCheckboxes(personsForSelect.map(person => ({ person, checked: false })));
+    const selectedPersonsIds = selectedPersons.map(p => p.id);
+    const newCheckboxes = personsForSelect.map(person => ({
+      person,
+      checked: selectedPersonsIds.includes(person.id),
+    }));
+    setCheckboxes(newCheckboxes);
   }, [personsForSelect]);
+
+  useEffect(() => {
+    setSelectedPersons(checkboxes.filter(c => c.checked).map(c => c.person));
+  }, [checkboxes]);
+
+  useEffect(() => {
+    updateAmountPerPerson();
+  }, [amount, selectedPersons]);
+
+  useEffect(() => {
+    if (validatedForm && validatedFriends) {
+      sendRequest();
+    }
+    setValidatedForm(false);
+  }, [validatedForm, validatedFriends]);
 
   const sendRequest = (): void => {
     props.sendDebtRequest({
@@ -76,13 +98,6 @@ function FormCreateDebt(props: Props): JSX.Element {
     });
     props.onSubmit();
   };
-
-  useEffect(() => {
-    if (validatedForm && validatedFriends) {
-      sendRequest();
-    }
-    setValidatedForm(false);
-  }, [validatedForm, validatedFriends]);
 
   const validateFields = (): void => {
     setValidatedAmount(!!amount);
@@ -100,22 +115,18 @@ function FormCreateDebt(props: Props): JSX.Element {
     setValidatedForm(form.checkValidity());
   };
 
-  const onSelectGroup = (group: Group): void => {
+  const onSelectGroup = (group: Group | null): void => {
     setSelectedGroup(group);
-    setPersonsForSelect(group.members);
-    setSelectedPersons([]);
-    setAmountPerPerson(0);
+    setPersonsForSelect(group ? group.members : friends);
   };
 
-  const onSelectNone = (): void => {
-    setPersonsForSelect(friends);
-    setSelectedGroup(null);
+  const onChangeAmount = (newAmount: string): void => {
+    setAmount(parseFloat(parseFloat(newAmount).toFixed(2)));
   };
 
-  const onChangeAmount = (newAmount: number): void => {
-    setAmount(newAmount);
-    const numberOfSelectedPersons = checkboxes.filter(c => c.checked).length;
-    const newAmountPerPerson = newAmount / numberOfSelectedPersons;
+  const updateAmountPerPerson = (): void => {
+    const numberOfSelectedPersons = selectedPersons.length;
+    const newAmountPerPerson = amount / numberOfSelectedPersons;
     const fixedNewAmountPerPerson =
       Number.isNaN(newAmountPerPerson) || !Number.isFinite(newAmountPerPerson)
         ? '0'
@@ -124,15 +135,16 @@ function FormCreateDebt(props: Props): JSX.Element {
   };
 
   const toggleCheckbox = (checkbox: Checkbox): void => {
-    const checkedCheckbox = checkboxes.find(
-      c => c.person.id === checkbox.person.id
-    );
-    if (checkedCheckbox) {
-      checkedCheckbox.checked = !checkedCheckbox.checked;
-    }
+    const newCheckboxes = checkboxes.map(c => {
+      return c.person.id === checkbox.person.id
+        ? {
+            ...c,
+            checked: !c.checked,
+          }
+        : c;
+    });
 
-    setSelectedPersons(checkboxes.filter(c => c.checked).map(c => c.person));
-    onChangeAmount(amount);
+    setCheckboxes(newCheckboxes);
     setValidatedFriends(true);
   };
 
@@ -146,7 +158,7 @@ function FormCreateDebt(props: Props): JSX.Element {
           isInvalid={!validatedAmount}
           value={amount.toString()}
           onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
-            onChangeAmount(parseFloat(event.target.value));
+            onChangeAmount(event.target.value);
             setValidatedAmount(true);
           }}
         />
@@ -166,7 +178,9 @@ function FormCreateDebt(props: Props): JSX.Element {
             {selectedGroup ? selectedGroup.title : 'None'}
           </Dropdown.Toggle>
           <Dropdown.Menu id="group-select" className="w-100">
-            <Dropdown.Item onClick={onSelectNone}>None</Dropdown.Item>
+            <Dropdown.Item onClick={(): void => onSelectGroup(null)}>
+              None
+            </Dropdown.Item>
             {groups.map(group => (
               <Dropdown.Item
                 key={group.id}

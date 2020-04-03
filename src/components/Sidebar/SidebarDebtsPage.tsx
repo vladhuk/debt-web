@@ -60,8 +60,6 @@ const mapStateToProps = (state: State): StateProps => ({
   repaymentRequestsNotificationNumber: state.repaymentRequests.number,
 });
 
-const connectedComponent = connect<StateProps, {}, {}, State>(mapStateToProps)(
-  SidebarDebtsPage
-);
+const connectedComponent = connect(mapStateToProps)(SidebarDebtsPage);
 
 export { connectedComponent as SidebarDebtsPage };

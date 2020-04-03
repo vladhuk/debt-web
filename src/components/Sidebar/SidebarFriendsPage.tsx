@@ -40,8 +40,6 @@ const mapStateToProps = (state: State): StateProps => ({
   friendsNotificationsNumber: state.friendRequests.number,
 });
 
-const connectedComponent = connect<StateProps, {}, {}, State>(mapStateToProps)(
-  SidebarFriendsPage
-);
+const connectedComponent = connect(mapStateToProps)(SidebarFriendsPage);
 
 export { connectedComponent as SidebarFriendsPage };

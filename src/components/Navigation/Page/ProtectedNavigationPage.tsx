@@ -29,8 +29,6 @@ const mapStateToProps = (state: State): StateProps => ({
   currentUser: state.users.currentUser,
 });
 
-const connectedComponent = connect<StateProps, {}, {}, State>(mapStateToProps)(
-  ProtectedNavigationPage
-);
+const connectedComponent = connect(mapStateToProps)(ProtectedNavigationPage);
 
 export { connectedComponent as ProtectedNavigationPage };

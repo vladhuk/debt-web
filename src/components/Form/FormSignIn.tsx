@@ -1,30 +1,58 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import React, {useEffect, useState} from 'react';
-import {cleanError, signInRequest} from '../../actions/auth-actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { cleanError, signInRequest } from '../../actions/auth-actions';
+import { LoginPayload } from '../../types/request';
+import { State } from '../../types/redux';
 
-function FormSignIn(props) {
+interface StateProps {
+  accessToken: string | null;
+  error: Error | null;
+}
+
+interface DispatchProps {
+  signIn(data: LoginPayload): void;
+  cleanError(): void;
+}
+
+interface OwnProps {
+  className?: string;
+  onSuccessSign(accessToken: string): void;
+  onError(): void;
+  onSubmit(): void;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+function FormSignIn(props: Props): JSX.Element {
+  const { accessToken, error, className } = props;
+
   const [validatedUsername, setValidatedUsername] = useState(true);
   const [validatedPassword, setValidatedPassword] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (props.accessToken) {
-      props.onSuccessSign(props.accessToken);
+    if (accessToken) {
+      props.onSuccessSign(accessToken);
     }
-  }, [props.accessToken]);
+  }, [accessToken]);
 
   useEffect(() => {
-    if (props.error) {
+    if (error) {
       props.onError();
       props.cleanError();
     }
-  }, [props.error]);
+  }, [error]);
 
-  const handleSubmit = event => {
+  const validateFields = (): void => {
+    setValidatedUsername(!!username.length);
+    setValidatedPassword(!!password.length);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -38,22 +66,17 @@ function FormSignIn(props) {
     }
   };
 
-  const validateFields = () => {
-    setValidatedUsername(!!username.length);
-    setValidatedPassword(!!password.length);
-  };
-
   return (
-    <Form className={props.className} noValidate onSubmit={handleSubmit}>
+    <Form className={className} noValidate onSubmit={handleSubmit}>
       <Form.Group controlId="username" className="mb-0">
-        <Form.Label column={true}>Username</Form.Label>
+        <Form.Label column>Username</Form.Label>
         <Form.Control
           type="text"
           name="username"
           placeholder="Username"
           autoFocus
           isInvalid={!validatedUsername}
-          onChange={event => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
             setUsername(event.target.value);
             setValidatedUsername(true);
           }}
@@ -64,14 +87,14 @@ function FormSignIn(props) {
       </Form.Group>
 
       <Form.Group controlId="password">
-        <Form.Label column={true}>Password</Form.Label>
+        <Form.Label column>Password</Form.Label>
         <Form.Control
           type="password"
           name="password"
           placeholder="Password"
           required
           isInvalid={!validatedPassword}
-          onChange={event => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
             setPassword(event.target.value);
             setValidatedPassword(true);
           }}
@@ -88,16 +111,16 @@ function FormSignIn(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   accessToken: state.auth.accessToken,
   error: state.auth.error,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       signIn: signInRequest,
-      cleanError: cleanError,
+      cleanError,
     },
     dispatch
   );

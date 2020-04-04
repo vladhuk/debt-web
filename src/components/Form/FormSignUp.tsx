@@ -1,11 +1,34 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import React, {useEffect, useState} from 'react';
-import {cleanError, signUpRequest} from '../../actions/auth-actions';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators, Dispatch } from 'redux';
+import { cleanError, signUpRequest } from '../../actions/auth-actions';
+import { SignUpPayload } from '../../types/request';
+import { State } from '../../types/redux';
 
-function FormSignUp(props) {
+interface StateProps {
+  accessToken: string | null;
+  error: Error | null;
+}
+
+interface DispatchProps {
+  signUp(data: SignUpPayload): void;
+  cleanError(): void;
+}
+
+interface OwnProps {
+  className?: string;
+  onSuccessSign(accessToken: string): void;
+  onError(): void;
+  onSubmit(): void;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+function FormSignUp(props: Props): JSX.Element {
+  const { accessToken, error, className } = props;
+
   const [validatedForm, setValidatedForm] = useState(false);
   const [validatedName, setValidatedName] = useState(true);
   const [validatedUsername, setValidatedUsername] = useState(true);
@@ -19,17 +42,17 @@ function FormSignUp(props) {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   useEffect(() => {
-    if (props.accessToken) {
-      props.onSuccessSign(props.accessToken);
+    if (accessToken) {
+      props.onSuccessSign(accessToken);
     }
-  }, [props.accessToken]);
+  }, [accessToken]);
 
   useEffect(() => {
-    if (props.error) {
+    if (error) {
       props.onError();
       props.cleanError();
     }
-  }, [props.error]);
+  }, [error]);
 
   useEffect(() => {
     if (validatedForm && validatedConfirmPassword) {
@@ -38,7 +61,17 @@ function FormSignUp(props) {
     setValidatedForm(false);
   }, [validatedForm, validatedConfirmPassword]);
 
-  const handleSubmit = event => {
+  const validateFields = (): void => {
+    setValidatedName(!!name.length);
+    setValidatedUsername(!!username.length);
+    setValidatedPassword(!!password.length);
+
+    if (password.length) {
+      setValidatedConfirmPassword(password === confirmPassword);
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -50,20 +83,10 @@ function FormSignUp(props) {
     setValidatedForm(form.checkValidity());
   };
 
-  const validateFields = () => {
-    setValidatedName(!!name.length);
-    setValidatedUsername(!!username.length);
-    setValidatedPassword(!!password.length);
-
-    if (password.length) {
-      setValidatedConfirmPassword(password === confirmPassword);
-    }
-  };
-
   return (
-    <Form className={props.className} noValidate onSubmit={handleSubmit}>
+    <Form className={className} noValidate onSubmit={handleSubmit}>
       <Form.Group controlId="name" className="mb-0">
-        <Form.Label column={true}>Name</Form.Label>
+        <Form.Label column>Name</Form.Label>
         <Form.Control
           type="text"
           name="name"
@@ -71,7 +94,7 @@ function FormSignUp(props) {
           required
           autoFocus
           isInvalid={!validatedName}
-          onChange={event => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
             setName(event.target.value);
             setValidatedName(true);
           }}
@@ -82,14 +105,14 @@ function FormSignUp(props) {
       </Form.Group>
 
       <Form.Group controlId="username" className="mb-0">
-        <Form.Label column={true}>Username</Form.Label>
+        <Form.Label column>Username</Form.Label>
         <Form.Control
           type="text"
           name="username"
           placeholder="Username"
           required
           isInvalid={!validatedUsername}
-          onChange={event => {
+          onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
             setUsername(event.target.value);
             setValidatedUsername(true);
           }}
@@ -101,14 +124,14 @@ function FormSignUp(props) {
 
       <Form.Group className="border rounded bg-light p-2 mt-3">
         <Form.Group controlId="password">
-          <Form.Label column={true}>Password</Form.Label>
+          <Form.Label column>Password</Form.Label>
           <Form.Control
             type="password"
             name="password"
             placeholder="Password"
             required
             isInvalid={!validatedPassword}
-            onChange={event => {
+            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
               setPassword(event.target.value);
               setValidatedPassword(true);
               setValidatedConfirmPassword(true);
@@ -126,7 +149,7 @@ function FormSignUp(props) {
             placeholder="Confirm password"
             required
             isInvalid={!validatedConfirmPassword}
-            onChange={event => {
+            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
               setConfirmPassword(event.target.value);
               setValidatedConfirmPassword(true);
             }}
@@ -144,16 +167,16 @@ function FormSignUp(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   accessToken: state.auth.accessToken,
   error: state.auth.error,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       signUp: signUpRequest,
-      cleanError: cleanError,
+      cleanError,
     },
     dispatch
   );

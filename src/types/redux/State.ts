@@ -12,7 +12,10 @@ export interface AuthState {
   readonly error: Error | null;
 }
 
-export type BlacklistState = User[];
+export type BlacklistState = {
+  readonly list: User[];
+  readonly isNeededToUpdateList: boolean;
+};
 
 interface RequestState {
   readonly number: number;

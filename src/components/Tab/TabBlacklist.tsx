@@ -14,6 +14,7 @@ import { State } from '../../types/redux';
 
 interface StateProps {
   blacklist: User[];
+  isNeededToUpdateList: boolean;
 }
 
 interface DispatchProps {
@@ -24,7 +25,7 @@ interface DispatchProps {
 type Props = StateProps & DispatchProps;
 
 function TabBlacklist(props: Props): JSX.Element {
-  const { blacklist } = props;
+  const { blacklist, isNeededToUpdateList } = props;
 
   const [addToBlacklistModalShow, setAddToBlacklistModalShow] = React.useState(
     false
@@ -35,14 +36,20 @@ function TabBlacklist(props: Props): JSX.Element {
   ] = React.useState(false);
   const [userIdForDelete, setUserIdForDelete] = React.useState(-1);
 
+  useEffect(() => {
+    props.getFullBlacklist();
+  }, []);
+
+  useEffect(() => {
+    if (isNeededToUpdateList) {
+      props.getFullBlacklist();
+    }
+  }, [isNeededToUpdateList]);
+
   const deleteUser = (id: number): void => {
     props.deleteFromBlacklist(id);
     setDeleteFromBlacklistModalShow(false);
   };
-
-  useEffect(() => {
-    props.getFullBlacklist();
-  }, []);
 
   return (
     <PageContainer>
@@ -80,7 +87,8 @@ function TabBlacklist(props: Props): JSX.Element {
 }
 
 const mapStateToProps = (state: State): StateProps => ({
-  blacklist: state.blacklist,
+  blacklist: state.blacklist.list,
+  isNeededToUpdateList: state.blacklist.isNeededToUpdateList,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>

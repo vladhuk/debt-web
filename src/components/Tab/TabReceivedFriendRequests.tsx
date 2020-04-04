@@ -1,58 +1,76 @@
-import React, {useEffect} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import React, { useEffect } from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import {
   acceptFriendRequestRequest,
   countNewReceivedFriendRequestsRequest,
   getReceivedFriendRequestsRequest,
   rejectFriendRequestRequest,
 } from '../../actions/friend-requests-actions';
-import {Title} from '../Title';
-import {CardReceivedFriendRequest} from '../Card';
-import {PageContainer} from '../Container';
+import { Title } from '../Title';
+import { CardReceivedFriendRequest } from '../Card';
+import { PageContainer } from '../Container';
+import { FriendRequest } from '../../types/response';
+import { State } from '../../types/redux';
 
-function TabReceivedFriendRequests(props) {
+interface StateProps {
+  receivedFriendRequests: FriendRequest[];
+  isNeededToUpdateList: boolean;
+}
+
+interface DispatchProps {
+  countFriendRequestsNotifications(): void;
+  getReceivedFriendRequests(): void;
+  acceptFriendRequest(id: number): void;
+  rejectFriendRequest(id: number): void;
+}
+
+type Props = StateProps & DispatchProps;
+
+function TabReceivedFriendRequests(props: Props): JSX.Element {
+  const { isNeededToUpdateList, receivedFriendRequests } = props;
+
   useEffect(() => {
     props.getReceivedFriendRequests();
   }, []);
 
   useEffect(() => {
-    if (props.isNeededToUpdateList) {
+    if (isNeededToUpdateList) {
       props.getReceivedFriendRequests();
     }
-  }, [props.isNeededToUpdateList]);
+  }, [isNeededToUpdateList]);
 
   useEffect(() => {
-    if (props.receivedFriendRequests.length) {
+    if (receivedFriendRequests.length) {
       props.countFriendRequestsNotifications();
     }
-  }, [props.receivedFriendRequests]);
+  }, [receivedFriendRequests]);
 
   return (
     <PageContainer>
       <Title title="Received requests" />
 
-      {props.receivedFriendRequests.map(request => (
+      {receivedFriendRequests.map(request => (
         <CardReceivedFriendRequest
           key={request.id}
           user={request.sender}
           comment={request.comment}
           status={request.status.name}
           date={request.createdAt}
-          onAccept={() => props.acceptFriendRequest(request.id)}
-          onReject={() => props.rejectFriendRequest(request.id)}
+          onAccept={(): void => props.acceptFriendRequest(request.id)}
+          onReject={(): void => props.rejectFriendRequest(request.id)}
         />
       ))}
     </PageContainer>
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   receivedFriendRequests: state.friendRequests.received,
   isNeededToUpdateList: state.friendRequests.isNeededToUpdateList,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       countFriendRequestsNotifications: countNewReceivedFriendRequestsRequest,

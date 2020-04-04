@@ -1,32 +1,48 @@
-import React, {useEffect} from 'react';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {Title} from '../Title';
-import {PageContainer} from '../Container';
-import {ModalConfirmDelete} from '../Modal';
+import React, { useEffect } from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { Title } from '../Title';
+import { PageContainer } from '../Container';
+import { ModalConfirmDelete } from '../Modal';
 import {
   deleteSentRepaymentRequestRequest,
   getSentRepaymentRequestsRequest,
 } from '../../actions/repayment-requests-actions';
-import {CardSentRepaymentRequest} from '../Card';
+import { CardSentRepaymentRequest } from '../Card';
+import { RepaymentRequest } from '../../types/response';
+import { State } from '../../types/redux';
 
-function TabSentRepaymentRequests(props) {
+interface StateProps {
+  sentRepaymentRequests: RepaymentRequest[];
+  isNeededToUpdateList: boolean;
+}
+
+interface DispatchProps {
+  getSentRepaymentRequests(): void;
+  deleteSentRepaymentRequest(id: number): void;
+}
+
+type Props = StateProps & DispatchProps;
+
+function TabSentRepaymentRequests(props: Props): JSX.Element {
+  const { isNeededToUpdateList, sentRepaymentRequests } = props;
+
   const [deleteRequestModalShow, setDeleteRequestModalShow] = React.useState(
     false
   );
-  const [requestIdForDelete, setRequestIdForDelete] = React.useState();
+  const [requestIdForDelete, setRequestIdForDelete] = React.useState(-1);
 
   useEffect(() => {
     props.getSentRepaymentRequests();
   }, []);
 
   useEffect(() => {
-    if (props.isNeededToUpdateList) {
+    if (isNeededToUpdateList) {
       props.getSentRepaymentRequests();
     }
-  }, [props.isNeededToUpdateList]);
+  }, [isNeededToUpdateList]);
 
-  const deleteRequest = id => {
+  const deleteRequest = (id: number): void => {
     props.deleteSentRepaymentRequest(id);
     setDeleteRequestModalShow(false);
   };
@@ -35,11 +51,11 @@ function TabSentRepaymentRequests(props) {
     <PageContainer>
       <Title title="Sent repayment requests" />
 
-      {props.sentRepaymentRequests.map(request => (
+      {sentRepaymentRequests.map(request => (
         <CardSentRepaymentRequest
           key={request.id}
           request={request}
-          onDelete={() => {
+          onDelete={(): void => {
             setDeleteRequestModalShow(true);
             setRequestIdForDelete(request.id);
           }}
@@ -48,8 +64,8 @@ function TabSentRepaymentRequests(props) {
 
       <ModalConfirmDelete
         show={deleteRequestModalShow}
-        onHide={() => setDeleteRequestModalShow(false)}
-        onDelete={() => deleteRequest(requestIdForDelete)}
+        onHide={(): void => setDeleteRequestModalShow(false)}
+        onDelete={(): void => deleteRequest(requestIdForDelete)}
       >
         Do you want to delete repayment request?
       </ModalConfirmDelete>
@@ -57,12 +73,12 @@ function TabSentRepaymentRequests(props) {
   );
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: State): StateProps => ({
   sentRepaymentRequests: state.repaymentRequests.sent,
   isNeededToUpdateList: state.repaymentRequests.isNeededToUpdateList,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps =>
   bindActionCreators(
     {
       getSentRepaymentRequests: getSentRepaymentRequestsRequest,

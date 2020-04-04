@@ -11,7 +11,7 @@ const initialState: UserState = {
 };
 
 export function usersReducer(
-  state: UserState = initialState,
+  state = initialState,
   { type, payload }: CustomAction
 ): UserState {
   switch (type) {

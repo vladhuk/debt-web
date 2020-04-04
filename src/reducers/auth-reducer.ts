@@ -13,7 +13,7 @@ const initialState: AuthState = {
 };
 
 export function authReducer(
-  state: AuthState = initialState,
+  state = initialState,
   { type, payload }: CustomAction
 ): AuthState {
   switch (type) {

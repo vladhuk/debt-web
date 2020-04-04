@@ -15,7 +15,7 @@ const initialState: FriendRequestState = {
 };
 
 export function friendRequestsReducer(
-  state: FriendRequestState = initialState,
+  state = initialState,
   { type, payload }: CustomAction
 ): FriendRequestState {
   switch (type) {

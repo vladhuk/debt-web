@@ -16,7 +16,7 @@ const initialState: GroupState = {
 };
 
 export function groupsReducer(
-  state: GroupState = initialState,
+  state = initialState,
   { type, payload }: CustomAction
 ): GroupState {
   switch (type) {

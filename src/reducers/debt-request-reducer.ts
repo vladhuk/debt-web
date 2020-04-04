@@ -15,7 +15,7 @@ const initialState: DebtRequestState = {
 };
 
 export function debtRequestsReducer(
-  state: DebtRequestState = initialState,
+  state = initialState,
   { type, payload }: CustomAction
 ): DebtRequestState {
   switch (type) {

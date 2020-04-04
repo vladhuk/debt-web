@@ -7,7 +7,7 @@ const initialState: FriendsState = {
 };
 
 export function friendsReducer(
-  state: FriendsState = initialState,
+  state = initialState,
   { type, payload }: CustomAction
 ): FriendsState {
   switch (type) {
